@@ -69,6 +69,37 @@ export type WarningBlock = {
   tone: "amber" | "red" | "cyan";
 };
 
+export type MediaEvidence = "official" | "community";
+
+export type ImageBlock = {
+  type: "image";
+  src: string;
+  alt: string;
+  caption: string;
+  sourceUrl: string;
+  publisher: string;
+  checkedAt: string;
+  evidence: MediaEvidence;
+  priority?: boolean;
+  spoiler?: boolean;
+};
+
+export type VideoBlock = {
+  type: "video";
+  heading: string;
+  videoId: string;
+  posterSrc: string;
+  title: string;
+  publisher: string;
+  duration: string;
+  publishedAt: string;
+  description: string;
+  checkedAt: string;
+  evidence: MediaEvidence;
+  versionNote?: string;
+  spoiler?: boolean;
+};
+
 export type VerdictBlock = {
   type: "verdict";
   heading: string;
@@ -89,6 +120,8 @@ export type ContentBlock =
   | TableBlock
   | StepsBlock
   | WarningBlock
+  | ImageBlock
+  | VideoBlock
   | VerdictBlock
   | FaqBlock;
 

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { AlertTriangle, Info } from "lucide-react";
 import type { ContentBlock, Tone } from "../content/types";
 import { getHeadingId } from "../lib/content";
+import { ContentImage } from "./content-image";
+import { ContentVideo } from "./content-video";
 import { MissionBriefing } from "./mission-briefing";
 import { VerdictGrid } from "./verdict-grid";
 
@@ -116,6 +118,14 @@ export function ContentBlocks({ blocks }: { blocks: ContentBlock[] }) {
           <div><h2 id={getHeadingId(block.heading)}>{block.heading}</h2><p>{block.body}</p></div>
         </aside>
       );
+    }
+
+    if (block.type === "image") {
+      return <ContentImage block={block} key={`${block.type}-${block.src}`} />;
+    }
+
+    if (block.type === "video") {
+      return <ContentVideo block={block} key={`${block.type}-${block.videoId}`} />;
     }
 
     if (block.type === "verdict") {

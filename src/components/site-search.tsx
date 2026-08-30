@@ -10,8 +10,9 @@ import {
   useState,
 } from "react";
 import { contentPages } from "@/content/pages";
-import type { ContentBlock, ContentPage } from "@/content/types";
+import type { ContentPage } from "@/content/types";
 import { ArrowUpRightIcon, CloseIcon, SearchIcon } from "@/components/icons";
+import { collectBlockText } from "@/lib/search";
 
 type SearchEntry = {
   href: string;
@@ -21,29 +22,6 @@ type SearchEntry = {
   pathLabel: string;
   haystack: string;
 };
-
-function collectBlockText(block: ContentBlock): string {
-  switch (block.type) {
-    case "briefing":
-      return block.items.join(" ");
-    case "prose":
-      return [block.heading, ...(block.paragraphs ?? []), ...(block.bullets ?? [])].join(" ");
-    case "facts":
-      return [block.heading, ...block.items.flatMap((item) => [item.label, item.value, item.note ?? ""])].join(" ");
-    case "cards":
-      return [block.heading, block.intro ?? "", ...block.items.flatMap((item) => [item.title, item.label ?? "", item.body])].join(" ");
-    case "table":
-      return [block.heading, block.intro ?? "", block.caption, ...block.columns, ...block.rows.flat()].join(" ");
-    case "steps":
-      return [block.heading, block.intro ?? "", ...block.items.flatMap((item) => [item.title, item.body])].join(" ");
-    case "warning":
-      return [block.heading, block.body, block.tone].join(" ");
-    case "verdict":
-      return [block.heading, ...block.items.flatMap((item) => [item.label, ...item.bullets])].join(" ");
-    case "faq":
-      return [block.heading, ...block.items.flatMap((item) => [item.question, item.answer])].join(" ");
-  }
-}
 
 function getSectionLabel(page: ContentPage): string {
   if (page.path === "/") return "Home";

@@ -1,12 +1,13 @@
 import { resolveSources } from "../content/sources";
-import type { ContentPage, FaqBlock } from "../content/types";
+import type { ContentPage, FaqBlock, VideoBlock } from "../content/types";
 import { buildCanonicalUrl, getBreadcrumbPages, siteName, siteOrigin } from "./site";
 
 export type StructuredDataNode =
   | WebSiteStructuredData
   | CollectionOrArticleStructuredData
   | BreadcrumbListStructuredData
-  | FaqPageStructuredData;
+  | FaqPageStructuredData
+  | VideoObjectStructuredData;
 
 type OrganizationStructuredData = {
   "@type": "Organization";
@@ -60,6 +61,20 @@ export type FaqPageStructuredData = {
   mainEntity: QuestionStructuredData[];
 };
 
+export type VideoObjectStructuredData = {
+  "@context": "https://schema.org";
+  "@type": "VideoObject";
+  name: string;
+  description: string;
+  thumbnailUrl: string;
+  uploadDate: string;
+  duration: string;
+  embedUrl: string;
+  contentUrl: string;
+  isAccessibleForFree: true;
+  publisher: OrganizationStructuredData;
+};
+
 export type CollectionOrArticleStructuredData = {
   "@context": "https://schema.org";
   "@type": "CollectionPage" | "Article";
@@ -74,6 +89,19 @@ export type CollectionOrArticleStructuredData = {
 
 function getFaqBlock(page: ContentPage): FaqBlock | undefined {
   return page.blocks.find((block): block is FaqBlock => block.type === "faq");
+}
+
+function getVideoBlocks(page: ContentPage): VideoBlock[] {
+  return page.blocks.filter((block): block is VideoBlock => block.type === "video");
+}
+
+function toIsoDuration(duration: string): string {
+  const parts = duration.split(":").map(Number);
+  const [hours, minutes, seconds] = parts.length === 3
+    ? parts
+    : [0, parts[0], parts[1]];
+
+  return `PT${hours ? `${hours}H` : ""}${minutes ? `${minutes}M` : ""}${seconds ? `${seconds}S` : ""}`;
 }
 
 function getPageSchemaType(page: ContentPage): "CollectionPage" | "Article" {
@@ -133,6 +161,7 @@ export function buildPageStructuredData(page: ContentPage): {
   page: CollectionOrArticleStructuredData;
   breadcrumb: BreadcrumbListStructuredData;
   faq?: FaqPageStructuredData;
+  videos?: VideoObjectStructuredData[];
 } {
   const pageSources = resolveSources(page.sources);
   const structuredPage: CollectionOrArticleStructuredData = {
@@ -152,15 +181,38 @@ export function buildPageStructuredData(page: ContentPage): {
   };
 
   const faq = buildFaqStructuredData(page);
+  const videos = getVideoBlocks(page).map<VideoObjectStructuredData>((video) => ({
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: video.title,
+    description: video.description,
+    thumbnailUrl: `${siteOrigin}${video.posterSrc}`,
+    uploadDate: video.publishedAt,
+    duration: toIsoDuration(video.duration),
+    embedUrl: `https://www.youtube-nocookie.com/embed/${video.videoId}`,
+    contentUrl: `https://www.youtube.com/watch?v=${video.videoId}`,
+    isAccessibleForFree: true,
+    publisher: {
+      "@type": "Organization",
+      name: video.publisher,
+      url: `https://www.youtube.com/watch?v=${video.videoId}`,
+    },
+  }));
 
   return {
     page: structuredPage,
     breadcrumb: buildBreadcrumbStructuredData(page),
     ...(faq ? { faq } : {}),
+    ...(videos.length ? { videos } : {}),
   };
 }
 
 export function buildStructuredDataNodes(page: ContentPage): StructuredDataNode[] {
   const pageGraph = buildPageStructuredData(page);
-  return [pageGraph.page, pageGraph.breadcrumb, ...(pageGraph.faq ? [pageGraph.faq] : [])];
+  return [
+    pageGraph.page,
+    pageGraph.breadcrumb,
+    ...(pageGraph.faq ? [pageGraph.faq] : []),
+    ...(pageGraph.videos ?? []),
+  ];
 }

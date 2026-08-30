@@ -1,4 +1,5 @@
 import type { ContentPage } from "./types";
+import { getMediaBlocksForPath } from "./media";
 
 export const requiredPublicPaths = [
   "/",
@@ -36,16 +37,27 @@ type PageInput = Omit<
     >
   >;
 
-const page = (input: PageInput): ContentPage => ({
-  status: "verified",
-  indexable: true,
-  lastVerified: "2026-08-30",
-  gameVersion: "Launch build — checked 2026-08-30",
-  platforms: ["PC", "PS5", "Xbox Series X|S"],
-  difficulty: "All difficulties",
-  spoiler: "none",
-  ...input,
-});
+const page = (input: PageInput): ContentPage => {
+  const { blocks, ...rest } = input;
+  const media = getMediaBlocksForPath(input.path);
+  const insertionIndex = blocks[0]?.type === "briefing" ? 1 : 0;
+
+  return {
+    status: "verified",
+    indexable: true,
+    lastVerified: "2026-08-30",
+    gameVersion: "Launch build — checked 2026-08-30",
+    platforms: ["PC", "PS5", "Xbox Series X|S"],
+    difficulty: "All difficulties",
+    spoiler: "none",
+    ...rest,
+    blocks: [
+      ...blocks.slice(0, insertionIndex),
+      ...media,
+      ...blocks.slice(insertionIndex),
+    ],
+  };
+};
 
 export const contentPages: ContentPage[] = [
   page({

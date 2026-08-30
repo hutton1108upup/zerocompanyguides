@@ -2,6 +2,10 @@
 .worktrees/
 .superpowers/
 .next/
+.open-next/
+.wrangler/
 node_modules/
 artifacts/
+.dev.vars*
+!.dev.vars.example
 *.tsbuildinfo
