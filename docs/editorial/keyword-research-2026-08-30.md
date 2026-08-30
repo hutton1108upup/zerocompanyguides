@@ -1,4 +1,8 @@
-谷歌下拉框关键词
+# Star Wars Zero Company keyword research
+
+Research snapshot: 2026-08-30
+
+## Google autocomplete
 star wars zero company release date
 star wars zero company - ps5
 star wars zero company price
