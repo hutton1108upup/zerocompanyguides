@@ -540,7 +540,6 @@ select {
   color: var(--text-muted);
 }
 
-.hero-metrics,
 .hot-ticker {
   position: relative;
   z-index: 1;
@@ -549,7 +548,6 @@ select {
   background: linear-gradient(90deg, rgba(245, 158, 11, 0.16), rgba(245, 158, 11, 0.04));
 }
 
-.hero-metrics__grid,
 .hot-ticker .container {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -557,30 +555,60 @@ select {
   padding: 0.9rem 0;
 }
 
-.hero-metric {
+.hero-shell__metrics {
+  margin-top: 2rem;
+  padding: 0.85rem 1rem 0.9rem;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 0.8rem 0.18rem 0.8rem 0.18rem;
+  background: linear-gradient(110deg, rgba(13, 19, 30, 0.68), rgba(13, 19, 30, 0.42));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(12px);
+}
+
+.hero-shell__metrics-grid {
   display: grid;
-  gap: 0.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.hero-metric {
+  position: relative;
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+  padding-right: 0.9rem;
+}
+
+.hero-metric:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 0.1rem;
+  right: 0;
+  bottom: 0.1rem;
+  width: 1px;
+  background: rgba(148, 163, 184, 0.12);
 }
 
 .hero-metric__label {
-  color: rgba(255, 210, 138, 0.88);
+  color: rgba(196, 206, 220, 0.55);
   font-family: var(--font-mono), monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .hero-metric__value {
-  color: var(--accent-amber);
+  color: rgba(255, 210, 138, 0.74);
   font-family: var(--font-display), sans-serif;
-  font-size: 1rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
 }
 
 .hero-metric__note {
-  color: rgba(196, 206, 220, 0.85);
-  font-size: 0.82rem;
+  color: rgba(196, 206, 220, 0.58);
+  font-size: 0.68rem;
+  line-height: 1.45;
 }
 
 .hero-shell,
@@ -2132,7 +2160,6 @@ a.fact:hover {
     padding: 3.25rem 0;
   }
 
-  .hero-metrics__grid,
   .hot-ticker .container,
   .hero-shell__support,
   .status-grid,
@@ -2140,6 +2167,42 @@ a.fact:hover {
   .card-grid,
   .hub-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero-shell__metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .hero-metric {
+    grid-template-columns: minmax(7.25rem, 0.8fr) 1fr;
+    column-gap: 0.75rem;
+    padding: 0.65rem 0;
+  }
+
+  .hero-metric:first-child {
+    padding-top: 0;
+  }
+
+  .hero-metric:last-child {
+    padding-bottom: 0;
+  }
+
+  .hero-metric:not(:last-child)::after {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: 1px;
+  }
+
+  .hero-metric__value {
+    align-self: end;
+  }
+
+  .hero-metric__note {
+    grid-column: 1 / -1;
   }
 
   .hero-shell__silhouette {

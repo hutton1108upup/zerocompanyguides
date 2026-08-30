@@ -70,80 +70,78 @@ export function HomeHero({
   },
 }: HomeHeroProps) {
   return (
-    <>
-      <section aria-label="Current site snapshot" className="hero-metrics">
-        <div className="container hero-metrics__grid">
-          {metrics.map((metric) => (
-            <div className="hero-metric" key={metric.label}>
-              <div className="hero-metric__label">{metric.label}</div>
-              <div className="hero-metric__value">{metric.value}</div>
-              <div className="hero-metric__note">{metric.note}</div>
+    <section className="hero-shell">
+      <div aria-hidden="true" className="hero-shell__backdrop">
+        <div className="hero-shell__glow" />
+        <div className="hero-shell__glow hero-shell__glow--amber" />
+        <div className="hero-shell__silhouette" />
+      </div>
+
+      <div className="container hero-shell__inner">
+        <div className="hero-shell__content">
+          <div className="hero-shell__eyebrow">{eyebrow}</div>
+          <h1 className="hero-shell__headline">
+            {title}
+            <span className="hero-shell__subheadline">{subtitle}</span>
+          </h1>
+          <p className="hero-shell__lead">
+            {lead}
+          </p>
+          <div className="hero-shell__actions">
+            <Link className={getVariantClass(primaryAction.variant)} href={primaryAction.href}>
+              {primaryAction.label}
+            </Link>
+            <Link className={getVariantClass(secondaryAction.variant)} href={secondaryAction.href}>
+              {secondaryAction.label}
+            </Link>
+          </div>
+
+          <aside aria-label="Current site snapshot" className="hero-shell__metrics">
+            <div className="hero-shell__metrics-grid">
+              {metrics.map((metric) => (
+                <div className="hero-metric" key={metric.label}>
+                  <div className="hero-metric__label">{metric.label}</div>
+                  <div className="hero-metric__value">{metric.value}</div>
+                  <div className="hero-metric__note">{metric.note}</div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </section>
+          </aside>
 
-      <section className="hero-shell">
-        <div aria-hidden="true" className="hero-shell__backdrop">
-          <div className="hero-shell__glow" />
-          <div className="hero-shell__glow hero-shell__glow--amber" />
-          <div className="hero-shell__silhouette" />
-        </div>
-
-        <div className="container hero-shell__inner">
-          <div className="hero-shell__content">
-            <div className="hero-shell__eyebrow">{eyebrow}</div>
-            <h1 className="hero-shell__headline">
-              {title}
-              <span className="hero-shell__subheadline">{subtitle}</span>
-            </h1>
-            <p className="hero-shell__lead">
-              {lead}
-            </p>
-            <div className="hero-shell__actions">
-              <Link className={getVariantClass(primaryAction.variant)} href={primaryAction.href}>
-                {primaryAction.label}
-              </Link>
-              <Link className={getVariantClass(secondaryAction.variant)} href={secondaryAction.href}>
-                {secondaryAction.label}
-              </Link>
+          <div className="hero-shell__support">
+            <div className="shell-panel angled-panel hero-shell__support-card">
+              <div className="hub-card__icon">
+                <RadarIcon height={20} width={20} />
+              </div>
+              <h2 className="hero-shell__support-card-title">Official facts first</h2>
+              <p className="hero-shell__support-card-body">
+                Release, requirements, systems and cast details link back to EA, Steam or
+                StarWars.com.
+              </p>
             </div>
-
-            <div className="hero-shell__support">
-              <div className="shell-panel angled-panel hero-shell__support-card">
-                <div className="hub-card__icon">
-                  <RadarIcon height={20} width={20} />
-                </div>
-                <h2 className="hero-shell__support-card-title">Official facts first</h2>
-                <p className="hero-shell__support-card-body">
-                  Release, requirements, systems and cast details link back to EA, Steam or
-                  StarWars.com.
-                </p>
+            <div className="shell-panel angled-panel hero-shell__support-card">
+              <div className="hub-card__icon">
+                <ShieldIcon height={20} width={20} />
               </div>
-              <div className="shell-panel angled-panel hero-shell__support-card">
-                <div className="hub-card__icon">
-                  <ShieldIcon height={20} width={20} />
-                </div>
-                <h2 className="hero-shell__support-card-title">Community evidence labeled</h2>
-                <p className="hero-shell__support-card-body">
-                  Builds and performance reports show their source and limits instead of posing as
-                  universal tests.
-                </p>
+              <h2 className="hero-shell__support-card-title">Community evidence labeled</h2>
+              <p className="hero-shell__support-card-body">
+                Builds and performance reports show their source and limits instead of posing as
+                universal tests.
+              </p>
+            </div>
+            <div className="shell-panel angled-panel hero-shell__support-card">
+              <div className="hub-card__icon">
+                <DataStackIcon height={20} width={20} />
               </div>
-              <div className="shell-panel angled-panel hero-shell__support-card">
-                <div className="hub-card__icon">
-                  <DataStackIcon height={20} width={20} />
-                </div>
-                <h2 className="hero-shell__support-card-title">Spoilers under control</h2>
-                <p className="hero-shell__support-card-body">
-                  Campaign and trophy pages disclose their spoiler level before mission names or
-                  completion conditions appear.
-                </p>
-              </div>
+              <h2 className="hero-shell__support-card-title">Spoilers under control</h2>
+              <p className="hero-shell__support-card-body">
+                Campaign and trophy pages disclose their spoiler level before mission names or
+                completion conditions appear.
+              </p>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
