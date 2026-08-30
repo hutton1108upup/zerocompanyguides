@@ -73,7 +73,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Wiki, Builds and Walkthroughs",
     description:
       "Evidence-labeled Star Wars Zero Company builds, classes, walkthrough planning, trophies, performance fixes, characters and official game information.",
-    h1: "Star Wars Zero Company Wiki & Guide",
+    h1: "Star Wars Zero Company Wiki, Builds & Walkthroughs",
     kicker: "Every move counts",
     summary: "Fast routes to class choices, squad planning, campaign help and launch technical guidance.",
     pageType: "home",
@@ -107,7 +107,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Classes and Specializations Guide",
     description:
       "Compare all eight official Zero Company Specializations by combat role, signature abilities, learning curve and the playstyles each class supports.",
-    h1: "All Classes and Specializations",
+    h1: "Star Wars Zero Company Classes & Specializations",
     kicker: "Operator doctrine",
     summary:
       "Eight standard Specializations define how most Operators fight; each has an Ultimate, Standard action and passive kit.",
@@ -165,7 +165,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Class Tier List by Squad Role",
     description:
       "A scenario-based Zero Company class tier list comparing early game, damage, support, Advantage economy, positioning and permadeath value.",
-    h1: "Best Classes Ranked by Mission Job",
+    h1: "Star Wars Zero Company Class Tier List by Squad Role",
     kicker: "Community synthesis",
     summary:
       "There is no uncontested best class at launch, so this ranking scores repeatable squad value rather than raw damage alone.",
@@ -218,7 +218,7 @@ export const contentPages: ContentPage[] = [
     title: "Best Star Wars Zero Company Builds and Squad Roles",
     description:
       "Plan Zero Company builds around Operator Talents, primary and secondary Specializations, weapon AP costs, team jobs and available replacements.",
-    h1: "Zero Company Builds",
+    h1: "Best Star Wars Zero Company Builds & Squad Roles",
     kicker: "Loadout command",
     summary: "A useful build answers a mission job, not just a damage question.",
     pageType: "hub",
@@ -258,10 +258,10 @@ export const contentPages: ContentPage[] = [
   page({
     path: "/builds/hawks",
     navLabel: "Hawks Build",
-    title: "Best Class for Hawks: Builds by Playstyle and Difficulty",
+    title: "Star Wars Zero Company Hawks Build: Best Class by Playstyle",
     description:
       "Compare Scoundrel, Medic, Gunslinger and Scout Hawks builds with their squad role, weapon logic, strengths, weaknesses and secondary-class options.",
-    h1: "Best Hawks Class and Build",
+    h1: "Star Wars Zero Company Hawks Build: Best Classes by Playstyle",
     kicker: "Commander loadout",
     summary:
       "Scoundrel is the strongest early setup recommendation, but Medic, Gunslinger and Scout can be better for safety, burst or Advantage economy.",
@@ -322,7 +322,7 @@ export const contentPages: ContentPage[] = [
     title: "Best Squad Compositions in Star Wars Zero Company",
     description:
       "Build balanced Zero Company squads for a first run, aggressive play or permadeath with clear jobs, replacement rules and role coverage.",
-    h1: "Best Squads and Team Compositions",
+    h1: "Best Star Wars Zero Company Squads & Team Compositions",
     kicker: "Four-slot doctrine",
     summary: "The best squad is a coverage plan with replacements, not four fixed names.",
     pageType: "decision",
@@ -375,7 +375,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Guides for Combat and Progression",
     description:
       "Learn Zero Company's core loop, Action Points, Advantage, cover, injuries, Bonds, respec rules, the Den and mission planning without forced spoilers.",
-    h1: "Combat and Progression Guides",
+    h1: "Star Wars Zero Company Combat & Progression Guides",
     kicker: "Field manual",
     summary: "Understand the rules that shape every Cycle before optimizing a single build.",
     pageType: "hub",
@@ -411,10 +411,10 @@ export const contentPages: ContentPage[] = [
   page({
     path: "/guides/respec",
     navLabel: "Respec Guide",
-    title: "How to Respec and Change Specialization in Zero Company",
+    title: "Star Wars Zero Company Respec and Specialization Guide",
     description:
       "Learn when Change Specialization unlocks, how Focus Point refunds work, which Operators can switch and what authored Talents cannot be changed.",
-    h1: "How to Change Specialization and Respec",
+    h1: "How to Respec & Change Specialization in Star Wars Zero Company",
     kicker: "Reconfigure operator",
     summary: "Launch guides place the first class-change access at Cycle 3, early enough to treat the opening choice as reversible.",
     pageType: "article",
@@ -462,7 +462,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Walkthrough Hub and Chapter Order",
     description:
       "Use a spoiler-labeled Zero Company campaign index with chapter order, Cycle planning, before-deploy checks, missable warnings and completion links.",
-    h1: "Walkthrough Hub and Campaign Chapter Order",
+    h1: "Star Wars Zero Company Walkthrough Hub & Chapter Order",
     kicker: "Campaign operations",
     summary: "This hub confirms the community-reported 14-part order but does not invent step-by-step solutions the site has not independently verified.",
     pageType: "hub",
@@ -517,7 +517,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Trophy and Achievement Guide",
     description:
       "Plan all 53 Zero Company achievements with story, difficulty, combat, Bond and permadeath categories plus honest missability warnings.",
-    h1: "Trophy and Achievement Guide",
+    h1: "Star Wars Zero Company Trophy & Achievement Guide",
     kicker: "Completion protocol",
     summary: "Steam confirms 53 achievements; route optimization and one-playthrough claims remain provisional this close to launch.",
     pageType: "article",
@@ -632,7 +632,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Performance and Fixes Hub",
     description:
       "Check official Zero Company PC requirements, current issue updates, safe troubleshooting, Steam Deck launch status and evidence-labeled settings guidance.",
-    h1: "Performance and Technical Intel",
+    h1: "Star Wars Zero Company Performance & Fixes",
     kicker: "Systems diagnostic",
     summary: "Start with official issue guidance, then test one reversible graphics change at a time.",
     pageType: "hub",
@@ -671,7 +671,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company PC Performance Evidence and Settings",
     description:
       "Understand Zero Company's CPU-bound launch behavior, official upscaler target, hardware review results and a conservative settings test order.",
-    h1: "PC Performance Evidence and Settings",
+    h1: "Star Wars Zero Company PC Performance & Settings",
     kicker: "Launch benchmark synthesis",
     summary: "Performance varies sharply by CPU, scene and upscaler; no single preset or geometry toggle is a guaranteed fix.",
     pageType: "tech",
@@ -721,10 +721,10 @@ export const contentPages: ContentPage[] = [
   page({
     path: "/performance/fps-fix",
     navLabel: "FPS & Crash Fix",
-    title: "How to Fix Zero Company Stutter, Low FPS and Crashes",
+    title: "Star Wars Zero Company Stutter, Low FPS and Crash Fixes",
     description:
       "Work through official driver, game-file and Intel stability guidance before reversible settings tests for Zero Company stutter, low FPS or crashes.",
-    h1: "Fix Stutter, Low FPS and Crashes",
+    h1: "Fix Star Wars Zero Company Stutter, Low FPS & Crashes",
     kicker: "Safe diagnostic sequence",
     summary: "Apply the lowest-risk official checks first; community config changes are not universal fixes.",
     pageType: "tech",
@@ -781,7 +781,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Release, Platforms, Price and Editions",
     description:
       "Check Zero Company's release date, supported PC and console platforms, current US Steam price, editions, language support, campaign format and official trailer.",
-    h1: "Release Date, Platforms and Price",
+    h1: "Star Wars Zero Company Release Date, Platforms, Price & Editions",
     kicker: "Official game file",
     summary: "Released August 27, 2026 for PC, PlayStation 5 and Xbox Series X|S as a single-player tactics game.",
     pageType: "article",
@@ -841,7 +841,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company PC System Requirements",
     description:
       "Compare the official Zero Company minimum 1080p/30 Low and recommended 1440p/60 High PC targets, storage, memory and upscaler context.",
-    h1: "PC System Requirements",
+    h1: "Star Wars Zero Company PC System Requirements",
     kicker: "Hardware manifest",
     summary: "The recommended target is 1440p/60 High with TSR or a vendor upscaler, not a stated native-resolution target.",
     pageType: "tech",
@@ -889,7 +889,7 @@ export const contentPages: ContentPage[] = [
     title: "Is Star Wars Zero Company Multiplayer or Co-op?",
     description:
       "Zero Company is single-player only. Check the official answer for online multiplayer, local co-op, split screen, offline needs and the Steam EA-app distinction.",
-    h1: "Does Zero Company Have Multiplayer?",
+    h1: "Is Star Wars Zero Company Multiplayer or Co-op?",
     kicker: "Direct answer",
     summary: "No. Star Wars Zero Company has no competitive multiplayer, online co-op, local co-op or split-screen mode.",
     pageType: "article",
@@ -929,7 +929,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Characters and Operators",
     description:
       "Meet Hawks, Trick, Tel-Rea, Cly, Luco, Jae, Kabb and Runa with official roles, backgrounds, recruitment context and links to builds and voice actors.",
-    h1: "Characters and Operators",
+    h1: "Star Wars Zero Company Characters & Operators",
     kicker: "Company dossiers",
     summary: "Authored Operators join through the story; Custom Operators are recruited and personalized by the player.",
     pageType: "hub",
@@ -975,7 +975,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Voice Cast and Characters",
     description:
       "See the officially announced Zero Company voice cast for both Hawks voices, Trick, Runa, Tel-Rea, Cly, Jae, Kabb, Fathom and other major characters.",
-    h1: "Voice Cast and Voice Actors",
+    h1: "Star Wars Zero Company Voice Cast & Characters",
     kicker: "Transmission credits",
     summary: "StarWars.com announced the cast at SDCC 2026; this page lists confirmed roles only.",
     pageType: "article",
@@ -1020,7 +1020,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Beginner Guide and First-Cycle Tips",
     description:
       "Learn the three-AP turn, cover, Overwatch, Advantage, injuries, permadeath, Bonds, the Den and a safe first-mission squad checklist.",
-    h1: "Beginner Guide: Win the First Cycles",
+    h1: "Star Wars Zero Company Beginner Guide & First-Cycle Tips",
     kicker: "Recruit training",
     summary: "Solve the next enemy turn before chasing damage: use cover, reserve a response and keep the squad's jobs visible.",
     pageType: "article",
@@ -1076,7 +1076,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Steam Deck Performance Status",
     description:
       "Check the official not-Verified-at-launch status, two attributed launch performance tests, image-quality trade-offs and safer alternatives for Steam Deck.",
-    h1: "Steam Deck Performance and Settings",
+    h1: "Star Wars Zero Company Steam Deck Performance Status",
     kicker: "Unsupported launch profile",
     summary: "Native Steam Deck play is not a safe recommendation at launch; streaming from a stronger PC is the lower-risk option.",
     pageType: "tech",
@@ -1123,7 +1123,7 @@ export const contentPages: ContentPage[] = [
     title: "Star Wars Zero Company Mods and Safe Modding Guide",
     description:
       "Understand Zero Company's unofficial modding status, Nexus and Vortex ecosystem, patch compatibility, backup rules, source safety and clean removal.",
-    h1: "Mods and Modding Status",
+    h1: "Star Wars Zero Company Mods & Safe Modding Guide",
     kicker: "Unofficial extensions",
     summary: "Community mods exist, but EA does not officially support modding and every installation is patch-sensitive.",
     pageType: "hub",
