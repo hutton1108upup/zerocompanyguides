@@ -1,10 +1,16 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import openNextConfig from "../open-next.config";
 
 const projectRoot = resolve(import.meta.dirname, "..");
 
 describe("Cloudflare Workers release contract", () => {
+  it("serves pre-rendered inner pages from Workers static assets", () => {
+    expect(openNextConfig.default?.override?.incrementalCache).not.toBe("dummy");
+    expect(openNextConfig.dangerous?.enableCacheInterception).toBe(false);
+  });
+
   it("targets the existing Worker with an OpenNext build", () => {
     const packageJson = JSON.parse(
       readFileSync(resolve(projectRoot, "package.json"), "utf8"),
