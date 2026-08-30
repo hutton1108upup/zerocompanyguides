@@ -1,4 +1,4 @@
-# Star Wars Zero Company content research ledger
+# Star Wars Zero Company editorial source ledger
 
 Research date: 2026-08-30
 

@@ -1,4 +1,4 @@
-# STAR WARS Zero Company 攻略站｜最终版网站结构
+# STAR WARS Zero Company 攻略站｜网站结构基线
 
 > 版本：Final v1.0  
 > 更新日期：2026-08-30  
