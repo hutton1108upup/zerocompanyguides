@@ -11,9 +11,24 @@ describe("verification metadata", () => {
 
     expect(markup).toContain(page.gameVersion);
     expect(markup).toContain(`Difficulty: ${page.difficulty}`);
-    expect(markup).toContain(`Status: ${page.status}`);
+    expect(markup).toContain("Needs retest");
+    expect(markup).not.toContain("Status: verified");
     expect(markup).toContain(`Spoilers: ${page.spoiler}`);
     expect(markup).toContain(page.platforms.join(" · "));
     expect(markup).toContain(page.lastVerified);
+  });
+
+  it("labels official and source-verified pages separately", () => {
+    const officialPage = contentPages.find((entry) => entry.path === "/classes")!;
+    const synthesisPage = contentPages.find(
+      (entry) => entry.path === "/classes/tier-list",
+    )!;
+
+    expect(
+      renderToStaticMarkup(createElement(EvidenceMeta, { page: officialPage })),
+    ).toContain("Official verified");
+    expect(
+      renderToStaticMarkup(createElement(EvidenceMeta, { page: synthesisPage })),
+    ).toContain("Source-verified synthesis");
   });
 });

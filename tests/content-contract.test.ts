@@ -28,4 +28,26 @@ describe("content registry", () => {
       }
     }
   });
+
+  it("separates verification provenance without removing synthesis pages from search", () => {
+    const verificationOf = (path: string) =>
+      contentPages.find((entry) => entry.path === path)!.verification;
+
+    expect(verificationOf("/classes")).toBe("official-verified");
+    expect(verificationOf("/classes/tier-list")).toBe("source-verified-synthesis");
+    expect(verificationOf("/performance/pc")).toBe("needs-retest");
+    expect(verificationOf("/performance/steam-deck")).toBe("needs-retest");
+
+    for (const path of [
+      "/classes/tier-list",
+      "/builds/hawks",
+      "/performance/pc",
+      "/performance/steam-deck",
+    ]) {
+      expect(
+        contentPages.find((entry) => entry.path === path)?.indexable,
+        `${path} remains indexable`,
+      ).toBe(true);
+    }
+  });
 });

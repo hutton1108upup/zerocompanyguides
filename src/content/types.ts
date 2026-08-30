@@ -1,5 +1,9 @@
 export type EvidenceLevel = "official" | "community" | "unverified";
 export type PageStatus = "draft" | "verified" | "needs-retest" | "archived";
+export type VerificationStatus =
+  | "official-verified"
+  | "source-verified-synthesis"
+  | "needs-retest";
 export type SourceKind = "official" | "video" | "community" | "competitor" | "press";
 export type PageType = "home" | "hub" | "article" | "decision" | "tech";
 export type Tone = "cyan" | "amber" | "green" | "red" | "muted";
@@ -136,6 +140,7 @@ export type ContentPage = {
   pageType: PageType;
   evidence: EvidenceLevel;
   status: PageStatus;
+  verification: VerificationStatus;
   indexable: boolean;
   lastVerified: string;
   gameVersion: string;
