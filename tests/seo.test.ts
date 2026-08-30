@@ -85,4 +85,25 @@ describe("SEO outputs", () => {
       }
     }
   });
+
+  it("publishes one VideoObject for each visible media video", () => {
+    const guide = contentPages.find((page) => page.path === "/guides")!;
+    const videoBlock = guide.blocks.find((block) => block.type === "video")!;
+    const graph = buildPageStructuredData(guide);
+
+    expect(graph.videos).toHaveLength(1);
+    expect(graph.videos?.[0]).toMatchObject({
+      "@type": "VideoObject",
+      name: videoBlock.title,
+      description: videoBlock.description,
+      uploadDate: videoBlock.publishedAt,
+      duration: "PT2M40S",
+      thumbnailUrl: `${siteOrigin}${videoBlock.posterSrc}`,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${videoBlock.videoId}`,
+      contentUrl: `https://www.youtube.com/watch?v=${videoBlock.videoId}`,
+    });
+
+    const trophyGuide = contentPages.find((page) => page.path === "/trophy-guide")!;
+    expect(buildPageStructuredData(trophyGuide).videos).toBeUndefined();
+  });
 });

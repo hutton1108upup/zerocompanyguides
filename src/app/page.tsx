@@ -25,8 +25,15 @@ export function generateMetadata(): Metadata {
 
 export default function HomePage() {
   const pageGraphs = buildPageStructuredData(homePage);
-  const graphs = [buildSiteStructuredData(homePage), pageGraphs.page, pageGraphs.breadcrumb, pageGraphs.faq].filter(Boolean);
+  const graphs = [
+    buildSiteStructuredData(homePage),
+    pageGraphs.page,
+    pageGraphs.breadcrumb,
+    pageGraphs.faq,
+    ...(pageGraphs.videos ?? []),
+  ].filter(Boolean);
   const faqBlocks = homePage.blocks.filter((block) => block.type === "faq");
+  const mediaBlocks = homePage.blocks.filter((block) => block.type === "image" || block.type === "video");
 
   return (
     <>
@@ -49,6 +56,12 @@ export default function HomePage() {
           primaryAction={{ href: "/builds/hawks", label: "Find Your Hawks Build", variant: "primary" }}
           secondaryAction={{ href: "/walkthrough", label: "Browse the Walkthrough", variant: "ghost" }}
         />
+
+      <section className="section section--compact" aria-label="Official visual briefing">
+        <div className="container home-media">
+          <ContentBlocks blocks={mediaBlocks} />
+        </div>
+      </section>
 
       <section className="section section--compact" aria-labelledby="quick-facts-title">
         <div className="container">
