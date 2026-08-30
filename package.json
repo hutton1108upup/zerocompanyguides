@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "cf:build": "opennextjs-cloudflare build",
+    "build": "node scripts/cloudflare-build.mjs",
+    "cf:build": "node scripts/cloudflare-build.mjs --adapter",
     "cf:deploy": "opennextjs-cloudflare deploy",
     "cf:upload": "opennextjs-cloudflare upload",
     "cf:preview": "opennextjs-cloudflare preview",

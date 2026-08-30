@@ -22,7 +22,9 @@ describe("Cloudflare Workers release contract", () => {
       services: Array<{ binding: string; service: string }>;
     };
 
-    expect(packageJson.scripts["cf:build"]).toBe("opennextjs-cloudflare build");
+    expect(packageJson.scripts["cf:build"]).toBe(
+      "node scripts/cloudflare-build.mjs --adapter",
+    );
     expect(packageJson.scripts["cf:deploy"]).toBe("opennextjs-cloudflare deploy");
     expect(packageJson.scripts["cf:upload"]).toBe("opennextjs-cloudflare upload");
     expect(packageJson.devDependencies.esbuild).toBe("0.25.4");
