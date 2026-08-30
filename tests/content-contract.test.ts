@@ -2,6 +2,31 @@ import { describe, expect, it } from "vitest";
 import { contentPages, requiredPublicPaths } from "../src/content/pages";
 
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+const entityKeyword = "star wars zero company";
+const intentTermsByPath: Record<string, readonly string[]> = {
+  "/": ["wiki", "builds", "walkthrough"],
+  "/classes": ["classes", "specializations"],
+  "/classes/tier-list": ["class tier list"],
+  "/builds": ["builds"],
+  "/builds/hawks": ["hawks", "build"],
+  "/builds/best-team": ["squad"],
+  "/guides": ["guides"],
+  "/guides/respec": ["respec", "specialization"],
+  "/walkthrough": ["walkthrough"],
+  "/trophy-guide": ["trophy", "achievement"],
+  "/performance": ["performance", "fixes"],
+  "/performance/pc": ["pc performance", "settings"],
+  "/performance/fps-fix": ["stutter", "fps", "crash"],
+  "/game-info": ["release", "platforms", "price"],
+  "/system-requirements": ["system requirements"],
+  "/multiplayer": ["multiplayer", "co-op"],
+  "/characters": ["characters", "operators"],
+  "/characters/voice-cast": ["voice cast", "characters"],
+  "/guides/beginners-guide": ["beginner guide", "first-cycle"],
+  "/performance/steam-deck": ["steam deck", "performance"],
+  "/mods": ["mods", "modding"],
+  "/worth-it": ["worth it"],
+};
 
 describe("content registry", () => {
   it("contains every approved P0 route exactly once", () => {
@@ -25,6 +50,23 @@ describe("content registry", () => {
       if (page.indexable) {
         expect(page.status, `${page.path} indexable status`).not.toBe("draft");
         expect(page.evidence, `${page.path} indexable evidence`).not.toBe("unverified");
+      }
+    }
+  });
+
+  it("keeps the game entity and route intent aligned in every Title and H1", () => {
+    for (const page of contentPages) {
+      const title = page.title.toLowerCase();
+      const h1 = page.h1.toLowerCase();
+      const intentTerms = intentTermsByPath[page.path];
+
+      expect(title, `${page.path} title entity`).toContain(entityKeyword);
+      expect(h1, `${page.path} h1 entity`).toContain(entityKeyword);
+      expect(intentTerms, `${page.path} intent mapping`).toBeDefined();
+
+      for (const term of intentTerms ?? []) {
+        expect(title, `${page.path} title intent: ${term}`).toContain(term);
+        expect(h1, `${page.path} h1 intent: ${term}`).toContain(term);
       }
     }
   });

@@ -716,18 +716,19 @@ select {
 .hero-shell__headline {
   margin: 1rem 0 0;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(2.9rem, 9vw, 4.8rem);
+  font-size: clamp(2rem, 6vw, 3.6rem);
   font-weight: 900;
-  line-height: 0.98;
-  letter-spacing: 0.03em;
+  line-height: 1.06;
+  letter-spacing: 0.02em;
   color: var(--accent-gold);
   text-shadow: 0 0 70px rgba(255, 232, 31, 0.22);
+  text-wrap: balance;
 }
 
 .hero h1 span,
 .hero-shell__subheadline {
   display: block;
-  margin-top: 1rem;
+  margin: 1rem 0 0;
   color: var(--text-primary);
   font-size: clamp(0.95rem, 2.5vw, 1.25rem);
   letter-spacing: 0.28em;

@@ -27,10 +27,7 @@ const monoFont = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
-  title: {
-    default: siteName,
-    template: `%s | ${siteName}`,
-  },
+  title: siteName,
   description: siteDescription,
   openGraph: {
     type: "website",

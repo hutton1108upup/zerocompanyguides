@@ -1,7 +1,8 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
-import RootLayout from "../src/app/layout";
+import RootLayout, { metadata } from "../src/app/layout";
+import { siteName } from "../src/lib/site";
 
 vi.mock("next/font/google", () => ({
   Inter: () => ({ variable: "font-sans" }),
@@ -14,6 +15,10 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("site analytics", () => {
+  it("keeps page titles standalone instead of appending the branded site name twice", () => {
+    expect(metadata.title).toBe(siteName);
+  });
+
   it("emits the Microsoft Clarity loader on every page", () => {
     const markup = renderToStaticMarkup(
       createElement(

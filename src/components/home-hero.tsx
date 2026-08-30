@@ -57,7 +57,7 @@ function getVariantClass(variant: HeroAction["variant"]) {
 
 export function HomeHero({
   eyebrow = "It is a dark time for the Republic — mercenaries answer the call",
-  title = "ZERO COMPANY",
+  title = homePage?.h1 ?? "Star Wars Zero Company Wiki, Builds & Walkthroughs",
   subtitle = "TACTICAL COMMAND INTEL",
   lead = homePage?.summary ??
     "Fast routes to class choices, squad planning, campaign help and launch technical guidance.",
@@ -80,10 +80,8 @@ export function HomeHero({
       <div className="container hero-shell__inner">
         <div className="hero-shell__content">
           <div className="hero-shell__eyebrow">{eyebrow}</div>
-          <h1 className="hero-shell__headline">
-            {title}
-            <span className="hero-shell__subheadline">{subtitle}</span>
-          </h1>
+          <h1 className="hero-shell__headline">{title}</h1>
+          <p className="hero-shell__subheadline">{subtitle}</p>
           <p className="hero-shell__lead">
             {lead}
           </p>
