@@ -54,6 +54,7 @@ describe("content registry", () => {
     }
   });
 
+
   it("keeps the game entity and route intent aligned in every Title and H1", () => {
     for (const page of contentPages) {
       const title = page.title.toLowerCase();
@@ -68,6 +69,30 @@ describe("content registry", () => {
         expect(title, `${page.path} title intent: ${term}`).toContain(term);
         expect(h1, `${page.path} h1 intent: ${term}`).toContain(term);
       }
+    }
+  });
+
+  it("separates verification provenance without removing synthesis pages from search", () => {
+    const verificationOf = (path: string) =>
+      contentPages.find((entry) => entry.path === path)!.verification;
+
+    expect(verificationOf("/classes")).toBe("official-verified");
+    expect(verificationOf("/classes/tier-list")).toBe(
+      "source-verified-synthesis",
+    );
+    expect(verificationOf("/performance/pc")).toBe("needs-retest");
+    expect(verificationOf("/performance/steam-deck")).toBe("needs-retest");
+
+    for (const path of [
+      "/classes/tier-list",
+      "/builds/hawks",
+      "/performance/pc",
+      "/performance/steam-deck",
+    ]) {
+      expect(
+        contentPages.find((entry) => entry.path === path)?.indexable,
+        `${path} remains indexable`,
+      ).toBe(true);
     }
   });
 });

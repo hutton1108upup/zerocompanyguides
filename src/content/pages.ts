@@ -28,22 +28,29 @@ export const requiredPublicPaths = [
 
 type PageInput = Omit<
   ContentPage,
-  "status" | "indexable" | "lastVerified" | "gameVersion" | "platforms" | "difficulty" | "spoiler"
+  "status" | "verification" | "indexable" | "lastVerified" | "gameVersion" | "platforms" | "difficulty" | "spoiler"
 > &
   Partial<
     Pick<
       ContentPage,
-      "status" | "indexable" | "lastVerified" | "platforms" | "difficulty" | "spoiler" | "gameVersion"
+      "status" | "verification" | "indexable" | "lastVerified" | "platforms" | "difficulty" | "spoiler" | "gameVersion"
     >
   >;
 
 const page = (input: PageInput): ContentPage => {
-  const { blocks, ...rest } = input;
+  const { blocks, verification, ...rest } = input;
   const media = getMediaBlocksForPath(input.path);
   const insertionIndex = blocks[0]?.type === "briefing" ? 1 : 0;
+  const defaultVerification =
+    input.status === "needs-retest" || input.evidence === "unverified"
+      ? "needs-retest"
+      : input.evidence === "official"
+        ? "official-verified"
+        : "source-verified-synthesis";
 
   return {
     status: "verified",
+    verification: verification ?? defaultVerification,
     indexable: true,
     lastVerified: "2026-08-30",
     gameVersion: "Launch build — checked 2026-08-30",
@@ -669,6 +676,7 @@ export const contentPages: ContentPage[] = [
     summary: "Performance varies sharply by CPU, scene and upscaler; no single preset or geometry toggle is a guaranteed fix.",
     pageType: "tech",
     evidence: "community",
+    verification: "needs-retest",
     platforms: ["PC"],
     sources: ["ea-faq", "steam-issue-update", "pcg-review", "techradar-review", "gamesgg-settings", "reddit-geometry"],
     related: ["/system-requirements", "/performance/fps-fix", "/performance/steam-deck"],
@@ -1073,6 +1081,7 @@ export const contentPages: ContentPage[] = [
     summary: "Native Steam Deck play is not a safe recommendation at launch; streaming from a stronger PC is the lower-risk option.",
     pageType: "tech",
     evidence: "community",
+    verification: "needs-retest",
     platforms: ["Steam Deck"],
     sources: ["ea-faq", "pcg-review", "steamdeckhq"],
     related: ["/performance/pc", "/system-requirements", "/performance/fps-fix"],
@@ -1250,7 +1259,7 @@ export const contentPages: ContentPage[] = [
 export const contentPageByPath = new Map(contentPages.map((entry) => [entry.path, entry]));
 
 export const indexableContentPages = contentPages.filter(
-  (entry) => entry.indexable && entry.status === "verified",
+  (entry) => entry.indexable && entry.status !== "draft" && entry.status !== "archived",
 );
 
 export function getContentPage(path: string): ContentPage | undefined {

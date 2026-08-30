@@ -1,6 +1,8 @@
 # STAR WARS Zero Company 攻略站 — 前端设计方案【最终版】
 
-> v2.0 FINAL ｜ 2026-08-30 ｜ 方向：**A（HUD 战术终端）主干 + B（星战电影）首屏** ｜ 交付：Codex 复刻 ｜ 参考效果图：mockups/（index / performance / classes / worth-it，四页互通，浏览器直接打开）
+> v2.0 FINAL ｜ 2026-08-30 ｜ 方向：**A（HUD 战术终端）主干 + B（星战电影）首屏** ｜ 当前实现：`src/app/globals.css` 与 `src/components/`
+
+> 实施规则：如本文件与 `site-architecture.md` 冲突，以网站结构和证据门槛为准；不硬编码会快速变化的评分、玩家数或未经验证的实测结果。
 
 ---
 
@@ -45,7 +47,7 @@
 
 ## 2. 首页 Hero（最终融合版，核心复刻对象）
 
-结构（见 mockups/index.html）：
+结构（当前实现见 `src/components/home-hero.tsx` 与 `src/app/page.tsx`）：
 1. **底层**：全幅 key art 位（小队黄昏剪影，琥珀主光 + cyan 边缘光；素材未到位前用径向渐变占位，禁止放官方原图）
 2. **叠加**：三层渐变（顶部透明 → 底部融入 bg-primary）+ 琥珀/青色双 radial 氛围光 + 扫描线 + 底部战术网格
 3. **内容**（左对齐，底部锚定，min-height 82vh）：
@@ -71,16 +73,16 @@
 - 每篇内容页开头：`Mission Briefing` TL;DR 卡（cyan 左边框，amber 加粗关键词）— 答案前置
 - 内容页右侧 sticky TOC + "Related Intel" 内链卡（移动端隐藏 TOC）
 
-### 4.2 首页（mockups/index.html）
+### 4.2 首页（`src/app/page.tsx`）
 热点条 → Hero（融合版）→ 事实速览 6 网格 → 新手三连卡（Fix FPS / Best Classes / Beginner Guide）→ 六分区 Hub 卡（2×3，每卡含 3 条最新链接）→ 角色 Dossiers（4 张 3:4 线稿占位卡）→ FAQ ×5（FAQPage JSON-LD）
 
-### 4.3 攻略详情模板（mockups/performance.html，P0 样板）
+### 4.3 攻略详情模板（`src/components/content-page.tsx`）
 页头 → Briefing → 分节正文（H2 白 / H3 cyan）→ 数据表（差异行 amber 高亮）→ mono 代码块（右上角 COPY 按钮）→ 折叠 FAQ → 补丁追踪时间线表
 
-### 4.4 职业页（mockups/classes.html）
+### 4.4 职业页（`src/components/class-tier-board.tsx`）
 页头 → Briefing → **TierListBoard**（S-D 五行色带，tier-chip 56px 方格）→ 职业对比表（ClassTable：定位/招牌/难度星级/Tier pill）→ 分节深度内容 → Related：Builds / Bond 矩阵 / 单角色页
 
-### 4.5 决策页（mockups/worth-it.html）
+### 4.5 决策页（`src/components/verdict-grid.tsx`）
 页头 → **ScoreBanner** 三格（Metacritic 大数字 success 色 / Steam 百分比 + 回升迷你柱图 / 结论格）→ Briefing → 三栏判定卡（✓ Buy / ⏸ Wait / ✕ Skip）→ danger 边框性能警告卡 → 版本对比表 → FAQ
 
 ### 4.6 其余页面（同模板复用）

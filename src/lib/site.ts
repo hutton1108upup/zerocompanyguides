@@ -5,7 +5,7 @@ import type { ContentPage } from "../content/types";
 export const siteName = "Star Wars Zero Company Wiki & Guide";
 export const siteDescription =
   "Evidence-labeled Star Wars Zero Company builds, classes, walkthrough planning, trophies, performance fixes, characters and official game information.";
-export const defaultLocalOrigin = "http://localhost:3000";
+export const defaultSiteOrigin = "https://zerocompany-guides.wiki";
 
 type OriginEnv = {
   NEXT_PUBLIC_SITE_URL?: string;
@@ -20,11 +20,7 @@ export function resolveSiteOrigin(env?: OriginEnv): string {
     return configuredOrigin;
   }
 
-  if (sourceEnv.VERCEL_ENV === "production") {
-    throw new Error("NEXT_PUBLIC_SITE_URL is required when VERCEL_ENV=production.");
-  }
-
-  return defaultLocalOrigin;
+  return defaultSiteOrigin;
 }
 
 export const siteOrigin = resolveSiteOrigin();
