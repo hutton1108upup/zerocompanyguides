@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero Company — A Star Wars Tactics Saga, Charted | Plan B Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root { --gold:#FFE81F; --amber:#E8A33D; --black:#050505; --panel:#0E0C08; --line:rgba(255,232,31,.18); --text:#EDE6D6; --muted:#9A8F78; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--black); color:var(--text); font-family:'Inter',sans-serif; font-size:16px; line-height:1.7; }
+h1,h2 { font-family:'Orbitron'; }
+.container { max-width:1160px; margin:0 auto; padding:0 24px; }
+a { color:var(--gold); text-decoration:none; }
+
+/* header */
+.site-header { position:sticky; top:0; z-index:50; background:rgba(5,5,5,.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+.site-header .container { display:flex; align-items:center; gap:28px; height:64px; }
+.logo { font-family:'Orbitron'; font-weight:900; font-size:15px; letter-spacing:.22em; color:var(--gold); }
+.logo span { color:var(--amber); }
+.main-nav { display:flex; gap:4px; flex:1; }
+.main-nav a { color:var(--muted); font-size:12px; letter-spacing:.14em; text-transform:uppercase; padding:6px 10px; }
+.main-nav a:hover, .main-nav a.active { color:var(--gold); }
+
+/* crawl strip */
+.crawl-strip { border-bottom:1px solid var(--line); padding:12px 0; text-align:center; }
+.crawl-strip p { font-family:'Playfair Display',serif; font-style:italic; color:var(--muted); font-size:14px; }
+.crawl-strip b { color:var(--gold); font-style:normal; }
+
+/* hero */
+.hero { position:relative; min-height:78vh; display:flex; align-items:flex-end; overflow:hidden;
+  background:
+    linear-gradient(180deg, rgba(5,5,5,.25) 0%, rgba(5,5,5,.55) 55%, #050505 100%),
+    radial-gradient(ellipse 75% 60% at 50% 25%, rgba(232,163,61,.22), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 70% 20%, rgba(255,232,31,.10), transparent),
+    #0B0906;
+}
+.hero::before { content:''; position:absolute; inset:0;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.25) 3px 4px); pointer-events:none; }
+.hero-art { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono'; font-size:12px; letter-spacing:.2em; color:rgba(255,232,31,.35); }
+.hero-inner { position:relative; padding:120px 0 72px; text-align:center; width:100%; }
+.hero-eyebrow { font-family:'JetBrains Mono'; font-size:12px; letter-spacing:.4em; color:var(--amber); text-transform:uppercase; }
+.hero h1 { font-size:64px; font-weight:900; color:var(--gold); line-height:1.05; margin:18px 0 10px;
+  text-shadow:0 0 60px rgba(255,232,31,.25); }
+.hero h1 span { display:block; font-size:22px; color:var(--text); letter-spacing:.3em; margin-top:12px; }
+.hero .tagline { font-family:'Playfair Display',serif; font-style:italic; font-size:18px; color:var(--muted); max-width:620px; margin:18px auto 0; }
+.hero-cta { display:flex; gap:16px; justify-content:center; margin-top:34px; flex-wrap:wrap; }
+.btn { font-family:'Orbitron'; font-size:13px; font-weight:700; letter-spacing:.12em; padding:14px 26px; display:inline-block; }
+.btn-gold { background:var(--gold); color:#050505; }
+.btn-line { border:1px solid var(--gold); color:var(--gold); }
+
+/* act sections */
+.act { padding:72px 0; border-top:1px solid var(--line); }
+.act-head { display:flex; align-items:baseline; gap:18px; margin-bottom:36px; }
+.act-num { font-family:'Orbitron'; font-size:13px; letter-spacing:.3em; color:var(--amber); }
+.act-title { font-size:30px; font-weight:900; color:var(--gold); letter-spacing:.06em; }
+.act-title small { display:block; font-family:'Playfair Display',serif; font-style:italic; font-weight:500; font-size:15px; color:var(--muted); letter-spacing:0; margin-top:6px; }
+
+/* poster wall */
+.poster-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.poster { aspect-ratio:3/4.2; border:1px solid var(--line); background:
+  radial-gradient(ellipse 80% 55% at 50% 30%, rgba(232,163,61,.16), transparent 65%),
+  linear-gradient(180deg,#14100A,#0A0805); position:relative; overflow:hidden; }
+.poster .ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono'; font-size:10px; letter-spacing:.15em; color:rgba(255,232,31,.3); }
+.poster .cap { position:absolute; left:0; right:0; bottom:0; padding:14px; background:linear-gradient(180deg,transparent,rgba(5,5,5,.95)); }
+.poster .cap .sp { font-size:10px; letter-spacing:.2em; color:var(--amber); text-transform:uppercase; }
+.poster .cap h3 { font-family:'Orbitron'; font-size:15px; color:var(--gold); margin:4px 0 2px; }
+.poster .cap .rl { font-size:12px; color:var(--muted); }
+
+/* guide rows — 报纸式编号行 */
+.guide-list { border-top:1px solid var(--line); }
+.guide-row { display:grid; grid-template-columns:70px 130px 1fr auto; gap:20px; align-items:center; padding:18px 6px; border-bottom:1px solid var(--line); }
+.guide-row:hover { background:rgba(255,232,31,.04); }
+.guide-row .no { font-family:'Playfair Display',serif; font-size:30px; color:rgba(255,232,31,.35); }
+.guide-row .cat { font-family:'JetBrains Mono'; font-size:11px; letter-spacing:.12em; color:var(--amber); text-transform:uppercase; }
+.guide-row h3 { font-size:17px; color:var(--text); font-weight:600; }
+.guide-row h3 span { display:block; font-size:13px; color:var(--muted); font-weight:400; margin-top:3px; }
+.guide-row .go { font-family:'Orbitron'; font-size:12px; color:var(--gold); letter-spacing:.1em; white-space:nowrap; }
+
+/* scores banner */
+.scores { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--line); }
+.score { padding:34px 24px; text-align:center; }
+.score + .score { border-left:1px solid var(--line); }
+.score .n { font-family:'Orbitron'; font-size:46px; font-weight:900; color:var(--gold); }
+.score .s { font-size:11px; letter-spacing:.24em; color:var(--muted); text-transform:uppercase; margin-top:8px; }
+.score .q { font-family:'Playfair Display',serif; font-style:italic; font-size:14px; color:var(--amber); margin-top:10px; }
+
+/* faq */
+.faq-item { border-bottom:1px solid var(--line); }
+.faq-item summary { cursor:pointer; padding:18px 4px; font-family:'Orbitron'; font-size:14px; letter-spacing:.05em; color:var(--text); list-style:none; }
+.faq-item summary::before { content:'◈ '; color:var(--gold); }
+.faq-item .a { padding:0 4px 18px; font-size:14px; color:var(--muted); }
+
+/* footer */
+.site-footer { border-top:1px solid var(--line); padding:44px 0; margin-top:40px; }
+.disclaimer { font-size:12px; color:var(--muted); text-align:center; }
+.footnote { text-align:center; font-family:'JetBrains Mono'; font-size:11px; letter-spacing:.3em; color:rgba(255,232,31,.4); margin-bottom:20px; }
+
+@media (max-width:900px){ .main-nav{display:none} .poster-grid{grid-template-columns:1fr 1fr} .hero h1{font-size:40px} .scores{grid-template-columns:1fr} .score+.score{border-left:none;border-top:1px solid var(--line)} .guide-row{grid-template-columns:44px 1fr auto} .guide-row .cat{display:none} }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="logo">ZERO<span> COMPANY</span> ARCHIVES</div>
+    <nav class="main-nav">
+      <a href="#" class="active">Home</a><a href="#">Guides</a><a href="#">The Squad</a><a href="#">The War</a><a href="#">The Intel</a><a href="#">Verdict</a><a href="#">Codex</a>
+    </nav>
+  </div>
+</header>
+
+<div class="crawl-strip">
+  <p>It is a dark time for the Republic. A cult called the <b>Infinite Coil</b> spreads a mind-altering plague across the Outer Rim — and the only ones who can stop it are <b>mercenaries</b>…</p>
+</div>
+
+<section class="hero">
+  <div class="hero-art">[ FULL-BLEED KEY ART: ZERO COMPANY SQUAD, DUSK AMBER LIGHT ]</div>
+  <div class="container hero-inner">
+    <div class="hero-eyebrow">An Unofficial Chronicle of the Shadow War · Est. Aug 27, 2026</div>
+    <h1>ZERO COMPANY<span>THE COMPLETE FIELD CHRONICLE</span></h1>
+    <p class="tagline">"Every class, every operative, every hard choice — charted for the commanders who come after."</p>
+    <div class="hero-cta">
+      <a class="btn btn-gold" href="#">BEGIN THE CAMPAIGN →</a>
+      <a class="btn btn-line" href="#">IS IT WORTH YOUR CREDITS?</a>
+    </div>
+  </div>
+</section>
+
+<section class="act">
+  <div class="container">
+    <div class="act-head">
+      <span class="act-num">ACT I</span>
+      <h2 class="act-title">THE SQUAD<small>Eight souls against the Coil — know them before you bury them.</small></h2>
+    </div>
+    <div class="poster-grid">
+      <div class="poster"><div class="ph">[ PORTRAIT ]</div><div class="cap"><div class="sp">Human · Customisable</div><h3>HAWKS</h3><div class="rl">The Commander</div></div></div>
+      <div class="poster"><div class="ph">[ PORTRAIT ]</div><div class="cap"><div class="sp">Clone Trooper</div><h3>TRICK</h3><div class="rl">The Right Hand</div></div></div>
+      <div class="poster"><div class="ph">[ PORTRAIT ]</div><div class="cap"><div class="sp">Mandalorian</div><h3>CLY KULLERVO</h3><div class="rl">The Vengeance</div></div></div>
+      <div class="poster"><div class="ph">[ PORTRAIT ]</div><div class="cap"><div class="sp">Jedi Padawan</div><h3>TEL-REA VOKOSS</h3><div class="rl">The Runaway</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="act">
+  <div class="container">
+    <div class="act-head">
+      <span class="act-num">ACT II</span>
+      <h2 class="act-title">THE WAR<small>Twenty-four missions. Four bosses. One memorial wall you want to keep empty.</small></h2>
+    </div>
+    <div class="guide-list">
+      <a href="#" class="guide-row"><span class="no">01</span><span class="cat">Field Manual</span><h3>Full Campaign Walkthrough<span>All 24 missions, objective by objective — recommended squads and reward tables.</span></h3><span class="go">READ →</span></a>
+      <a href="#" class="guide-row"><span class="no">02</span><span class="cat">Classes</span><h3>All 12 Classes, Ranked &amp; Explained<span>Eight standard archetypes, four exotic — and which two beginners should always field.</span></h3><span class="go">READ →</span></a>
+      <a href="#" class="guide-row"><span class="no">03</span><span class="cat">Tactics</span><h3>The Advantage Economy Deep-Dive<span>Why pistol builds feed your squad's biggest turns — the system that rewards aggression.</span></h3><span class="go">READ →</span></a>
+      <a href="#" class="guide-row"><span class="no">04</span><span class="cat">Bonds</span><h3>The Bond Pairing Matrix<span>Permanent duo buffs for operatives who fight together — best pairings charted.</span></h3><span class="go">READ →</span></a>
+      <a href="#" class="guide-row"><span class="no">05</span><span class="cat">Survival</span><h3>Permadeath, Explained Honestly<span>The 3-down rule, the memorial wall, and how to never lose an authored character.</span></h3><span class="go">READ →</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="act">
+  <div class="container">
+    <div class="act-head">
+      <span class="act-num">ACT III</span>
+      <h2 class="act-title">THE INTEL<small>Scores, specs, and whether this war is worth your credits.</small></h2>
+    </div>
+    <div class="scores">
+      <div class="score"><div class="n">85</div><div class="s">Metacritic · Critics</div><div class="q">"The Force is strong with this one" — PC Gamer, 90/100</div></div>
+      <div class="score"><div class="n">78%</div><div class="s">Steam · Players</div><div class="q">Recovering from 69% as patches land</div></div>
+      <div class="score"><div class="n">73K</div><div class="s">Peak Players · #2 SW Launch</div><div class="q">Behind only LEGO Skywalker Saga</div></div>
+    </div>
+
+    <div style="margin-top:48px">
+      <details class="faq-item"><summary>Is it worth $49.99 with mixed player reviews?</summary><div class="faq-item a" style="padding:0 4px 18px;font-size:14px;color:var(--muted)">The criticism is about performance, not the game. XCOM fans buy now; older rigs wait for Patch 1.02. Full verdict in The Intel.</div></details>
+      <details class="faq-item"><summary>Can I lose my favorite character forever?</summary><div class="faq-item a" style="padding:0 4px 18px;font-size:14px;color:var(--muted)">Yes — three downs without healing between missions and they're on the memorial wall. Our survival guide keeps that wall empty.</div></details>
+      <details class="faq-item"><summary>My frame rate is terrible. Is there a fix?</summary><div class="faq-item a" style="padding:0 4px 18px;font-size:14px;color:var(--muted)">Disable Environment Geometry Detail for roughly +40 FPS. The full technical debrief is in The Intel → Performance.</div></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footnote">MAY THE ADVANTAGE BE WITH YOU</div>
+    <div class="disclaimer">An unofficial fan chronicle. Not affiliated with or endorsed by Electronic Arts, Bit Reactor, Lucasfilm or Disney. STAR WARS is a trademark of Lucasfilm Ltd.</div>
+  </div>
+</footer>
+
+</body>
+</html>

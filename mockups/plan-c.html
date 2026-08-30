@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Zero Company Handbook — Guides, Classes, Specs &amp; Verdict | Plan C Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,700;8..60,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root { --paper:#F7F5F0; --ink:#141210; --muted:#6E675C; --accent:#0891B2; --line:#DED9CE; --amber:#B45309; --green:#047857; --red:#B91C1C; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; font-size:15.5px; line-height:1.65; }
+h1,h2,.serif { font-family:'Source Serif 4',Georgia,serif; }
+.container { max-width:1120px; margin:0 auto; padding:0 24px; }
+a { color:var(--accent); text-decoration:none; }
+a:hover { text-decoration:underline; }
+.mono { font-family:'JetBrains Mono',monospace; }
+
+/* masthead */
+.masthead { border-bottom:3px double var(--ink); padding:18px 0 14px; }
+.masthead .container { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.brand { font-family:'Source Serif 4'; font-weight:900; font-size:30px; letter-spacing:-.01em; }
+.brand em { color:var(--accent); font-style:normal; }
+.dateline { font-family:'JetBrains Mono'; font-size:11.5px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
+.topnav { border-bottom:1px solid var(--line); }
+.topnav .container { display:flex; gap:2px; overflow-x:auto; }
+.topnav a { color:var(--ink); font-size:12.5px; font-weight:600; text-transform:uppercase; letter-spacing:.09em; padding:10px 14px; border-bottom:2px solid transparent; white-space:nowrap; }
+.topnav a:hover, .topnav a.active { color:var(--accent); border-bottom-color:var(--accent); text-decoration:none; }
+
+/* hero — newspaper front page */
+.frontpage { padding:40px 0 36px; border-bottom:1px solid var(--line); }
+.kicker { font-family:'JetBrains Mono'; font-size:11.5px; letter-spacing:.18em; color:var(--amber); text-transform:uppercase; margin-bottom:10px; }
+.frontpage h1 { font-size:46px; font-weight:900; line-height:1.08; letter-spacing:-.015em; max-width:820px; }
+.frontpage h1 em { font-style:italic; color:var(--accent); }
+.lede { font-size:18px; color:var(--muted); max-width:680px; margin-top:14px; }
+.statbar { display:flex; gap:0; margin-top:26px; border:1px solid var(--ink); }
+.stat { flex:1; padding:12px 16px; }
+.stat + .stat { border-left:1px solid var(--line); }
+.stat .n { font-family:'JetBrains Mono'; font-weight:700; font-size:19px; }
+.stat .l { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; }
+.stat .n.up { color:var(--green); } .stat .n.warn { color:var(--amber); }
+
+/* index columns */
+.index-sec { padding:36px 0; border-bottom:1px solid var(--line); }
+.index-sec > .container > h2 { font-size:24px; font-weight:900; margin-bottom:4px; }
+.index-sec .sub { color:var(--muted); font-size:13.5px; margin-bottom:22px; }
+.cols3 { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+.col h3 { font-size:13px; font-family:'Inter'; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); border-bottom:2px solid var(--ink); padding-bottom:8px; margin-bottom:4px; }
+.entry { display:block; color:var(--ink); padding:11px 0; border-bottom:1px solid var(--line); }
+.entry:hover { text-decoration:none; background:rgba(8,145,178,.05); }
+.entry .t { font-weight:600; font-size:15px; }
+.entry .t:hover { color:var(--accent); }
+.entry .d { font-size:13px; color:var(--muted); margin-top:2px; }
+.entry .meta { font-family:'JetBrains Mono'; font-size:11px; color:var(--amber); letter-spacing:.06em; }
+.entry .meta.new { color:var(--green); }
+
+/* roster table */
+.roster-table { width:100%; border-collapse:collapse; font-size:14px; margin-top:8px; }
+.roster-table th { font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); text-align:left; padding:8px 12px; border-bottom:2px solid var(--ink); }
+.roster-table td { padding:10px 12px; border-bottom:1px solid var(--line); }
+.roster-table tr:hover td { background:rgba(8,145,178,.04); }
+.roster-table .name { font-family:'Source Serif 4'; font-weight:700; font-size:15.5px; }
+.roster-table .name a { color:var(--ink); } .roster-table .name a:hover { color:var(--accent); }
+.tier { font-family:'JetBrains Mono'; font-weight:700; font-size:13px; padding:1px 8px; border:1px solid; }
+.tier.s { color:var(--amber); border-color:var(--amber); } .tier.a { color:var(--accent); border-color:var(--accent); } .tier.b { color:var(--green); border-color:var(--green); }
+
+/* verdict strip */
+.verdict-strip { display:grid; grid-template-columns:1fr 1fr 1.3fr; border:1px solid var(--ink); }
+.vcell { padding:22px 24px; }
+.vcell + .vcell { border-left:1px solid var(--line); }
+.vcell .big { font-family:'Source Serif 4'; font-weight:900; font-size:40px; }
+.vcell .src { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.14em; margin-top:4px; }
+.vcell .q { font-size:13.5px; color:var(--muted); margin-top:8px; font-style:italic; }
+.vcell.verdict .big { font-size:24px; line-height:1.25; color:var(--green); }
+
+/* faq */
+.faq-item { border-bottom:1px solid var(--line); }
+.faq-item summary { cursor:pointer; padding:14px 2px; font-weight:600; font-size:15.5px; list-style:none; }
+.faq-item summary::before { content:'Q. '; font-family:'JetBrains Mono'; color:var(--accent); }
+.faq-item .a { padding:0 2px 16px 26px; font-size:14px; color:var(--muted); }
+
+/* footer */
+.site-footer { padding:36px 0; margin-top:8px; }
+.colophon { font-family:'JetBrains Mono'; font-size:11px; color:var(--muted); text-align:center; letter-spacing:.06em; line-height:1.9; }
+
+@media (max-width:900px){ .cols3{grid-template-columns:1fr} .frontpage h1{font-size:30px} .statbar{flex-wrap:wrap} .stat{flex:1 1 40%} .verdict-strip{grid-template-columns:1fr} .vcell+.vcell{border-left:none;border-top:1px solid var(--line)} }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <div class="brand">The Zero Company <em>Handbook</em></div>
+    <div class="dateline">Unofficial Player's Manual · Vol. 1, No. 4 · Sunday, August 30, 2026</div>
+  </div>
+</header>
+<nav class="topnav">
+  <div class="container">
+    <a href="#" class="active">Front Page</a><a href="#">Guides</a><a href="#">Classes</a><a href="#">Characters</a><a href="#">Systems</a><a href="#">Performance</a><a href="#">The Verdict</a><a href="#">Index A–Z</a>
+  </div>
+</nav>
+
+<section class="frontpage">
+  <div class="container">
+    <div class="kicker">Breaking · Launch Weekend</div>
+    <h1>The XCOM heir wears a Star Wars coat — and it's <em>very good</em>, once you fix the frame rate.</h1>
+    <p class="lede">Bit Reactor's turn-based tactics game launched Aug 27 to critical acclaim and player frustration in equal measure. This handbook charts every class, operative, build and bug.</p>
+    <div class="statbar">
+      <div class="stat"><div class="n">85</div><div class="l">Metacritic</div></div>
+      <div class="stat"><div class="n up">78% ↑</div><div class="l">Steam (from 69%)</div></div>
+      <div class="stat"><div class="n">73,462</div><div class="l">Peak players</div></div>
+      <div class="stat"><div class="n warn">+40 FPS</div><div class="l">One-setting fix</div></div>
+      <div class="stat"><div class="n">~40h</div><div class="l">Campaign</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="index-sec">
+  <div class="container">
+    <h2>Today's Index</h2>
+    <p class="sub">Everything published so far, filed by desk. Answers first, essays second.</p>
+    <div class="cols3">
+      <div class="col">
+        <h3>Guides Desk</h3>
+        <a href="#" class="entry"><span class="meta new">UPDATED TODAY</span><div class="t">FPS Fix: Environment Geometry Detail → Off</div><div class="d">The +40 FPS toggle, full settings table, crash checklist, patch tracker.</div></a>
+        <a href="#" class="entry"><span class="meta">WALKTHROUGH</span><div class="t">Campaign Walkthrough: All 24 Missions</div><div class="d">Objectives, enemy intel, recommended squads, rewards.</div></a>
+        <a href="#" class="entry"><span class="meta">TROPHIES</span><div class="t">All 53 Achievements, Roadmapped</div><div class="d">Missable flags marked. Start with "First Contract".</div></a>
+      </div>
+      <div class="col">
+        <h3>Squad Desk</h3>
+        <a href="#" class="entry"><span class="meta new">RANKED</span><div class="t">All 12 Classes Explained &amp; Tiered</div><div class="d">8 standard + 4 exotic. Beginners: Medic + Sharpshooter.</div></a>
+        <a href="#" class="entry"><span class="meta">BONDS</span><div class="t">The Bond Pairing Matrix</div><div class="d">Permanent duo buffs — best pairings, charted.</div></a>
+        <a href="#" class="entry"><span class="meta">DOSSIERS</span><div class="t">Operative Files: Hawks → Tel-Rea</div><div class="d">Skills, builds and story roles for all authored characters.</div></a>
+      </div>
+      <div class="col">
+        <h3>Systems Desk</h3>
+        <a href="#" class="entry"><span class="meta">DEEP-DIVE</span><div class="t">The Advantage Economy</div><div class="d">Why pistol builds feed your squad's biggest turns.</div></a>
+        <a href="#" class="entry"><span class="meta">ARMS</span><div class="t">All 13 Weapons Compared</div><div class="d">Damage vs Advantage generation — sortable table.</div></a>
+        <a href="#" class="entry"><span class="meta">SPECS</span><div class="t">System Requirements vs Reality</div><div class="d">Community FPS data by GPU tier. The minimum spec is optimistic.</div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="index-sec">
+  <div class="container">
+    <h2>Squad Register</h2>
+    <p class="sub">The authored operatives, with current meta ratings. Exotic-class carriers marked ◆ — lose them and the class is gone.</p>
+    <table class="roster-table">
+      <thead><tr><th>Operative</th><th>Origin</th><th>Role</th><th>Signature</th><th>Tier</th></tr></thead>
+      <tbody>
+        <tr><td class="name"><a href="#">Hawks</a></td><td>Human (customisable)</td><td>Commander · any class</td><td>Free respec between missions</td><td><span class="tier a">A</span></td></tr>
+        <tr><td class="name"><a href="#">Tel-Rea Vokoss</a> ◆</td><td>Jedi Padawan</td><td>Melee control</td><td>Force Pull — yanks enemies out of cover</td><td><span class="tier s">S</span></td></tr>
+        <tr><td class="name"><a href="#">Trick</a></td><td>Clone trooper</td><td>Rocket support</td><td>Advantage skill: AoE rocket</td><td><span class="tier a">A</span></td></tr>
+        <tr><td class="name"><a href="#">Cly Kullervo</a> ◆</td><td>Mandalorian, Clan Verminoth</td><td>Jetpack skirmisher</td><td>Mobile flanker, thrives on aggression</td><td><span class="tier a">A</span></td></tr>
+        <tr><td class="name"><a href="#">Luco</a></td><td>Sharpshooter</td><td>Long-range damage</td><td>Grudge against the Republic</td><td><span class="tier b">B</span></td></tr>
+        <tr><td class="name"><a href="#">Kabb</a></td><td>New species</td><td>Brawler</td><td>Former prizefighter, opera enthusiast</td><td><span class="tier b">B</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="index-sec">
+  <div class="container">
+    <h2>The Verdict Desk</h2>
+    <p class="sub">Should you spend $49.99? The numbers, then the answer.</p>
+    <div class="verdict-strip">
+      <div class="vcell"><div class="big">85</div><div class="src">Metacritic · Critics</div><div class="q">"Delivers tactical brilliance with a cast worth fighting for."</div></div>
+      <div class="vcell"><div class="big" style="color:var(--amber)">78%</div><div class="src">Steam · Players</div><div class="q">Negatives cite performance, not gameplay. Recovering daily.</div></div>
+      <div class="vcell verdict"><div class="big">Buy if you loved XCOM. Wait one patch if your GPU predates 2020.</div><div class="src">The Handbook's position · updated Aug 30</div></div>
+    </div>
+
+    <div style="margin-top:32px">
+      <details class="faq-item"><summary>Is permadeath really in the game?</summary><div class="a">Yes, but forgiving: an operative dies permanently only after 3 downs without healing between missions.</div></details>
+      <details class="faq-item"><summary>How long is the campaign?</summary><div class="a">Community-verified ~40 hours across 24 missions and 4 boss fights, plus optional Operations.</div></details>
+      <details class="faq-item"><summary>Standard or Deluxe edition?</summary><div class="a">Standard. Deluxe ($59.99) adds cosmetics only — two skin packs and 5 weapon paints.</div></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="colophon">THE ZERO COMPANY HANDBOOK · Published by fans, for commanders<br>Unofficial resource — not affiliated with Electronic Arts, Bit Reactor, Lucasfilm or Disney. STAR WARS is a trademark of Lucasfilm Ltd.</div>
+  </div>
+</footer>
+
+</body>
+</html>
