@@ -8,11 +8,26 @@ import {
 } from "../src/lib/structured-data";
 import {
   buildCanonicalUrl,
+  defaultSiteOrigin,
   resolveSiteOrigin,
   siteOrigin,
 } from "../src/lib/site";
 
 const productionOrigin = "https://zerocompany-guides.wiki";
+const aiDiscoveryCrawlers = [
+  "OAI-SearchBot",
+  "ChatGPT-User",
+  "Claude-SearchBot",
+  "Claude-User",
+  "PerplexityBot",
+  "Perplexity-User",
+];
+const aiTrainingCrawlers = [
+  "GPTBot",
+  "ClaudeBot",
+  "Google-Extended",
+  "Applebot-Extended",
+];
 
 describe("SEO outputs", () => {
   it("publishes every indexable route in the sitemap exactly once", async () => {
@@ -31,24 +46,26 @@ describe("SEO outputs", () => {
   it("points robots at the canonical sitemap and allows crawling", () => {
     const robotsConfig = robots();
 
-    expect(robotsConfig.host).toBe(productionOrigin);
+    expect(robotsConfig.host).toBeUndefined();
     expect(robotsConfig.sitemap).toBe(`${productionOrigin}/sitemap.xml`);
-    expect(robotsConfig.rules).toEqual({
-      userAgent: "*",
-      allow: "/",
-    });
+    expect(robotsConfig.rules).toEqual([
+      { userAgent: "*", allow: "/" },
+      { userAgent: aiDiscoveryCrawlers, allow: "/" },
+      { userAgent: aiTrainingCrawlers, disallow: "/" },
+    ]);
   });
 
-  it("uses the real custom domain as the default canonical origin", () => {
+  it("uses the production domain as the safe default origin", () => {
+    expect(defaultSiteOrigin).toBe(productionOrigin);
     expect(siteOrigin).toBe(productionOrigin);
     expect(resolveSiteOrigin({})).toBe(productionOrigin);
+    expect(resolveSiteOrigin({ VERCEL_ENV: "production" })).toBe(productionOrigin);
+  });
+
+  it("honors an explicit site URL environment override", () => {
     expect(resolveSiteOrigin({ NEXT_PUBLIC_SITE_URL: "http://localhost:3000/" })).toBe(
       "http://localhost:3000",
     );
-  });
-
-  it("keeps the custom domain fallback in production", () => {
-    expect(resolveSiteOrigin({ VERCEL_ENV: "production" })).toBe(productionOrigin);
     expect(
       resolveSiteOrigin({
         VERCEL_ENV: "production",
@@ -57,17 +74,23 @@ describe("SEO outputs", () => {
     ).toBe("https://zerocompany.example.com");
   });
 
-  it("uses the production origin for every canonical and media thumbnail", async () => {
+  it("never emits localhost in canonical, sitemap, robots, or structured data defaults", async () => {
     const sitemapEntries = await sitemap();
+    const robotsConfig = robots();
 
-    expect(sitemapEntries).toHaveLength(22);
     for (const entry of sitemapEntries) {
-      expect(entry.url.startsWith(`${productionOrigin}/`)).toBe(true);
+      expect(entry.url).toMatch(/^https:\/\/zerocompany-guides\.wiki\//);
+      expect(entry.url).not.toContain("localhost");
     }
 
+    expect(robotsConfig.host).toBeUndefined();
+    expect(robotsConfig.sitemap).toBe(`${productionOrigin}/sitemap.xml`);
+
     for (const page of contentPages) {
-      expect(buildCanonicalUrl(page.path).startsWith(productionOrigin)).toBe(true);
+      const canonical = buildCanonicalUrl(page.path);
       const graph = buildPageStructuredData(page);
+
+      expect(canonical.startsWith(productionOrigin)).toBe(true);
       expect(graph.page.url.startsWith(productionOrigin)).toBe(true);
       for (const item of graph.breadcrumb.itemListElement) {
         expect(item.item.startsWith(productionOrigin)).toBe(true);

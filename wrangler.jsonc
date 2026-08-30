@@ -17,6 +17,9 @@
       "service": "zerocompanyguides"
     }
   ],
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://zerocompany-guides.wiki"
+  },
   "images": {
     "binding": "IMAGES"
   },
