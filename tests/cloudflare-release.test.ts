@@ -26,6 +26,7 @@ describe("Cloudflare Workers release contract", () => {
       compatibility_flags: string[];
       assets: { directory: string; binding: string };
       services: Array<{ binding: string; service: string }>;
+      vars: { NEXT_PUBLIC_SITE_URL: string };
     };
 
     expect(packageJson.scripts["cf:build"]).toBe(
@@ -48,6 +49,9 @@ describe("Cloudflare Workers release contract", () => {
           service: "zerocompanyguides",
         },
       ],
+      vars: {
+        NEXT_PUBLIC_SITE_URL: "https://zerocompany-guides.wiki",
+      },
     });
     expect(wranglerConfig.compatibility_flags).toContain("nodejs_compat");
     expect(wranglerConfig.compatibility_flags).toContain(

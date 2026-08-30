@@ -8,10 +8,11 @@ import {
 } from "../src/lib/structured-data";
 import {
   buildCanonicalUrl,
-  defaultLocalOrigin,
   resolveSiteOrigin,
   siteOrigin,
 } from "../src/lib/site";
+
+const productionOrigin = "https://zerocompany-guides.wiki";
 
 describe("SEO outputs", () => {
   it("publishes every indexable route in the sitemap exactly once", async () => {
@@ -30,31 +31,51 @@ describe("SEO outputs", () => {
   it("points robots at the canonical sitemap and allows crawling", () => {
     const robotsConfig = robots();
 
-    expect(robotsConfig.sitemap).toBe(`${siteOrigin}/sitemap.xml`);
+    expect(robotsConfig.host).toBe(productionOrigin);
+    expect(robotsConfig.sitemap).toBe(`${productionOrigin}/sitemap.xml`);
     expect(robotsConfig.rules).toEqual({
       userAgent: "*",
       allow: "/",
     });
   });
 
-  it("uses localhost as the non-production fallback origin", () => {
-    expect(siteOrigin).toBe(defaultLocalOrigin);
-    expect(resolveSiteOrigin({})).toBe(defaultLocalOrigin);
+  it("uses the real custom domain as the default canonical origin", () => {
+    expect(siteOrigin).toBe(productionOrigin);
+    expect(resolveSiteOrigin({})).toBe(productionOrigin);
     expect(resolveSiteOrigin({ NEXT_PUBLIC_SITE_URL: "http://localhost:3000/" })).toBe(
-      defaultLocalOrigin,
+      "http://localhost:3000",
     );
   });
 
-  it("requires an explicit origin in production", () => {
-    expect(() => resolveSiteOrigin({ VERCEL_ENV: "production" })).toThrow(
-      "NEXT_PUBLIC_SITE_URL is required when VERCEL_ENV=production.",
-    );
+  it("keeps the custom domain fallback in production", () => {
+    expect(resolveSiteOrigin({ VERCEL_ENV: "production" })).toBe(productionOrigin);
     expect(
       resolveSiteOrigin({
         VERCEL_ENV: "production",
         NEXT_PUBLIC_SITE_URL: "https://zerocompany.example.com/",
       }),
     ).toBe("https://zerocompany.example.com");
+  });
+
+  it("uses the production origin for every canonical and media thumbnail", async () => {
+    const sitemapEntries = await sitemap();
+
+    expect(sitemapEntries).toHaveLength(22);
+    for (const entry of sitemapEntries) {
+      expect(entry.url.startsWith(`${productionOrigin}/`)).toBe(true);
+    }
+
+    for (const page of contentPages) {
+      expect(buildCanonicalUrl(page.path).startsWith(productionOrigin)).toBe(true);
+      const graph = buildPageStructuredData(page);
+      expect(graph.page.url.startsWith(productionOrigin)).toBe(true);
+      for (const item of graph.breadcrumb.itemListElement) {
+        expect(item.item.startsWith(productionOrigin)).toBe(true);
+      }
+      for (const video of graph.videos ?? []) {
+        expect(video.thumbnailUrl.startsWith(`${productionOrigin}/`)).toBe(true);
+      }
+    }
   });
 
   it("keeps structured data aligned with visible page facts", () => {

@@ -20,6 +20,9 @@
   "images": {
     "binding": "IMAGES"
   },
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://zerocompany-guides.wiki"
+  },
   "observability": {
     "enabled": true
   }
