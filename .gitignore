@@ -1,2 +1,7 @@
 .workbuddy/
 .worktrees/
+.superpowers/
+.next/
+node_modules/
+artifacts/
+*.tsbuildinfo
