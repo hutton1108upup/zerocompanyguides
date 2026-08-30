@@ -8,7 +8,10 @@ describe("Cloudflare Workers release contract", () => {
   it("targets the existing Worker with an OpenNext build", () => {
     const packageJson = JSON.parse(
       readFileSync(resolve(projectRoot, "package.json"), "utf8"),
-    ) as { scripts: Record<string, string> };
+    ) as {
+      scripts: Record<string, string>;
+      devDependencies: Record<string, string>;
+    };
     const wranglerConfig = JSON.parse(
       readFileSync(resolve(projectRoot, "wrangler.jsonc"), "utf8"),
     ) as {
@@ -22,6 +25,7 @@ describe("Cloudflare Workers release contract", () => {
     expect(packageJson.scripts["cf:build"]).toBe("opennextjs-cloudflare build");
     expect(packageJson.scripts["cf:deploy"]).toBe("opennextjs-cloudflare deploy");
     expect(packageJson.scripts["cf:upload"]).toBe("opennextjs-cloudflare upload");
+    expect(packageJson.devDependencies.esbuild).toBe("0.25.4");
 
     expect(wranglerConfig).toMatchObject({
       name: "zerocompanyguides",
