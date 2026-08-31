@@ -23,6 +23,7 @@ describe("site search media text", () => {
       publisher: "NotAGameAddict",
       duration: "15:28",
       publishedAt: "2026-08-27",
+      uploadDateTime: "2026-08-27T16:33:11Z",
       description: "A device and SteamOS labeled test.",
       checkedAt: "2026-08-30",
       evidence: "community",

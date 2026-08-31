@@ -25,6 +25,7 @@ const videoBlock: VideoBlock = {
   publisher: "EA Star Wars",
   duration: "2:40",
   publishedAt: "2026-08-13",
+  uploadDateTime: "2026-08-13T16:00:33Z",
   description: "Official explanation of the turn-based combat loop.",
   checkedAt: "2026-08-30",
   evidence: "official",

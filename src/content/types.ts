@@ -97,6 +97,7 @@ export type VideoBlock = {
   publisher: string;
   duration: string;
   publishedAt: string;
+  uploadDateTime: string;
   description: string;
   checkedAt: string;
   evidence: MediaEvidence;

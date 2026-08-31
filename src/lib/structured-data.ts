@@ -77,7 +77,6 @@ export type VideoObjectStructuredData = {
   uploadDate: string;
   duration: string;
   embedUrl: string;
-  contentUrl: string;
   isAccessibleForFree: true;
   publisher: OrganizationStructuredData;
 };
@@ -195,10 +194,9 @@ export function buildPageStructuredData(page: ContentPage): {
     name: video.title,
     description: video.description,
     thumbnailUrl: `${siteOrigin}${video.posterSrc}`,
-    uploadDate: video.publishedAt,
+    uploadDate: video.uploadDateTime,
     duration: toIsoDuration(video.duration),
     embedUrl: `https://www.youtube-nocookie.com/embed/${video.videoId}`,
-    contentUrl: `https://www.youtube.com/watch?v=${video.videoId}`,
     isAccessibleForFree: true,
     publisher: {
       "@type": "Organization",

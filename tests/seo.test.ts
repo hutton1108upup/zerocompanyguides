@@ -135,7 +135,7 @@ describe("SEO outputs", () => {
     }
   });
 
-  it("publishes one VideoObject for each visible media video", () => {
+  it("publishes one valid VideoObject for each visible media video", () => {
     const guide = contentPages.find((page) => page.path === "/guides")!;
     const videoBlock = guide.blocks.find((block) => block.type === "video")!;
     const graph = buildPageStructuredData(guide);
@@ -145,12 +145,21 @@ describe("SEO outputs", () => {
       "@type": "VideoObject",
       name: videoBlock.title,
       description: videoBlock.description,
-      uploadDate: videoBlock.publishedAt,
+      uploadDate: "2026-08-13T16:00:33Z",
       duration: "PT2M40S",
       thumbnailUrl: `${siteOrigin}${videoBlock.posterSrc}`,
       embedUrl: `https://www.youtube-nocookie.com/embed/${videoBlock.videoId}`,
-      contentUrl: `https://www.youtube.com/watch?v=${videoBlock.videoId}`,
     });
+    expect(graph.videos?.[0]).not.toHaveProperty("contentUrl");
+
+    for (const page of contentPages) {
+      for (const video of buildPageStructuredData(page).videos ?? []) {
+        expect(video.uploadDate).toMatch(
+          /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/,
+        );
+        expect(video).not.toHaveProperty("contentUrl");
+      }
+    }
 
     const trophyGuide = contentPages.find((page) => page.path === "/trophy-guide")!;
     expect(buildPageStructuredData(trophyGuide).videos).toBeUndefined();
