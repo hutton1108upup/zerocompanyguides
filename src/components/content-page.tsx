@@ -21,11 +21,24 @@ export function ContentPageView({ page }: { page: ContentPage }) {
         <span aria-current="page">{page.navLabel}</span>
       </div>
       <PageHero page={page} />
+      {tocHeadings.length > 1 ? (
+        <details className="container mobile-toc">
+          <summary>
+            <span>On this page</span>
+            <span>{tocHeadings.length} sections</span>
+          </summary>
+          <nav aria-label="Mobile section navigation">
+            {tocHeadings.map((heading) => (
+              <a href={`#${getHeadingId(heading)}`} key={heading}>{heading}</a>
+            ))}
+          </nav>
+        </details>
+      ) : null}
       <div className="container article-layout">
         <article className="article-body">
           <ContentBlocks blocks={page.blocks} />
-          <SourceList ids={page.sources} />
           <RelatedPages page={page} />
+          <SourceList ids={page.sources} />
         </article>
         {tocHeadings.length > 1 && (
           <nav className="toc" aria-label="On this page">
