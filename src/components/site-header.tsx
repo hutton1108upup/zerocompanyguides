@@ -2,44 +2,48 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { startTransition, useEffect, useEffectEvent, useState } from "react";
+import { startTransition, useEffect, useEffectEvent, useRef, useState } from "react";
 import { contentPages } from "@/content/pages";
-import { CloseIcon, MenuIcon } from "@/components/icons";
+import { ChevronRightIcon, CloseIcon, MenuIcon } from "@/components/icons";
 import { SiteSearch } from "@/components/site-search";
+import {
+  footerNavigationSections,
+  moreNavigationSections,
+  primaryNavigationPaths,
+} from "@/lib/site";
 
 type NavLink = {
   href: string;
   label: string;
 };
 
+type NavSection = {
+  title: string;
+  links: NavLink[];
+};
+
 const pageByPath = new Map(contentPages.map((page) => [page.path, page]));
 
-const primaryLinks: NavLink[] = [
-  "/builds",
-  "/classes",
-  "/characters",
-  "/walkthrough",
-  "/trophy-guide",
-  "/performance",
-].map((path) => ({
-  href: path,
-  label: pageByPath.get(path)?.navLabel ?? path,
-}));
+function toNavLinks(paths: readonly string[]): NavLink[] {
+  return paths.flatMap((path) => {
+    const page = pageByPath.get(path);
+    return page ? [{ href: path, label: page.navLabel }] : [];
+  });
+}
 
-const secondaryLinks: NavLink[] = [
-  "/guides",
-  "/guides/beginners-guide",
-  "/guides/respec",
-  "/game-info",
-  "/system-requirements",
-  "/multiplayer",
-  "/performance/steam-deck",
-  "/mods",
-  "/worth-it",
-].map((path) => ({
-  href: path,
-  label: pageByPath.get(path)?.navLabel ?? path,
+const primaryLinks = toNavLinks(primaryNavigationPaths);
+const primaryPathSet = new Set<string>(primaryNavigationPaths);
+const moreSections: NavSection[] = moreNavigationSections.map((section) => ({
+  title: section.title,
+  links: toNavLinks(section.paths),
 }));
+const moreLinks = moreSections.flatMap((section) => section.links);
+const mobileSections: NavSection[] = footerNavigationSections
+  .map((section) => ({
+    title: section.title,
+    links: toNavLinks(section.paths.filter((path) => !primaryPathSet.has(path))),
+  }))
+  .filter((section) => section.links.length > 0);
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") return pathname === href;
@@ -49,6 +53,9 @@ function isActivePath(pathname: string, href: string) {
 export function SiteHeader() {
   const pathname = usePathname();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const moreNavigationRef = useRef<HTMLDivElement | null>(null);
+  const moreTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   const openDrawer = () => {
     startTransition(() => {
@@ -62,9 +69,26 @@ export function SiteHeader() {
     });
   };
 
+  const closeMoreNavigation = () => {
+    startTransition(() => {
+      setIsMoreOpen(false);
+    });
+  };
+
+  const toggleMoreNavigation = () => {
+    startTransition(() => {
+      setIsMoreOpen((isOpen) => !isOpen);
+    });
+  };
+
   const handleGlobalKeys = useEffectEvent((event: KeyboardEvent) => {
     if (event.key === "Escape") {
+      const shouldRestoreMoreFocus = isMoreOpen;
       closeDrawer();
+      closeMoreNavigation();
+      if (shouldRestoreMoreFocus) {
+        requestAnimationFrame(() => moreTriggerRef.current?.focus());
+      }
     }
   });
 
@@ -76,7 +100,21 @@ export function SiteHeader() {
 
   useEffect(() => {
     closeDrawer();
+    closeMoreNavigation();
   }, [pathname]);
+
+  useEffect(() => {
+    if (!isMoreOpen) return;
+
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      if (!moreNavigationRef.current?.contains(event.target as Node)) {
+        closeMoreNavigation();
+      }
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsidePointer);
+    return () => document.removeEventListener("pointerdown", closeOnOutsidePointer);
+  }, [isMoreOpen]);
 
   useEffect(() => {
     if (!isDrawerOpen) return;
@@ -90,41 +128,91 @@ export function SiteHeader() {
   }, [isDrawerOpen]);
 
   return (
-    <header className="site-header">
-      <div className="container site-header__inner">
-        <Link aria-label="Zero Company Intel home" className="site-logo" href="/">
-          <span className="site-logo__gold">Zero</span>
-          <span className="site-logo__cyan">Company</span>
-          <span className="site-logo__gold">Intel</span>
-        </Link>
+    <>
+      <header className="site-header">
+        <div className="container site-header__inner">
+          <Link aria-label="Zero Company Intel home" className="site-logo" href="/">
+            <span className="site-logo__gold">Zero</span>
+            <span className="site-logo__cyan">Company</span>
+            <span className="site-logo__gold">Intel</span>
+          </Link>
 
-        <nav aria-label="Primary site navigation" className="site-nav">
-          {primaryLinks.map((link) => (
-            <Link
-              className="site-nav__link"
-              data-active={isActivePath(pathname, link.href)}
-              href={link.href}
-              key={link.href}
+          <nav aria-label="Primary site navigation" className="site-nav">
+            {primaryLinks.map((link) => {
+              const isActive = isActivePath(pathname, link.href);
+              return (
+                <Link
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  className="site-nav__link"
+                  data-active={isActive}
+                  href={link.href}
+                  key={link.href}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+
+            <div className="site-nav__more" ref={moreNavigationRef}>
+              <button
+                aria-controls="desktop-more-navigation"
+                aria-expanded={isMoreOpen}
+                aria-haspopup="true"
+                className="site-nav__more-button"
+                data-active={moreLinks.some((link) => isActivePath(pathname, link.href))}
+                onClick={toggleMoreNavigation}
+                ref={moreTriggerRef}
+                type="button"
+              >
+                More
+                <ChevronRightIcon className="site-nav__more-chevron" height={15} width={15} />
+              </button>
+
+              <div
+                aria-hidden={!isMoreOpen}
+                className="site-nav__dropdown"
+                data-open={isMoreOpen}
+                id="desktop-more-navigation"
+              >
+                {moreSections.map((section) => (
+                  <section className="site-nav__dropdown-section" key={section.title}>
+                    <div className="site-nav__dropdown-label">{section.title}</div>
+                    <div className="site-nav__dropdown-links">
+                      {section.links.map((link) => (
+                        <Link
+                          aria-current={pathname === link.href ? "page" : undefined}
+                          className="site-nav__dropdown-link"
+                          data-active={isActivePath(pathname, link.href)}
+                          href={link.href}
+                          key={link.href}
+                          onClick={closeMoreNavigation}
+                          tabIndex={isMoreOpen ? 0 : -1}
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            </div>
+          </nav>
+
+          <div className="site-header__tools">
+            <SiteSearch />
+            <button
+              aria-controls="mobile-navigation"
+              aria-expanded={isDrawerOpen}
+              aria-label="Open mobile navigation"
+              className="drawer-toggle"
+              onClick={openDrawer}
+              type="button"
             >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="site-header__tools">
-          <SiteSearch />
-          <button
-            aria-controls="mobile-navigation"
-            aria-expanded={isDrawerOpen}
-            aria-label="Open mobile navigation"
-            className="drawer-toggle"
-            onClick={openDrawer}
-            type="button"
-          >
-            <MenuIcon height={20} width={20} />
-          </button>
+              <MenuIcon height={20} width={20} />
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
       {isDrawerOpen ? (
         <>
@@ -134,7 +222,13 @@ export function SiteHeader() {
             onClick={closeDrawer}
             type="button"
           />
-          <div className="mobile-drawer" id="mobile-navigation">
+          <div
+            aria-label="Site navigation"
+            aria-modal="true"
+            className="mobile-drawer"
+            id="mobile-navigation"
+            role="dialog"
+          >
             <div className="mobile-drawer__panel">
               <div className="mobile-drawer__header">
                 <div>
@@ -160,10 +254,12 @@ export function SiteHeader() {
                 <div className="mobile-drawer__links">
                   {primaryLinks.map((link) => (
                     <Link
+                      aria-current={pathname === link.href ? "page" : undefined}
                       className="mobile-drawer__link"
                       data-active={isActivePath(pathname, link.href)}
                       href={link.href}
                       key={link.href}
+                      onClick={closeDrawer}
                     >
                       {link.label}
                     </Link>
@@ -171,25 +267,29 @@ export function SiteHeader() {
                 </div>
               </section>
 
-              <section className="mobile-drawer__section">
-                <div className="mobile-drawer__label">Field Tools</div>
-                <div className="mobile-drawer__links">
-                  {secondaryLinks.map((link) => (
-                    <Link
-                      className="mobile-drawer__link"
-                      data-active={isActivePath(pathname, link.href)}
-                      href={link.href}
-                      key={link.href}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </section>
+              {mobileSections.map((section) => (
+                <section className="mobile-drawer__section" key={section.title}>
+                  <div className="mobile-drawer__label">{section.title}</div>
+                  <div className="mobile-drawer__links">
+                    {section.links.map((link) => (
+                      <Link
+                        aria-current={pathname === link.href ? "page" : undefined}
+                        className="mobile-drawer__link"
+                        data-active={isActivePath(pathname, link.href)}
+                        href={link.href}
+                        key={link.href}
+                        onClick={closeDrawer}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              ))}
             </div>
           </div>
         </>
       ) : null}
-    </header>
+    </>
   );
 }
