@@ -255,6 +255,9 @@ const mediaByPath: Record<string, Array<ImageBlock | VideoBlock>> = {
   "/multiplayer": [
     squadLineup("This is a multi-operator squad, but EA describes the shipped game as a single-player experience—not co-op."),
   ],
+  "/weapons": [
+    tacticalCombat("The official combat overview shows blasters, a lightsaber, Utilities and hazards sharing one turn economy; choose a weapon by the AP and position the squad still needs."),
+  ],
   "/characters": [
     squadLineup("The official authored roster joins through the story; custom recruits add flexible species, looks and standard Specializations."),
   ],
