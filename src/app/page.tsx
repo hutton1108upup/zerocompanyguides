@@ -33,6 +33,7 @@ export default function HomePage() {
     ...(pageGraphs.videos ?? []),
   ].filter(Boolean);
   const faqBlocks = homePage.blocks.filter((block) => block.type === "faq");
+  const howToPlayBlocks = homePage.blocks.filter((block) => block.type === "steps");
   const mediaBlocks = homePage.blocks.filter((block) => block.type === "image" || block.type === "video");
 
   return (
@@ -56,6 +57,16 @@ export default function HomePage() {
           primaryAction={{ href: "/builds/hawks", label: "Find Your Hawks Build", variant: "primary" }}
           secondaryAction={{ href: "/walkthrough", label: "Browse the Walkthrough", variant: "ghost" }}
         />
+
+      <section className="section home-how-to" aria-label="How to play Star Wars Zero Company">
+        <div className="container">
+          <p className="hud-label">Game loop</p>
+          <ContentBlocks blocks={howToPlayBlocks} />
+          <Link className="text-link" href="/guides/beginners-guide">
+            Read the full beginner combat guide <ArrowUpRight aria-hidden="true" size={15} />
+          </Link>
+        </div>
+      </section>
 
       <section className="section" aria-labelledby="start-title">
         <div className="container">
@@ -177,10 +188,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="faq-title">
+      <section className="section" aria-label="First campaign questions">
         <div className="container home-faq">
-          <p className="hud-label">Fast answers</p>
-          <h2 className="section-title" id="faq-title">Before you deploy</h2>
+          <p className="hud-label">New player questions</p>
           <ContentBlocks blocks={faqBlocks} />
         </div>
       </section>

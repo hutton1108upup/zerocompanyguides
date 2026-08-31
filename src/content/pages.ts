@@ -79,7 +79,17 @@ export const contentPages: ContentPage[] = [
     summary: "Fast routes to class choices, squad planning, campaign help and launch technical guidance.",
     pageType: "home",
     evidence: "official",
-    sources: ["ea-game", "ea-faq", "steam-store", "ea-official-video"],
+    lastVerified: "2026-08-31",
+    gameVersion: "Launch build — checked 2026-08-31",
+    sources: [
+      "ea-game",
+      "ea-faq",
+      "ea-tactics-basics",
+      "starwars-how-to-play",
+      "steam-dev-faq",
+      "steam-store",
+      "ea-official-video",
+    ],
     related: ["/builds/hawks", "/classes", "/performance/pc", "/walkthrough"],
     blocks: [
       {
@@ -91,13 +101,57 @@ export const contentPages: ContentPage[] = [
         ],
       },
       {
-        type: "faq",
-        heading: "Quick questions",
+        type: "steps",
+        heading: "How to Play Star Wars Zero Company",
+        intro:
+          "Most of the game follows the same loop: prepare at the Den, choose a job, fight a turn-based mission, then return to recover and upgrade.",
         items: [
-          { question: "Is Zero Company multiplayer?", answer: "No. EA describes it as a single-player campaign with no online or local co-op modes." },
-          { question: "Can I change Hawks' class?", answer: "Yes. Launch guides report Change Specialization unlocking at Cycle 3, with specialization Focus Points refunded." },
-          { question: "Is it Steam Deck Verified?", answer: "No. EA says the game will not be Steam Deck Verified at launch." },
-          { question: "Are mods officially supported?", answer: "No. Community mods exist, but EA says there is no official mod support planned." },
+          {
+            title: "Get ready at the Den",
+            body: "Talk to your squad, treat injuries, equip weapons and utility items, and spend Focus Points. Finish anything important here before starting a Tactical Mission, because completing one advances the campaign to the next Cycle.",
+          },
+          {
+            title: "Choose the next job",
+            body: "The Holotable shows Operations and Tactical Missions. Operations spend Intel and resolve without a battle. Tactical Missions put your squad on the ground. Both can expire, so check the deadline and rewards before choosing.",
+          },
+          {
+            title: "Pick a squad for the objective",
+            body: "Read the objective and difficulty first, then start with healthy Operators. Bring the tools the job needs, such as damage, healing, long range, or a way to move enemies. Change the lineup when the map or injury list calls for it.",
+          },
+          {
+            title: "Spend each Operator's 3 AP",
+            body: "Your whole squad acts, then the enemy acts. Each Operator gets three Action Points for movement, attacks, abilities, utility items, or Overwatch. You can use your Operators in any order.",
+          },
+          {
+            title: "Set up a better shot",
+            body: "Check Chance-to-Hit before firing. Move into cover, flank the target, use higher ground, and stay inside the weapon's useful range. Damaging enemies builds shared Advantage for powerful actions that do not cost AP.",
+          },
+          {
+            title: "Reset at the Den after the mission",
+            body: "Complete the mission objective; you do not always need to defeat every enemy. Back at the Den, handle injuries, adjust gear, talk to the crew, build Bonds, and choose the next job.",
+          },
+        ],
+      },
+      {
+        type: "faq",
+        heading: "First-campaign questions that actually matter",
+        items: [
+          {
+            question: "Can I complete every job in one campaign?",
+            answer: "No. Operations and Tactical Missions can expire, and a completed Tactical Mission moves the campaign to the next Cycle. Check the Holotable and finish the Den tasks you care about before committing.",
+          },
+          {
+            question: "What should I do when an Operator is downed?",
+            answer: "Rally them with a teammate when it is safe. A downed Operator cannot act and gains an Injury. With permadeath enabled, three Injuries kill that Operator.",
+          },
+          {
+            question: "Do I have to defeat every enemy?",
+            answer: "No. Follow the mission objective shown on screen. Some jobs end when the objective is complete, even if enemies remain.",
+          },
+          {
+            question: "Should I keep using the same squad?",
+            answer: "A regular core can build stronger Bonds and combat bonuses, but injured Operators need recovery and some objectives call for different roles. Use a familiar core, then change it when the job demands it.",
+          },
         ],
       },
     ],

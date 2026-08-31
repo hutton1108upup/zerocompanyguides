@@ -6,6 +6,36 @@ import { homeFacts, homeSections, popularPaths } from "../src/lib/home-data";
 import { contentPageByPath } from "../src/content/pages";
 
 describe("homepage data", () => {
+  it("explains the core campaign loop before advanced build decisions", () => {
+    const markup = renderToStaticMarkup(createElement(HomePage));
+    const howToPlay = markup.indexOf("How to Play Star Wars Zero Company");
+    const start = markup.indexOf("Three decisions before the next Cycle");
+
+    expect(howToPlay).toBeGreaterThan(-1);
+    expect(howToPlay).toBeLessThan(start);
+    for (const step of [
+      "Get ready at the Den",
+      "Choose the next job",
+      "Pick a squad for the objective",
+      "Spend each Operator&#x27;s 3 AP",
+      "Set up a better shot",
+      "Reset at the Den after the mission",
+    ]) {
+      expect(markup).toContain(step);
+    }
+  });
+
+  it("replaces generic deploy copy with useful first-campaign questions", () => {
+    const markup = renderToStaticMarkup(createElement(HomePage));
+
+    expect(markup).toContain("First-campaign questions that actually matter");
+    expect(markup).toContain("Can I complete every job in one campaign?");
+    expect(markup).toContain("What should I do when an Operator is downed?");
+    expect(markup).not.toContain("Before you deploy");
+    expect(markup).not.toContain("Is Zero Company multiplayer?");
+    expect(markup).not.toContain("Is it Steam Deck Verified?");
+  });
+
   it("puts mobile task decisions before secondary media and reference sections", () => {
     const markup = renderToStaticMarkup(createElement(HomePage));
     const start = markup.indexOf("Three decisions before the next Cycle");

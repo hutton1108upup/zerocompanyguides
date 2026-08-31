@@ -2274,8 +2274,28 @@ a.fact:hover {
   color: var(--accent-cyan);
 }
 
+.home-how-to .content-section > h2,
 .home-faq .content-section > h2 {
-  font-size: 1.1rem;
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: 0.03em;
+}
+
+.home-how-to .content-section > p {
+  max-width: 46rem;
+  margin: 0.75rem 0 0;
+  color: var(--text-muted);
+}
+
+.home-how-to .steps-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.home-how-to .steps-list li {
+  min-height: 9.5rem;
 }
 
 .text-link {
@@ -2434,6 +2454,14 @@ a.fact:hover {
   .card-grid,
   .hub-grid {
     grid-template-columns: 1fr;
+  }
+
+  .home-how-to .steps-list {
+    grid-template-columns: 1fr;
+  }
+
+  .home-how-to .steps-list li {
+    min-height: auto;
   }
 
   .hero-shell__metrics-grid {
