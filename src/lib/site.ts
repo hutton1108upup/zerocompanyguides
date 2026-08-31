@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { contentPages } from "../content/pages";
 import type { ContentPage } from "../content/types";
 
-export const siteName = "Star Wars Zero Company Wiki & Guide";
+export const siteName = "Zero Company Intel";
+export const siteAlternateNames = [
+  "Star Wars Zero Company Wiki & Guide",
+  "zerocompany-guides.wiki",
+] as const;
 export const siteDescription =
   "Evidence-labeled Star Wars Zero Company builds, classes, walkthrough planning, trophies, performance fixes, characters and official game information.";
 export const defaultSiteOrigin = "https://zerocompany-guides.wiki";

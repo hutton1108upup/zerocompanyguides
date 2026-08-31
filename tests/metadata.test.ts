@@ -13,4 +13,8 @@ describe("site metadata", () => {
       "https://zerocompany-guides.wiki/",
     );
   });
+
+  it("uses the concise visual brand as the site-wide Open Graph name", () => {
+    expect(metadata.openGraph?.siteName).toBe("Zero Company Intel");
+  });
 });

@@ -82,6 +82,31 @@ describe("content enrichment routes", () => {
       ]),
     );
 
+    const companionTable = characters?.blocks.find(
+      (block) => block.type === "table" && block.heading === "Six story companions at a glance",
+    );
+    expect(companionTable?.type).toBe("table");
+    if (companionTable?.type === "table") {
+      expect(companionTable.rows.map((row) => row[0])).toEqual([
+        "Trick (CT-3301)",
+        "Kabb Uppercut",
+        "Jae Mordant",
+        "Tel-Rea Vokoss",
+        "Cly Kullervo",
+        "Luco Bronc",
+      ]);
+    }
+
+    for (const path of ["/builds/best-team", "/guides/beginners-guide", "/walkthrough"]) {
+      const page = contentPages.find((entry) => entry.path === path);
+      const companionLink = page?.blocks
+        .filter((block) => block.type === "cards")
+        .flatMap((block) => block.items)
+        .find((item) => item.href === "/characters");
+
+      expect(companionLink?.label).toContain("Companions");
+    }
+
     const sourceKinds = new Set(resolveSources(characters?.sources ?? []).map((source) => source.kind));
     expect(sourceKinds.has("official")).toBe(true);
     expect(sourceKinds.has("press")).toBe(true);

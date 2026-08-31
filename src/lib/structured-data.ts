@@ -1,6 +1,12 @@
 import { resolveSources } from "../content/sources";
 import type { ContentPage, FaqBlock, VideoBlock } from "../content/types";
-import { buildCanonicalUrl, getBreadcrumbPages, siteName, siteOrigin } from "./site";
+import {
+  buildCanonicalUrl,
+  getBreadcrumbPages,
+  siteAlternateNames,
+  siteName,
+  siteOrigin,
+} from "./site";
 
 export type StructuredDataNode =
   | WebSiteStructuredData
@@ -32,6 +38,7 @@ export type WebSiteStructuredData = {
   "@context": "https://schema.org";
   "@type": "WebSite";
   name: string;
+  alternateName: string[];
   description: string;
   url: string;
   inLanguage: "en";
@@ -112,7 +119,8 @@ export function buildSiteStructuredData(page: ContentPage): WebSiteStructuredDat
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: page.h1,
+    name: siteName,
+    alternateName: [...siteAlternateNames],
     description: page.description,
     url: buildCanonicalUrl(page.path),
     inLanguage: "en",

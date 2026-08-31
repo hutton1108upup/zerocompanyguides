@@ -12,6 +12,7 @@ const intentTermsByPath: Record<string, readonly string[]> = {
   "/builds/best-team": ["squad"],
   "/guides": ["guides"],
   "/guides/respec": ["respec", "specialization"],
+  "/guides/permadeath": ["permadeath", "injury"],
   "/walkthrough": ["walkthrough"],
   "/trophy-guide": ["trophy", "achievement"],
   "/performance": ["performance", "fixes"],
@@ -32,8 +33,18 @@ const intentTermsByPath: Record<string, readonly string[]> = {
 describe("content registry", () => {
   it("contains every approved P0 route exactly once", () => {
     const paths = contentPages.map((page) => page.path);
+    const indexablePaths = contentPages
+      .filter((page) => page.indexable)
+      .map((page) => page.path);
+    const reviewPaths = contentPages
+      .filter((page) => !page.indexable)
+      .map((page) => page.path);
+
     expect(new Set(paths).size).toBe(paths.length);
-    expect([...paths].sort()).toEqual([...requiredPublicPaths].sort());
+    expect([...indexablePaths].sort()).toEqual([...requiredPublicPaths].sort());
+    for (const path of reviewPaths) {
+      expect(requiredPublicPaths).not.toContain(path);
+    }
   });
 
   it("publishes complete, sourced metadata for every route", () => {

@@ -108,8 +108,13 @@ describe("SEO outputs", () => {
 
     const siteGraph = buildSiteStructuredData(homePage!);
     expect(siteGraph["@type"]).toBe("WebSite");
-    expect(siteGraph.name).toBe(homePage!.h1);
+    expect(siteGraph.name).toBe("Zero Company Intel");
+    expect(siteGraph.alternateName).toEqual([
+      "Star Wars Zero Company Wiki & Guide",
+      "zerocompany-guides.wiki",
+    ]);
     expect(siteGraph.url).toBe(buildCanonicalUrl("/"));
+    expect(siteGraph.publisher.name).toBe("Zero Company Intel");
 
     for (const page of contentPages) {
       const graph = buildPageStructuredData(page);
