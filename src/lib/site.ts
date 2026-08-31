@@ -28,10 +28,44 @@ export const siteOrigin = resolveSiteOrigin();
 export const primaryNavigationPaths = [
   "/builds",
   "/classes",
+  "/weapons",
   "/characters",
   "/walkthrough",
   "/trophy-guide",
   "/performance",
+  "/game-info",
+] as const;
+
+export const moreNavigationSections = [
+  {
+    title: "Start & Decide",
+    paths: [
+      "/guides",
+      "/guides/beginners-guide",
+      "/worth-it",
+      "/system-requirements",
+      "/multiplayer",
+    ],
+  },
+  {
+    title: "Build & Squad",
+    paths: [
+      "/classes/tier-list",
+      "/builds/hawks",
+      "/builds/best-team",
+      "/guides/respec",
+    ],
+  },
+  {
+    title: "Technical & Reference",
+    paths: [
+      "/performance/pc",
+      "/performance/fps-fix",
+      "/performance/steam-deck",
+      "/mods",
+      "/characters/voice-cast",
+    ],
+  },
 ] as const;
 
 export const footerNavigationSections = [
@@ -46,13 +80,19 @@ export const footerNavigationSections = [
     ],
   },
   {
-    title: "Strategy & Progression",
+    title: "Build & Strategy",
     paths: [
       "/classes",
       "/classes/tier-list",
       "/builds",
       "/builds/hawks",
       "/builds/best-team",
+      "/weapons",
+    ],
+  },
+  {
+    title: "Campaign & Roster",
+    paths: [
       "/guides",
       "/guides/respec",
       "/walkthrough",
@@ -62,7 +102,7 @@ export const footerNavigationSections = [
     ],
   },
   {
-    title: "Tech & Extensions",
+    title: "Technical & Extras",
     paths: [
       "/performance",
       "/performance/pc",

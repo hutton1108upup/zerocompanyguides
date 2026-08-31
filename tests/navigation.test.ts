@@ -3,21 +3,40 @@ import { contentPages } from "../src/content/pages";
 import {
   footerNavigationSections,
   getSearchPages,
+  moreNavigationSections,
   primaryNavigationPaths,
 } from "../src/lib/site";
 
 const approvedPaths = new Set(contentPages.map((page) => page.path));
 
 describe("navigation registry", () => {
-  it("keeps the six approved primary destinations", () => {
+  it("keeps eight core destinations visible in the primary navigation", () => {
     expect(primaryNavigationPaths).toEqual([
       "/builds",
       "/classes",
+      "/weapons",
       "/characters",
       "/walkthrough",
       "/trophy-guide",
       "/performance",
+      "/game-info",
     ]);
+  });
+
+  it("covers every indexable inner page exactly once across primary and More", () => {
+    const morePaths = moreNavigationSections.flatMap((section) => section.paths);
+    const headerPaths = [...primaryNavigationPaths, ...morePaths];
+    const indexableInnerPaths = contentPages
+      .filter((page) => page.indexable && page.path !== "/")
+      .map((page) => page.path);
+
+    expect(moreNavigationSections.map((section) => section.title)).toEqual([
+      "Start & Decide",
+      "Build & Squad",
+      "Technical & Reference",
+    ]);
+    expect(new Set(headerPaths).size).toBe(headerPaths.length);
+    expect([...headerPaths].sort()).toEqual([...indexableInnerPaths].sort());
   });
 
   it("uses only approved footer routes and excludes banned duplicates", () => {
@@ -36,6 +55,7 @@ describe("navigation registry", () => {
         "/builds/hawks",
         "/builds/best-team",
         "/classes/tier-list",
+        "/weapons",
         "/performance/pc",
         "/performance/fps-fix",
         "/performance/steam-deck",
@@ -49,6 +69,11 @@ describe("navigation registry", () => {
 
     expect(footerPaths).not.toContain("/wiki");
     expect(footerPaths).not.toContain("/classes/best");
+
+    const indexableInnerPaths = contentPages
+      .filter((page) => page.indexable && page.path !== "/")
+      .map((page) => page.path);
+    expect([...footerPaths].sort()).toEqual([...indexableInnerPaths].sort());
   });
 
   it("keeps the search registry on indexable inner pages only", () => {

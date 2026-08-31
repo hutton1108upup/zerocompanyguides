@@ -144,6 +144,7 @@ export function SiteSearch() {
       <button
         aria-expanded={isOpen}
         aria-haspopup="dialog"
+        aria-label="Search site content"
         className="search-trigger"
         onClick={openSearch}
         type="button"
