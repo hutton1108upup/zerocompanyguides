@@ -20,6 +20,7 @@ const intentTermsByPath: Record<string, readonly string[]> = {
   "/game-info": ["release", "platforms", "price"],
   "/system-requirements": ["system requirements"],
   "/multiplayer": ["multiplayer", "co-op"],
+  "/weapons": ["weapons", "weapon mods"],
   "/characters": ["characters", "operators"],
   "/characters/voice-cast": ["voice cast", "characters"],
   "/guides/beginners-guide": ["beginner guide", "first-cycle"],

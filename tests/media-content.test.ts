@@ -28,6 +28,7 @@ const imagePaths = [
   "/game-info",
   "/system-requirements",
   "/multiplayer",
+  "/weapons",
   "/characters",
   "/characters/voice-cast",
   "/guides/beginners-guide",
