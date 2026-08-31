@@ -72,18 +72,36 @@ export function ContentBlocks({ blocks }: { blocks: ContentBlock[] }) {
     }
 
     if (block.type === "table") {
+      const mobileMode = block.columns.length <= 3 ? "cards" : "scroll";
+      const scrollCueId = `table-scroll-cue-${index}`;
+
       return (
         <section className="content-section" key={`${block.type}-${block.heading}`}>
           <BlockHeading>{block.heading}</BlockHeading>
           {block.intro && <p>{block.intro}</p>}
-          <div className="table-wrap" tabIndex={0} role="region" aria-label={block.caption}>
-            <table className="data-table">
+          <div
+            aria-describedby={mobileMode === "scroll" ? scrollCueId : undefined}
+            aria-label={block.caption}
+            className={`table-wrap table-wrap--${mobileMode}`}
+            role="region"
+            tabIndex={0}
+          >
+            {mobileMode === "scroll" ? (
+              <p className="table-scroll-cue" id={scrollCueId}>
+                Swipe to view all columns
+              </p>
+            ) : null}
+            <table className={`data-table data-table--${mobileMode}`}>
               <caption>{block.caption}</caption>
               <thead><tr>{block.columns.map((column) => <th scope="col" key={column}>{column}</th>)}</tr></thead>
               <tbody>
                 {block.rows.map((row, rowIndex) => (
                   <tr key={`${row[0]}-${rowIndex}`}>
-                    {row.map((cell, cellIndex) => cellIndex === 0 ? <th scope="row" key={cellIndex}>{cell}</th> : <td key={cellIndex}>{cell}</td>)}
+                    {row.map((cell, cellIndex) => cellIndex === 0 ? (
+                      <th scope="row" key={cellIndex}>{cell}</th>
+                    ) : (
+                      <td data-label={block.columns[cellIndex]} key={cellIndex}>{cell}</td>
+                    ))}
                   </tr>
                 ))}
               </tbody>

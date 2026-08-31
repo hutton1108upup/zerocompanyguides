@@ -11,6 +11,7 @@ import {
   moreNavigationSections,
   primaryNavigationPaths,
 } from "@/lib/site";
+import { trapDialogFocus } from "@/lib/focus";
 
 type NavLink = {
   href: string;
@@ -54,16 +55,22 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const drawerCloseRef = useRef<HTMLButtonElement | null>(null);
+  const drawerRef = useRef<HTMLDivElement | null>(null);
+  const drawerTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const restoreDrawerFocusRef = useRef(false);
   const moreNavigationRef = useRef<HTMLDivElement | null>(null);
   const moreTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   const openDrawer = () => {
+    restoreDrawerFocusRef.current = false;
     startTransition(() => {
       setIsDrawerOpen(true);
     });
   };
 
-  const closeDrawer = () => {
+  const closeDrawer = (restoreFocus = true) => {
+    restoreDrawerFocusRef.current = restoreFocus;
     startTransition(() => {
       setIsDrawerOpen(false);
     });
@@ -82,13 +89,21 @@ export function SiteHeader() {
   };
 
   const handleGlobalKeys = useEffectEvent((event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      const shouldRestoreMoreFocus = isMoreOpen;
-      closeDrawer();
+    if (event.key === "Escape" && isDrawerOpen) {
+      event.preventDefault();
+      closeDrawer(true);
+      return;
+    }
+
+    if (isDrawerOpen) {
+      trapDialogFocus(event, drawerRef.current);
+      return;
+    }
+
+    if (event.key === "Escape" && isMoreOpen) {
+      event.preventDefault();
       closeMoreNavigation();
-      if (shouldRestoreMoreFocus) {
-        requestAnimationFrame(() => moreTriggerRef.current?.focus());
-      }
+      requestAnimationFrame(() => moreTriggerRef.current?.focus());
     }
   });
 
@@ -99,7 +114,7 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    closeDrawer();
+    closeDrawer(false);
     closeMoreNavigation();
   }, [pathname]);
 
@@ -119,11 +134,29 @@ export function SiteHeader() {
   useEffect(() => {
     if (!isDrawerOpen) return;
 
+    const drawerTrigger = drawerTriggerRef.current;
     const previousOverflow = document.body.style.overflow;
+    const background = [
+      document.querySelector<HTMLElement>(".site-header"),
+      document.querySelector<HTMLElement>(".site-main"),
+      document.querySelector<HTMLElement>(".site-footer"),
+    ].filter((element): element is HTMLElement => Boolean(element));
+    const previousInert = background.map((element) => element.inert);
     document.body.style.overflow = "hidden";
+    background.forEach((element) => {
+      element.inert = true;
+    });
+    requestAnimationFrame(() => drawerCloseRef.current?.focus());
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      background.forEach((element, index) => {
+        element.inert = previousInert[index];
+      });
+      if (restoreDrawerFocusRef.current) {
+        requestAnimationFrame(() => drawerTrigger?.focus());
+      }
+      restoreDrawerFocusRef.current = false;
     };
   }, [isDrawerOpen]);
 
@@ -206,6 +239,7 @@ export function SiteHeader() {
               aria-label="Open mobile navigation"
               className="drawer-toggle"
               onClick={openDrawer}
+              ref={drawerTriggerRef}
               type="button"
             >
               <MenuIcon height={20} width={20} />
@@ -219,7 +253,8 @@ export function SiteHeader() {
           <button
             aria-label="Close mobile navigation"
             className="drawer-backdrop"
-            onClick={closeDrawer}
+            onClick={() => closeDrawer(true)}
+            tabIndex={-1}
             type="button"
           />
           <div
@@ -227,7 +262,9 @@ export function SiteHeader() {
             aria-modal="true"
             className="mobile-drawer"
             id="mobile-navigation"
+            ref={drawerRef}
             role="dialog"
+            tabIndex={-1}
           >
             <div className="mobile-drawer__panel">
               <div className="mobile-drawer__header">
@@ -242,7 +279,8 @@ export function SiteHeader() {
                 <button
                   aria-label="Close mobile navigation"
                   className="icon-button"
-                  onClick={closeDrawer}
+                  onClick={() => closeDrawer(true)}
+                  ref={drawerCloseRef}
                   type="button"
                 >
                   <CloseIcon height={18} width={18} />
@@ -259,7 +297,7 @@ export function SiteHeader() {
                       data-active={isActivePath(pathname, link.href)}
                       href={link.href}
                       key={link.href}
-                      onClick={closeDrawer}
+                      onClick={() => closeDrawer(false)}
                     >
                       {link.label}
                     </Link>
@@ -268,8 +306,12 @@ export function SiteHeader() {
               </section>
 
               {mobileSections.map((section) => (
-                <section className="mobile-drawer__section" key={section.title}>
-                  <div className="mobile-drawer__label">{section.title}</div>
+                <details
+                  className="mobile-drawer__group"
+                  key={section.title}
+                  open={section.links.some((link) => isActivePath(pathname, link.href))}
+                >
+                  <summary className="mobile-drawer__label">{section.title}</summary>
                   <div className="mobile-drawer__links">
                     {section.links.map((link) => (
                       <Link
@@ -278,13 +320,13 @@ export function SiteHeader() {
                         data-active={isActivePath(pathname, link.href)}
                         href={link.href}
                         key={link.href}
-                        onClick={closeDrawer}
+                        onClick={() => closeDrawer(false)}
                       >
                         {link.label}
                       </Link>
                     ))}
                   </div>
-                </section>
+                </details>
               ))}
             </div>
           </div>

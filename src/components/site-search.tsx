@@ -9,10 +9,12 @@ import {
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 import { contentPages } from "@/content/pages";
 import type { ContentPage } from "@/content/types";
 import { ArrowUpRightIcon, CloseIcon, SearchIcon } from "@/components/icons";
 import { collectBlockText } from "@/lib/search";
+import { trapDialogFocus } from "@/lib/focus";
 
 type SearchEntry = {
   href: string;
@@ -92,6 +94,9 @@ export function SiteSearch() {
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const restoreFocusRef = useRef(false);
 
   const openSearch = () => {
     startTransition(() => {
@@ -100,6 +105,7 @@ export function SiteSearch() {
   };
 
   const closeSearch = () => {
+    restoreFocusRef.current = true;
     startTransition(() => {
       setIsOpen(false);
       setQuery("");
@@ -114,9 +120,13 @@ export function SiteSearch() {
       return;
     }
 
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && isOpen) {
+      event.preventDefault();
       closeSearch();
+      return;
     }
+
+    if (isOpen) trapDialogFocus(event, panelRef.current);
   });
 
   useEffect(() => {
@@ -126,14 +136,24 @@ export function SiteSearch() {
   }, []);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      if (restoreFocusRef.current) {
+        restoreFocusRef.current = false;
+        requestAnimationFrame(() => triggerRef.current?.focus());
+      }
+      return;
+    }
 
     const previousOverflow = document.body.style.overflow;
+    const appShell = document.querySelector<HTMLElement>(".app-shell");
+    const previousInert = appShell?.inert ?? false;
     document.body.style.overflow = "hidden";
-    inputRef.current?.focus();
+    if (appShell) appShell.inert = true;
+    requestAnimationFrame(() => inputRef.current?.focus());
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      if (appShell) appShell.inert = previousInert;
     };
   }, [isOpen]);
 
@@ -147,6 +167,7 @@ export function SiteSearch() {
         aria-label="Search site content"
         className="search-trigger"
         onClick={openSearch}
+        ref={triggerRef}
         type="button"
       >
         <SearchIcon height={18} width={18} />
@@ -156,19 +177,22 @@ export function SiteSearch() {
         </span>
       </button>
 
-      {isOpen ? (
+      {isOpen && typeof document !== "undefined" ? createPortal((
         <div className="search-overlay" role="presentation">
           <button
             aria-label="Close search"
             className="search-backdrop"
             onClick={closeSearch}
+            tabIndex={-1}
             type="button"
           />
           <div
             aria-labelledby="site-search-title"
             aria-modal="true"
             className="search-panel"
+            ref={panelRef}
             role="dialog"
+            tabIndex={-1}
           >
             <div className="search-panel__header">
               <SearchIcon height={20} width={20} />
@@ -227,7 +251,7 @@ export function SiteSearch() {
             </div>
           </div>
         </div>
-      ) : null}
+      ), document.body) : null}
     </>
   );
 }

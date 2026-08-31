@@ -57,25 +57,32 @@ export default function HomePage() {
           secondaryAction={{ href: "/walkthrough", label: "Browse the Walkthrough", variant: "ghost" }}
         />
 
-      <section className="section section--compact" aria-label="Official visual briefing">
-        <div className="container home-media">
-          <ContentBlocks blocks={mediaBlocks} />
-        </div>
-      </section>
-
-      <section className="section section--compact" aria-labelledby="quick-facts-title">
+      <section className="section" aria-labelledby="start-title">
         <div className="container">
-          <p className="hud-label">Official snapshot</p>
-          <h2 className="section-title" id="quick-facts-title">Quick game facts</h2>
-          <p className="section-sub">Stable launch facts link to the source-backed page that explains them.</p>
-          <div className="fact-grid">
-            {homeFacts.map((fact) => (
-              <Link className="fact" href={fact.href} key={fact.label}>
-                <span className="fact-key">{fact.label}</span>
-                <strong className="fact-value">{fact.value}</strong>
-                <span className="fact-link">Open intel <ArrowUpRight aria-hidden="true" size={14} /></span>
-              </Link>
-            ))}
+          <p className="hud-label">Start here</p>
+          <h2 className="section-title" id="start-title">Three decisions before the next Cycle</h2>
+          <div className="card-grid start-grid">
+            <HubCard
+              title="Choose the turn you want Hawks to create"
+              kicker="01 · Class"
+              description="Compare assist, sustain, damage and Advantage routes without pretending one build wins every campaign."
+              links={[{ href: "/builds/hawks", label: "Hawks build matrix" }, { href: "/classes", label: "All classes" }]}
+              tone="amber"
+            />
+            <HubCard
+              title="Cover all four squad jobs"
+              kicker="02 · Team"
+              description="Bring damage, setup, sustain and space control—then record a replacement for each role."
+              links={[{ href: "/builds/best-team", label: "Squad templates" }, { href: "/characters", label: "Operator dossiers" }]}
+              tone="cyan"
+            />
+            <HubCard
+              title="Check launch technical status"
+              kicker="03 · System"
+              description="Apply official issue guidance before hardware-specific settings or community tweaks."
+              links={[{ href: "/performance/fps-fix", label: "Safe fix order" }, { href: "/system-requirements", label: "Official requirements" }]}
+              tone="red"
+            />
           </div>
         </div>
       </section>
@@ -104,33 +111,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="start-title">
+      <section className="section section--compact" aria-labelledby="quick-facts-title">
         <div className="container">
-          <p className="hud-label">Start here</p>
-          <h2 className="section-title" id="start-title">Three decisions before the next Cycle</h2>
-          <div className="card-grid start-grid">
-            <HubCard
-              title="Choose the turn you want Hawks to create"
-              kicker="01 · Class"
-              description="Compare assist, sustain, damage and Advantage routes without pretending one build wins every campaign."
-              links={[{ href: "/builds/hawks", label: "Hawks build matrix" }, { href: "/classes", label: "All classes" }]}
-              tone="amber"
-            />
-            <HubCard
-              title="Cover all four squad jobs"
-              kicker="02 · Team"
-              description="Bring damage, setup, sustain and space control—then record a replacement for each role."
-              links={[{ href: "/builds/best-team", label: "Squad templates" }, { href: "/characters", label: "Operator dossiers" }]}
-              tone="cyan"
-            />
-            <HubCard
-              title="Check launch technical status"
-              kicker="03 · System"
-              description="Apply official issue guidance before hardware-specific settings or community tweaks."
-              links={[{ href: "/performance/fps-fix", label: "Safe fix order" }, { href: "/system-requirements", label: "Official requirements" }]}
-              tone="red"
-            />
+          <p className="hud-label">Official snapshot</p>
+          <h2 className="section-title" id="quick-facts-title">Quick game facts</h2>
+          <p className="section-sub">Stable launch facts link to the source-backed page that explains them.</p>
+          <div className="fact-grid">
+            {homeFacts.map((fact) => (
+              <Link className="fact" href={fact.href} key={fact.label}>
+                <span className="fact-key">{fact.label}</span>
+                <strong className="fact-value">{fact.value}</strong>
+                <span className="fact-link">Open intel <ArrowUpRight aria-hidden="true" size={14} /></span>
+              </Link>
+            ))}
           </div>
+        </div>
+      </section>
+
+      <section className="section section--compact" aria-label="Official visual briefing">
+        <div className="container home-media">
+          <ContentBlocks blocks={mediaBlocks} />
         </div>
       </section>
 

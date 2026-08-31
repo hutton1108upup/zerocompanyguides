@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { ContentBlocks } from "../src/components/content-blocks";
 import type { ImageBlock, VideoBlock } from "../src/content/types";
+import type { TableBlock } from "../src/content/types";
 
 const imageBlock: ImageBlock = {
   type: "image",
@@ -28,6 +29,22 @@ const videoBlock: VideoBlock = {
   checkedAt: "2026-08-30",
   evidence: "official",
   versionNote: "Official pre-launch systems overview",
+};
+
+const compactTableBlock: TableBlock = {
+  type: "table",
+  heading: "Compact comparison",
+  caption: "A compact mobile comparison",
+  columns: ["Class", "Role", "Best use"],
+  rows: [["Scout", "Setup", "Create Advantage"]],
+};
+
+const wideTableBlock: TableBlock = {
+  ...compactTableBlock,
+  heading: "Wide comparison",
+  caption: "A wide comparison that must scroll",
+  columns: ["Weapon", "Damage", "Critical", "Range", "AP"],
+  rows: [["Blaster", "6", "+4", "Medium", "1"]],
 };
 
 describe("media content blocks", () => {
@@ -73,5 +90,25 @@ describe("media content blocks", () => {
     expect(markup).toContain("<details");
     expect(markup).not.toContain("<details open");
     expect(markup).toContain("Reveal spoiler video");
+  });
+
+  it("renders compact tables as labeled mobile cards", () => {
+    const markup = renderToStaticMarkup(
+      createElement(ContentBlocks, { blocks: [compactTableBlock] }),
+    );
+
+    expect(markup).toContain("data-table--cards");
+    expect(markup).toContain('data-label="Role"');
+    expect(markup).not.toContain("Swipe to view all columns");
+  });
+
+  it("renders wide comparisons with an explicit horizontal-scroll cue", () => {
+    const markup = renderToStaticMarkup(
+      createElement(ContentBlocks, { blocks: [wideTableBlock] }),
+    );
+
+    expect(markup).toContain("data-table--scroll");
+    expect(markup).toContain("Swipe to view all columns");
+    expect(markup).toContain('data-label="AP"');
   });
 });
