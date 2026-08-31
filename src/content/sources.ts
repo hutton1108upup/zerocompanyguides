@@ -173,6 +173,15 @@ export const sources: Source[] = [
     note: "Full-campaign review, PC technical observations, and Steam Deck test context.",
   },
   {
+    id: "pcg-linear-abilities",
+    title: "Swap the Radial Ability Menu for Linear Ability Selection",
+    publisher: "PC Gamer",
+    url: "https://www.pcgamer.com/games/strategy/psa-swap-the-radial-ability-menu-in-star-wars-zero-company-for-more-of-a-trad-xcom-style-experience/",
+    kind: "press",
+    checkedAt: "2026-08-31",
+    note: "Documents the Radial, Linear and Hybrid Ability Selection Style options as an input preference; provides no FPS benchmark or universal-best claim.",
+  },
+  {
     id: "techradar-review",
     title: "Star Wars Zero Company Review",
     publisher: "TechRadar",

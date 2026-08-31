@@ -113,6 +113,30 @@ describe("content enrichment routes", () => {
     expect(sourceKinds.has("community")).toBe(true);
   });
 
+  it("separates confirmed Bonds and Cross Training rules from The Lounge unknowns", () => {
+    const characters = contentPages.find((page) => page.path === "/characters");
+    const relationshipTable = characters?.blocks.find(
+      (block) => block.type === "table" && block.heading === "Bonds, Cross Training and The Lounge",
+    );
+
+    expect(relationshipTable?.type).toBe("table");
+    if (relationshipTable?.type === "table") {
+      expect(relationshipTable.rows.map((row) => row[0])).toEqual([
+        "Bonds",
+        "Cross Training",
+        "The Lounge",
+      ]);
+      expect(relationshipTable.rows[0].at(-1)).toContain("Official");
+      expect(relationshipTable.rows[1].join(" ")).toContain("permanent combat stat bonus");
+      expect(relationshipTable.rows[1].join(" ")).toContain("Bond level");
+      expect(relationshipTable.rows[2].join(" ")).toContain("No official");
+      expect(relationshipTable.rows[2].at(-1)).toContain("Unverified");
+    }
+
+    expect(contentPages.some((page) => page.path === "/guides/bonds")).toBe(false);
+    expect(contentPages.some((page) => page.path === "/systems/the-lounge")).toBe(false);
+  });
+
   it("adds ten beginner tips, a five-cycle plan and verified mission-state checks", () => {
     const beginner = contentPages.find((page) => page.path === "/guides/beginners-guide");
     const tips = beginner?.blocks.find(
@@ -166,5 +190,93 @@ describe("content enrichment routes", () => {
     expect(sourceKinds.has("official")).toBe(true);
     expect(sourceKinds.has("press")).toBe(true);
     expect(sourceKinds.has("community")).toBe(true);
+  });
+
+  it("adds a sourced Credits, Intel and Zone Influence decision table to the beginner guide", () => {
+    const beginner = contentPages.find((page) => page.path === "/guides/beginners-guide");
+    const resourceTable = beginner?.blocks.find(
+      (block) => block.type === "table" && block.heading === "Credits, Intel and Zone Influence decisions",
+    );
+
+    expect(resourceTable?.type).toBe("table");
+    if (resourceTable?.type === "table") {
+      expect(resourceTable.rows.map((row) => row[0])).toEqual([
+        "Credits",
+        "Intel",
+        "Zone Influence",
+      ]);
+      expect(resourceTable.rows[0].join(" ")).toContain("Facilities");
+      expect(resourceTable.rows[1].join(" ")).toContain("Operations");
+      expect(resourceTable.rows[2].join(" ")).toContain("Zone Rewards");
+      expect(resourceTable.rows.every((row) => row.at(-1)?.includes("Official EA"))).toBe(true);
+    }
+
+    expect(contentPages.some((page) => page.path === "/guides/credits")).toBe(false);
+    expect(contentPages.some((page) => page.path === "/guides/zone-influence")).toBe(false);
+  });
+
+  it("keeps interface, evacuation and Bacta guidance short and evidence-bounded", () => {
+    const beginner = contentPages.find((page) => page.path === "/guides/beginners-guide");
+    const performance = contentPages.find((page) => page.path === "/performance/pc");
+    const permadeath = contentPages.find((page) => page.path === "/guides/permadeath");
+    const shortNotes = beginner?.blocks.find(
+      (block) => block.type === "cards" && block.heading === "Optional interface and recovery notes",
+    );
+
+    expect(shortNotes?.type).toBe("cards");
+    if (shortNotes?.type === "cards") {
+      expect(shortNotes.items.map((item) => item.title)).toEqual([
+        "Linear ability selection",
+        "Plan the extraction turn",
+        "Use the Bacta Tank deliberately",
+      ]);
+      expect(shortNotes.items[0].body).toContain("Ability Selection Style");
+      expect(shortNotes.items[0].body.toLowerCase()).toContain("preference");
+      expect(shortNotes.items.map((item) => item.body).join(" ").toLowerCase()).not.toContain("best setting");
+    }
+
+    const performanceBoundary = performance?.blocks.find(
+      (block) => block.type === "warning" && block.heading === "Linear ability selection is not a performance preset",
+    );
+    expect(performanceBoundary?.type).toBe("warning");
+    if (performanceBoundary?.type === "warning") {
+      expect(performanceBoundary.body).toContain("no FPS");
+    }
+
+    const recoveryBoundary = permadeath?.blocks.find(
+      (block) => block.type === "warning" && block.heading === "Evacuation and Bacta are safeguards, not guarantees",
+    );
+    expect(recoveryBoundary?.type).toBe("warning");
+    if (recoveryBoundary?.type === "warning") {
+      expect(recoveryBoundary.body).toContain("live objective");
+      expect(recoveryBoundary.body).toContain("Credits");
+    }
+
+    for (const page of [beginner, performance]) {
+      expect(page?.sources).toContain("pcg-linear-abilities");
+      expect(resolveSources(page?.sources ?? []).find((source) => source.id === "pcg-linear-abilities")?.kind).toBe("press");
+    }
+  });
+
+  it("adds source-bounded deployment checks for In Debt to the Hutts and Republic Intelligence", () => {
+    const walkthrough = contentPages.find((page) => page.path === "/walkthrough");
+    const earlyChecks = walkthrough?.blocks.find(
+      (block) => block.type === "table" && block.heading === "Chapter 3–4 deployment checks",
+    );
+
+    expect(earlyChecks?.type).toBe("table");
+    if (earlyChecks?.type === "table") {
+      expect(earlyChecks.rows.map((row) => row[0])).toEqual([
+        "In Debt to the Hutts",
+        "Republic Intelligence",
+      ]);
+      expect(earlyChecks.rows[0].join(" ")).toContain("Credits");
+      expect(earlyChecks.rows[0].join(" ")).toContain("expiring Operations");
+      expect(earlyChecks.rows[1].join(" ")).toContain("Intel");
+      expect(earlyChecks.rows[1].join(" ")).toContain("Zone Influence");
+      expect(earlyChecks.rows.every((row) => row.at(-1)?.includes("planning only"))).toBe(true);
+    }
+
+    expect(walkthrough?.lastVerified).toBe("2026-08-31");
   });
 });

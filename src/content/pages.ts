@@ -526,6 +526,12 @@ export const contentPages: ContentPage[] = [
         ],
       },
       {
+        type: "warning",
+        heading: "Evacuation and Bacta are safeguards, not guarantees",
+        body: "Use evacuation only when the live objective exposes that route, and preserve enough movement AP to reach it; this page does not promise that every stranded Operator can be recovered. EA confirms that the Bacta Tank heals instantly and that treatment costs Credits, but that does not make it a better choice than one-Cycle recovery in every situation.",
+        tone: "amber",
+      },
+      {
         type: "steps",
         heading: "Before-deployment permadeath checklist",
         intro: "Run this short audit before launching the Tactical Mission that advances the Cycle.",
@@ -570,6 +576,8 @@ export const contentPages: ContentPage[] = [
     summary: "This hub confirms the community-reported 14-part order but does not invent step-by-step solutions the site has not independently verified.",
     pageType: "hub",
     evidence: "community",
+    lastVerified: "2026-08-31",
+    gameVersion: "Launch build — chapter planning checked 2026-08-31",
     spoiler: "minor",
     sources: ["ea-gameplay-overview", "allthings-chapters", "pcg-review"],
     related: ["/trophy-guide", "/guides/beginners-guide", "/builds/best-team"],
@@ -600,6 +608,17 @@ export const contentPages: ContentPage[] = [
           ["12", "Back to Business", "Repair equipment and injuries"],
           ["13", "Fathom's Grand Designs", "Create a pre-finale save if the mode allows"],
           ["14", "Epilogue", "Review remaining completion tasks"],
+        ],
+      },
+      {
+        type: "table",
+        heading: "Chapter 3–4 deployment checks",
+        intro: "The chapter names come from a community order cross-check. These questions apply official campaign rules without claiming a story solution, encounter sequence or best route for either chapter.",
+        caption: "Pre-deployment checks for the two early chapter titles; follow the live Holotable and mission objective when they differ.",
+        columns: ["Chapter", "Confirm before launch", "Resource or roster decision", "Evidence boundary"],
+        rows: [
+          ["In Debt to the Hutts", "Open the Holotable, identify expiring Operations and note that completing a Tactical Mission advances the Cycle", "Compare Credits needed for recovery or Facilities with the Intel cost and reward of remaining Operations; preserve AP for the live objective", "Official campaign rules plus community chapter order; pre-deployment planning only, not a chapter solution"],
+          ["Republic Intelligence", "Check Injuries, replacement coverage, expiring content and the exact success condition shown for the mission", "Confirm whether Intel should remain available for an Operation and whether the displayed Zone Influence reward serves the current plan", "Official campaign rules plus community chapter order; pre-deployment planning only, not a chapter solution"],
         ],
       },
       {
@@ -790,8 +809,10 @@ export const contentPages: ContentPage[] = [
     pageType: "tech",
     evidence: "community",
     verification: "needs-retest",
+    lastVerified: "2026-08-31",
+    gameVersion: "Launch build — performance guidance checked 2026-08-31",
     platforms: ["PC"],
-    sources: ["ea-faq", "steam-issue-update", "pcg-review", "techradar-review", "gamesgg-settings", "reddit-geometry"],
+    sources: ["ea-faq", "steam-issue-update", "pcg-review", "pcg-linear-abilities", "techradar-review", "gamesgg-settings", "reddit-geometry"],
     related: ["/system-requirements", "/performance/fps-fix", "/performance/steam-deck"],
     blocks: [
       {
@@ -822,6 +843,12 @@ export const contentPages: ContentPage[] = [
           { title: "Test CPU-heavy scene behavior", body: "If GPU use is low and presets barely change FPS, avoid destroying image quality for no gain." },
           { title: "Test Environment Geometry Detail last", body: "Some players report large gains and others no benefit. Toggle it in the same scene and keep the better result for your system." },
         ],
+      },
+      {
+        type: "warning",
+        heading: "Linear ability selection is not a performance preset",
+        body: "PC Gamer documents Gameplay > Ability Selection Style > Linear or Hybrid as an interface preference for mouse and keyboard. The report provides no FPS, latency or stability measurement, so use the option for readability only and do not treat it as a performance fix.",
+        tone: "cyan",
       },
       {
         type: "warning",
@@ -1261,10 +1288,22 @@ export const contentPages: ContentPage[] = [
         tone: "amber",
       },
       {
+        type: "table",
+        heading: "Bonds, Cross Training and The Lounge",
+        intro: "The official overview confirms the relationship and training rules, but it does not support every facility or unlock claim circulating in launch guides.",
+        caption: "Confirmed mechanics separated from facility and timing claims that still need in-game verification.",
+        columns: ["System", "Confirmed purpose", "Unlock boundary", "Do not publish as fact", "Evidence"],
+        rows: [
+          ["Bonds", "Shared Operations, Tactical Missions, Calling for Backup and some Dilemmas can change a pair's relationship; Bond increases primarily award Focus Points", "The official overview does not give one universal chapter gate; Bond status is managed through the Personnel Facility when available", "Do not promise one fastest pairing route or a guaranteed dialogue result", "Official EA gameplay overview"],
+          ["Cross Training", "When a Bond level increases, both Operators can Cross Train for a permanent combat stat bonus; maximum Bond can unlock a stronger Passive benefit", "The confirmed trigger is a Bond level increase, not a chapter number in the reviewed sources", "Do not publish exact pair bonuses or an upgrade order without Operator- and patch-specific verification", "Official EA gameplay overview and developer FAQ"],
+          ["The Lounge", "No official source checked for this page names The Lounge as the facility that gates Bonds or Cross Training; EA places Bond management in Personnel", "No official Cycle or chapter unlock is confirmed in the current source set", "Treat current Lounge role and unlock reports as research leads until reproduced in-game", "Unverified for this site"],
+        ],
+      },
+      {
         type: "prose",
         heading: "Bonds, crewmate missions and permadeath",
         paragraphs: [
-          "Bonds grow through shared Operations, Tactical Missions and Calling for Backup. When a pair's Bond increases, both Operators can Cross Train for permanent combat-stat bonuses; reaching the maximum Bond can unlock a stronger Passive benefit. Story dilemmas and Operation choices can also change relationships and side-mission paths.",
+          "Story Dilemmas and Operation choices can change relationships and side-mission paths. Use the comparison above for the confirmed training rules, and do not infer a precise chapter or facility unlock from community shorthand.",
           "With Permadeath enabled, an Operator who reaches three Injuries is permanently removed. Hawks is the exception: defeat immediately fails the mission and forces a restart. Authored Operators are therefore narrative characters, not protected guest units; PC Gamer's report of the developer Q&A specifically warns that Tel-Rea is the only Jedi Padawan Operator.",
           "A missed or expired hero-centered mission may cost story or Bond context, but the exact consequence varies by sequence. Treat the deadline as meaningful without claiming every missed mission permanently locks the campaign.",
         ],
@@ -1356,6 +1395,7 @@ export const contentPages: ContentPage[] = [
       "starwars-how-to-play",
       "steam-dev-faq",
       "pcg-review",
+      "pcg-linear-abilities",
       "gamesradar-review",
       "reddit-beginner-friendly",
     ],
@@ -1399,6 +1439,28 @@ export const contentPages: ContentPage[] = [
           ["Cycle 3", "Recover or reconfigure", "Check Injuries, Medbay timing, role gaps and any available Specialization or equipment changes", "Recovery rules are official; unlock timing shown in the live Campaign wins"],
           ["Cycle 4", "Objective reading", "Match the squad and weapon AP plan to sabotage, rescue, elite-target, holdout or extraction conditions", "Mission types come from the developer forum FAQ"],
           ["Cycle 5", "Stabilize the company", "Keep replacements for damage, setup, sustain and control; use Bonds and Backup intentionally", "Role coverage is editorial; Bond and Backup systems are official"],
+        ],
+      },
+      {
+        type: "table",
+        heading: "Credits, Intel and Zone Influence decisions",
+        intro: "These resources solve different campaign problems. Check the current Holotable and Den costs before spending; there is no universal reserve amount or best region.",
+        caption: "Official resource rules with editorial hold-back checks; exact priorities depend on the live Cycle, injuries and expiring content.",
+        columns: ["Resource", "Confirmed source and use", "Practical decision", "When to hold back", "Evidence"],
+        rows: [
+          ["Credits", "Operations and Tactical Missions can award Credits; Facilities and Medbay treatment spend them", "Fund the recovery, Facility or equipment choice that removes the nearest campaign risk", "Do not empty the balance on optional gear while an injured Operator or higher-priority Facility still needs Credits", "Official EA gameplay overview; spending priority is editorial"],
+          ["Intel", "Tactical Missions and some field information provide Intel; Operations cost it", "Choose an Operation whose reward or decision fits the current roster and campaign clock", "Keep enough for a more consequential time-limited Operation when another Tactical Mission would advance the Cycle", "Official EA and StarWars.com rules; Operation choice is editorial"],
+          ["Zone Influence", "Operations and Tactical Missions add Influence to their region; enough unlocks Zone Rewards such as Upgrades, Utilities and Contacts", "Compare the next regional reward with the value of other expiring content", "Do not treat Influence as spendable currency or chase one region at the cost of a Critical objective, recovery or a higher-consequence deadline", "Official EA gameplay overview; regional priority is editorial"],
+        ],
+      },
+      {
+        type: "cards",
+        heading: "Optional interface and recovery notes",
+        intro: "These are short decision aids, not measured best settings or substitutes for the live mission objective.",
+        items: [
+          { title: "Linear ability selection", label: "PC preference", body: "PC Gamer documents Options > Gameplay > Ability Selection Style with Radial, Linear and Hybrid choices. Linear is a mouse-and-keyboard preference with no measured FPS benefit, not a universal best layout.", tone: "cyan" },
+          { title: "Plan the extraction turn", label: "Objective first", body: "For sabotage, rescue or extraction objectives, preserve movement AP and a safe route after the main task. Do not assume an early evacuation option is available unless the live objective shows it.", tone: "amber" },
+          { title: "Use the Bacta Tank deliberately", label: "Recovery trade-off", body: "EA confirms that the Bacta Tank heals instantly and treatment costs Credits. Use it when one-Cycle recovery would create a worse deadline or roster problem, not because instant healing is always the right spend.", tone: "green" },
         ],
       },
       {
