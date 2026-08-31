@@ -30,6 +30,7 @@ const imagePaths = [
   "/multiplayer",
   "/weapons",
   "/characters",
+  "/characters/companions",
   "/characters/voice-cast",
   "/guides/beginners-guide",
   "/performance/steam-deck",

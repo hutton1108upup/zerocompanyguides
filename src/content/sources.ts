@@ -334,6 +334,33 @@ export const sources: Source[] = [
     checkedAt: "2026-08-31",
     note: "Pre-launch and launch-window player perspectives on difficulty, pacing and learning the tactics format; anecdotal only.",
   },
+  {
+    id: "epic-operators",
+    title: "Best Builds for Each Operator",
+    publisher: "Epic Games Store",
+    url: "https://store.epicgames.com/news/star-wars-zero-company-guide-best-builds-for-each-operator",
+    kind: "press",
+    checkedAt: "2026-09-01",
+    note: "Launch-build companion recruitment, unique Talent and starting-Specialization observations; used as a labeled gameplay cross-check, not as official canon.",
+  },
+  {
+    id: "reddit-bond-strategies",
+    title: "Bond Strategies",
+    publisher: "r/ZeroCompany",
+    url: "https://www.reddit.com/r/ZeroCompany/comments/1w2lngy/bond_strategies/",
+    kind: "community",
+    checkedAt: "2026-09-01",
+    note: "Small, self-selected launch discussion about rotating Operators and building Bonds; exact XP values and optimal routes are not treated as settled facts.",
+  },
+  {
+    id: "reddit-roster-rotation",
+    title: "What Is the Point of a Big Roster?",
+    publisher: "r/ZeroCompany",
+    url: "https://www.reddit.com/r/ZeroCompany/comments/1w0urml/whats_the_point_of_having_a_big_roster_if_you_can/",
+    kind: "community",
+    checkedAt: "2026-09-01",
+    note: "Player debate over a fixed four-Operator squad versus rotation for mission roles, Injuries and Bonds; anecdotal and patch-sensitive.",
+  },
 ];
 
 export const sourceById = new Map(sources.map((source) => [source.id, source]));
