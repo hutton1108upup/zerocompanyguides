@@ -46,6 +46,7 @@ export const moreNavigationSections = [
     paths: [
       "/guides",
       "/guides/beginners-guide",
+      "/guides/permadeath",
       "/worth-it",
       "/system-requirements",
       "/multiplayer",
@@ -81,6 +82,7 @@ export const footerNavigationSections = [
       "/system-requirements",
       "/multiplayer",
       "/guides/beginners-guide",
+      "/guides/permadeath",
       "/worth-it",
     ],
   },

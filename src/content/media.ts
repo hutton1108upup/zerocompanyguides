@@ -279,6 +279,15 @@ const mediaByPath: Record<string, Array<ImageBlock | VideoBlock>> = {
       publisher: "Electronic Arts",
     }),
   ],
+  "/walkthrough/in-debt-to-the-hutts": [
+    officialImage({
+      src: "/media/zero-company/holotable.jpg",
+      alt: "The holotable displays a crisis mission with its timer, rewards and squad briefing information.",
+      caption: "Use the live Holotable timer as the final authority before advancing a Cycle; the exact debt route below still requires a first-hand replay.",
+      sourceUrl: eaGameplayPage,
+      publisher: "Electronic Arts",
+    }),
+  ],
   "/characters/voice-cast": [
     officialImage({
       src: "/media/zero-company/cast-reveal.jpeg",

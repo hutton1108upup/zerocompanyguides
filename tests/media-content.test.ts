@@ -22,6 +22,7 @@ const imagePaths = [
   "/guides",
   "/guides/respec",
   "/walkthrough",
+  "/walkthrough/in-debt-to-the-hutts",
   "/performance",
   "/performance/pc",
   "/performance/fps-fix",

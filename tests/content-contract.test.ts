@@ -14,6 +14,7 @@ const intentTermsByPath: Record<string, readonly string[]> = {
   "/guides/respec": ["respec", "specialization"],
   "/guides/permadeath": ["permadeath", "injury"],
   "/walkthrough": ["walkthrough"],
+  "/walkthrough/in-debt-to-the-hutts": ["in debt to the hutts", "walkthrough"],
   "/trophy-guide": ["trophy", "achievement"],
   "/performance": ["performance", "fixes"],
   "/performance/pc": ["pc performance", "settings"],

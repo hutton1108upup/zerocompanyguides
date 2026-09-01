@@ -24,8 +24,10 @@ const tableRoutes = [
   "/characters/companions",
   "/characters/voice-cast",
   "/guides/beginners-guide",
+  "/guides/permadeath",
   "/performance/steam-deck",
   "/mods",
+  "/walkthrough/in-debt-to-the-hutts",
 ];
 
 function invariant(condition, message) {
@@ -49,11 +51,16 @@ async function assertArticleFits(page, route) {
         scrollWidth: table.scrollWidth,
       };
     });
+    const cardCaptions = Array.from(document.querySelectorAll(".table-wrap--cards")).map((table) => ({
+      captionWidth: table.querySelector("caption")?.getBoundingClientRect().width ?? 0,
+      tableWidth: table.getBoundingClientRect().width,
+    }));
     return {
       articleWidth: article?.width ?? 0,
       layoutWidth: layout?.width ?? 0,
       viewportWidth: document.documentElement.clientWidth,
       tables,
+      cardCaptions,
     };
   });
 
@@ -69,6 +76,12 @@ async function assertArticleFits(page, route) {
     invariant(
       table.width <= geometry.layoutWidth + 1,
       `${route}: table ${index} exceeds the article layout`,
+    );
+  }
+  for (const [index, caption] of geometry.cardCaptions.entries()) {
+    invariant(
+      caption.captionWidth >= caption.tableWidth - 2,
+      `${route}: card-table caption ${index} is ${caption.captionWidth}px inside a ${caption.tableWidth}px table region`,
     );
   }
 }
@@ -152,7 +165,7 @@ async function assertDrawerDialog(page) {
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Site navigation" });
   await dialog.waitFor({ state: "visible" });
-  invariant(await dialog.locator(".mobile-drawer__link").count() === 23, "drawer must retain all 23 links");
+  invariant(await dialog.locator(".mobile-drawer__link").count() === 24, "drawer must retain all 24 links");
   invariant(
     await dialog.locator(".mobile-drawer__header").evaluate((node) => getComputedStyle(node).position === "sticky"),
     "drawer header should remain visible while scrolling",
