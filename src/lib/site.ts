@@ -123,7 +123,13 @@ export const footerNavigationSections = [
 
 const pageByPath = new Map(contentPages.map((page) => [page.path, page]));
 
-export const indexableContentPages = contentPages.filter((page) => page.indexable);
+export function isPublicIndexablePage(
+  page: Pick<ContentPage, "indexable" | "status">,
+): boolean {
+  return page.indexable && page.status !== "draft" && page.status !== "archived";
+}
+
+export const indexableContentPages = contentPages.filter(isPublicIndexablePage);
 
 export function normalizePath(path: string): string {
   if (!path || path === "/") {
