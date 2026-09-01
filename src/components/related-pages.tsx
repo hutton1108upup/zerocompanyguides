@@ -13,9 +13,11 @@ export function RelatedPages({ page }: { page: ContentPage }) {
         {related.map((entry) => (
           <Link className="related-card hud-card" href={entry.path} key={entry.path}>
             <span>{entry.kicker}</span>
-            <strong>{entry.h1}</strong>
+            <span className="related-card__title">
+              <strong>{entry.h1}</strong>
+              <ArrowUpRight aria-hidden="true" size={17} />
+            </span>
             <small>{entry.summary}</small>
-            <ArrowUpRight aria-hidden="true" size={17} />
           </Link>
         ))}
       </div>
