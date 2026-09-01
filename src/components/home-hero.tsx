@@ -56,7 +56,7 @@ function getVariantClass(variant: HeroAction["variant"]) {
 }
 
 export function HomeHero({
-  eyebrow = "It is a dark time for the Republic — mercenaries answer the call",
+  eyebrow,
   title = homePage?.h1 ?? "Star Wars Zero Company Wiki, Builds & Walkthroughs",
   subtitle = "TACTICAL COMMAND INTEL",
   lead = homePage?.summary ??
@@ -71,29 +71,58 @@ export function HomeHero({
 }: HomeHeroProps) {
   return (
     <section className="hero-shell">
-      <div aria-hidden="true" className="hero-shell__backdrop">
-        <div className="hero-shell__glow" />
-        <div className="hero-shell__glow hero-shell__glow--amber" />
-        <div className="hero-shell__silhouette" />
+      <div className="hero-shell__stage">
+        <picture className="hero-shell__picture">
+          <source
+            media="(min-width: 1280px)"
+            srcSet="/media/zero-company/hero/group-hero-desktop.webp"
+          />
+          <source
+            media="(min-width: 600px)"
+            srcSet="/media/zero-company/hero/group-hero-tablet.webp"
+          />
+          <img
+            alt="Star Wars Zero Company operators assembled against a blue starfield"
+            className="hero-shell__image"
+            decoding="async"
+            fetchPriority="high"
+            height={1600}
+            loading="eager"
+            src="/media/zero-company/hero/group-hero-mobile.webp"
+            width={900}
+          />
+        </picture>
+        <div aria-hidden="true" className="hero-shell__scrim" />
+
+        <div className="container hero-shell__inner">
+          <div className="hero-shell__content">
+            {eyebrow ? <div className="hero-shell__eyebrow">{eyebrow}</div> : null}
+            <p className="hero-shell__subheadline">{subtitle}</p>
+            <h1 className="hero-shell__headline">{title}</h1>
+            <p className="hero-shell__lead">{lead}</p>
+            <div className="hero-shell__actions">
+              <Link className={getVariantClass(primaryAction.variant)} href={primaryAction.href}>
+                {primaryAction.label}
+              </Link>
+              <Link className={getVariantClass(secondaryAction.variant)} href={secondaryAction.href}>
+                {secondaryAction.label}
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <a
+          className="hero-shell__credit"
+          href="https://www.ea.com/games/starwars/zero-company"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Official EA imagery <span aria-hidden="true">↗</span>
+        </a>
       </div>
 
-      <div className="container hero-shell__inner">
-        <div className="hero-shell__content">
-          <div className="hero-shell__eyebrow">{eyebrow}</div>
-          <h1 className="hero-shell__headline">{title}</h1>
-          <p className="hero-shell__subheadline">{subtitle}</p>
-          <p className="hero-shell__lead">
-            {lead}
-          </p>
-          <div className="hero-shell__actions">
-            <Link className={getVariantClass(primaryAction.variant)} href={primaryAction.href}>
-              {primaryAction.label}
-            </Link>
-            <Link className={getVariantClass(secondaryAction.variant)} href={secondaryAction.href}>
-              {secondaryAction.label}
-            </Link>
-          </div>
-
+      <div className="hero-shell__intel">
+        <div className="container hero-shell__intel-inner">
           <aside aria-label="Current site snapshot" className="hero-shell__metrics">
             <div className="hero-shell__metrics-grid">
               {metrics.map((metric) => (
