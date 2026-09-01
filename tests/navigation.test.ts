@@ -12,6 +12,7 @@ const approvedPaths = new Set(contentPages.map((page) => page.path));
 describe("navigation registry", () => {
   it("keeps eight core destinations visible in the primary navigation", () => {
     expect(primaryNavigationPaths).toEqual([
+      "/squad-builder",
       "/builds",
       "/classes",
       "/weapons",
@@ -19,7 +20,6 @@ describe("navigation registry", () => {
       "/walkthrough",
       "/trophy-guide",
       "/performance",
-      "/game-info",
     ]);
   });
 
@@ -34,6 +34,7 @@ describe("navigation registry", () => {
       "Start & Decide",
       "Build & Squad",
       "Technical & Reference",
+      "This Site",
     ]);
     expect(new Set(headerPaths).size).toBe(headerPaths.length);
     expect([...headerPaths].sort()).toEqual([...indexableInnerPaths].sort());
@@ -45,6 +46,9 @@ describe("navigation registry", () => {
     expect(new Set(footerPaths).size).toBe(footerPaths.length);
     expect(footerPaths).toEqual(
       expect.arrayContaining([
+        "/squad-builder",
+        "/corrections",
+        "/updates",
         "/game-info",
         "/system-requirements",
         "/multiplayer",

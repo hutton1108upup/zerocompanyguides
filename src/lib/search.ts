@@ -31,5 +31,7 @@ export function collectBlockText(block: ContentBlock): string {
       return [block.heading, ...block.items.flatMap((item) => [item.label, ...item.bullets])].join(" ");
     case "faq":
       return [block.heading, ...block.items.flatMap((item) => [item.question, item.answer])].join(" ");
+    case "squad-builder":
+      return [block.heading, block.intro, "Squad Builder four Operators team planner findings evaluation share"].join(" ");
   }
 }

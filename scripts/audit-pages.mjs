@@ -12,8 +12,9 @@ if (!sitemapResponse.ok) throw new Error(`sitemap.xml returned ${sitemapResponse
 const sitemapXml = await sitemapResponse.text();
 const sitemapUrls = [...sitemapXml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 
-if (sitemapUrls.length !== 22) {
-  throw new Error(`Expected 22 sitemap URLs, received ${sitemapUrls.length}`);
+if (sitemapUrls.length === 0) throw new Error("sitemap.xml contains no URLs");
+if (new Set(sitemapUrls).size !== sitemapUrls.length) {
+  throw new Error("sitemap.xml contains duplicate URLs");
 }
 
 const results = [];

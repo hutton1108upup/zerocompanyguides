@@ -6,6 +6,7 @@ import { ContentImage } from "./content-image";
 import { ContentVideo } from "./content-video";
 import { MissionBriefing } from "./mission-briefing";
 import { ResponsiveDataTable } from "./responsive-data-table";
+import { SquadBuilder } from "./squad-builder";
 import { VerdictGrid } from "./verdict-grid";
 
 const toneClass = (tone?: Tone) => (tone ? `tone-${tone}` : "tone-cyan");
@@ -145,6 +146,16 @@ export function ContentBlocks({ blocks }: { blocks: ContentBlock[] }) {
               <div className="faq-answer"><p>{item.answer}</p></div>
             </details>
           ))}
+        </section>
+      );
+    }
+
+    if (block.type === "squad-builder") {
+      return (
+        <section className="content-section squad-builder-section" key={`${block.type}-${block.heading}`}>
+          <BlockHeading>{block.heading}</BlockHeading>
+          <p>{block.intro}</p>
+          <SquadBuilder />
         </section>
       );
     }

@@ -24,6 +24,7 @@ describe("rendered site navigation", () => {
 
     expect(primaryNav).toContain('href="/weapons"');
     expect(primaryNav).toContain('href="/game-info"');
+    expect(primaryNav).toContain('href="/squad-builder"');
     expect(primaryNav).toContain('aria-controls="desktop-more-navigation"');
     expect(primaryNav).toContain("More");
 
@@ -61,6 +62,18 @@ describe("rendered site navigation", () => {
     expect(ownerLink).toContain('data-active="true"');
     expect(ownerLink).toContain('aria-current="location"');
     expect(moreButton).toContain('data-active="false"');
+
+    navigationState.pathname = "/";
+  });
+
+  it("marks the Squad Builder as the current primary page", () => {
+    navigationState.pathname = "/squad-builder";
+
+    const markup = renderToStaticMarkup(createElement(SiteHeader));
+    const builderLink = markup.match(/<a[^>]*href="\/squad-builder"[^>]*>/)?.[0];
+
+    expect(builderLink).toContain('data-active="true"');
+    expect(builderLink).toContain('aria-current="page"');
 
     navigationState.pathname = "/";
   });

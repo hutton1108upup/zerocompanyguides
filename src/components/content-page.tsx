@@ -43,7 +43,7 @@ export function ContentPageView({ page }: { page: ContentPage }) {
         <article className="article-body">
           <ContentBlocks blocks={page.blocks} />
           <RelatedPages page={page} />
-          <SourceList ids={page.sources} />
+          {page.sources.length ? <SourceList ids={page.sources} /> : null}
         </article>
         {tocHeadings.length > 1 ? <ArticleToc items={tocItems} /> : null}
       </div>

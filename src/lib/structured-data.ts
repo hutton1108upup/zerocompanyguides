@@ -10,15 +10,29 @@ import {
 
 export type StructuredDataNode =
   | WebSiteStructuredData
+  | SiteOrganizationStructuredData
   | CollectionOrArticleStructuredData
+  | SoftwareApplicationStructuredData
   | BreadcrumbListStructuredData
   | FaqPageStructuredData
   | VideoObjectStructuredData;
 
 type OrganizationStructuredData = {
   "@type": "Organization";
+  "@id"?: string;
   name: string;
   url: string;
+};
+
+export type SiteOrganizationStructuredData = {
+  "@context": "https://schema.org";
+  "@type": "Organization";
+  "@id": string;
+  name: string;
+  alternateName: string[];
+  url: string;
+  logo: string;
+  publishingPrinciples: string;
 };
 
 type WebSiteRefStructuredData = {
@@ -83,7 +97,7 @@ export type VideoObjectStructuredData = {
 
 export type CollectionOrArticleStructuredData = {
   "@context": "https://schema.org";
-  "@type": "CollectionPage" | "Article";
+  "@type": "CollectionPage" | "Article" | "WebPage";
   name: string;
   headline: string;
   description: string;
@@ -91,6 +105,22 @@ export type CollectionOrArticleStructuredData = {
   dateModified: string;
   isPartOf: WebSiteRefStructuredData;
   citation: string[];
+};
+
+export type SoftwareApplicationStructuredData = {
+  "@context": "https://schema.org";
+  "@type": "SoftwareApplication";
+  name: string;
+  description: string;
+  url: string;
+  applicationCategory: "GameApplication";
+  operatingSystem: "Web";
+  isAccessibleForFree: true;
+  offers: {
+    "@type": "Offer";
+    price: "0";
+    priceCurrency: "USD";
+  };
 };
 
 function getFaqBlock(page: ContentPage): FaqBlock | undefined {
@@ -110,8 +140,30 @@ function toIsoDuration(duration: string): string {
   return `PT${hours ? `${hours}H` : ""}${minutes ? `${minutes}M` : ""}${seconds ? `${seconds}S` : ""}`;
 }
 
-function getPageSchemaType(page: ContentPage): "CollectionPage" | "Article" {
+function getPageSchemaType(page: ContentPage): "CollectionPage" | "Article" | "WebPage" {
+  if (page.pageType === "tool") return "WebPage";
   return page.pageType === "home" || page.pageType === "hub" ? "CollectionPage" : "Article";
+}
+
+function buildSoftwareApplicationStructuredData(
+  page: ContentPage,
+): SoftwareApplicationStructuredData | undefined {
+  if (page.pageType !== "tool") return undefined;
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: page.h1,
+    description: page.description,
+    url: buildCanonicalUrl(page.path),
+    applicationCategory: "GameApplication",
+    operatingSystem: "Web",
+    isAccessibleForFree: true,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  };
 }
 
 export function buildSiteStructuredData(page: ContentPage): WebSiteStructuredData {
@@ -125,9 +177,23 @@ export function buildSiteStructuredData(page: ContentPage): WebSiteStructuredDat
     inLanguage: "en",
     publisher: {
       "@type": "Organization",
+      "@id": `${buildCanonicalUrl("/")}#organization`,
       name: siteName,
       url: siteOrigin,
     },
+  };
+}
+
+export function buildOrganizationStructuredData(): SiteOrganizationStructuredData {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${buildCanonicalUrl("/")}#organization`,
+    name: siteName,
+    alternateName: [...siteAlternateNames],
+    url: buildCanonicalUrl("/"),
+    logo: buildCanonicalUrl("/icon"),
+    publishingPrinciples: buildCanonicalUrl("/corrections"),
   };
 }
 
@@ -169,6 +235,7 @@ export function buildPageStructuredData(page: ContentPage): {
   breadcrumb: BreadcrumbListStructuredData;
   faq?: FaqPageStructuredData;
   videos?: VideoObjectStructuredData[];
+  application?: SoftwareApplicationStructuredData;
 } {
   const pageSources = resolveSources(page.sources);
   const structuredPage: CollectionOrArticleStructuredData = {
@@ -188,6 +255,7 @@ export function buildPageStructuredData(page: ContentPage): {
   };
 
   const faq = buildFaqStructuredData(page);
+  const application = buildSoftwareApplicationStructuredData(page);
   const videos = getVideoBlocks(page).map<VideoObjectStructuredData>((video) => ({
     "@context": "https://schema.org",
     "@type": "VideoObject",
@@ -210,6 +278,7 @@ export function buildPageStructuredData(page: ContentPage): {
     breadcrumb: buildBreadcrumbStructuredData(page),
     ...(faq ? { faq } : {}),
     ...(videos.length ? { videos } : {}),
+    ...(application ? { application } : {}),
   };
 }
 
@@ -218,6 +287,7 @@ export function buildStructuredDataNodes(page: ContentPage): StructuredDataNode[
   return [
     pageGraph.page,
     pageGraph.breadcrumb,
+    ...(pageGraph.application ? [pageGraph.application] : []),
     ...(pageGraph.faq ? [pageGraph.faq] : []),
     ...(pageGraph.videos ?? []),
   ];
