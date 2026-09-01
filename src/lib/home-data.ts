@@ -1,9 +1,9 @@
 export const popularPaths = [
+  "/squad-builder",
   "/builds/hawks",
   "/classes/tier-list",
   "/builds/best-team",
   "/performance/fps-fix",
-  "/trophy-guide",
   "/walkthrough",
 ] as const;
 
@@ -20,8 +20,8 @@ export const homeSections = [
   {
     title: "Builds",
     kicker: "Operator loadouts",
-    description: "Choose Hawks by playstyle, then cover every squad role with a replacement plan.",
-    links: ["/builds", "/builds/hawks", "/builds/best-team"],
+    description: "Plan four legal bays, inspect role and resource gaps, then open the evidence behind each recommendation.",
+    links: ["/squad-builder", "/builds", "/builds/hawks", "/builds/best-team"],
   },
   {
     title: "Classes",

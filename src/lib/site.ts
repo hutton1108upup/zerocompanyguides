@@ -30,6 +30,7 @@ export function resolveSiteOrigin(env?: OriginEnv): string {
 export const siteOrigin = resolveSiteOrigin();
 
 export const primaryNavigationPaths = [
+  "/squad-builder",
   "/builds",
   "/classes",
   "/weapons",
@@ -37,13 +38,13 @@ export const primaryNavigationPaths = [
   "/walkthrough",
   "/trophy-guide",
   "/performance",
-  "/game-info",
 ] as const;
 
 export const moreNavigationSections = [
   {
     title: "Start & Decide",
     paths: [
+      "/game-info",
       "/guides",
       "/guides/beginners-guide",
       "/guides/permadeath",
@@ -72,6 +73,10 @@ export const moreNavigationSections = [
       "/characters/voice-cast",
     ],
   },
+  {
+    title: "This Site",
+    paths: ["/corrections", "/updates"],
+  },
 ] as const;
 
 export const footerNavigationSections = [
@@ -89,6 +94,7 @@ export const footerNavigationSections = [
   {
     title: "Build & Strategy",
     paths: [
+      "/squad-builder",
       "/classes",
       "/classes/tier-list",
       "/builds",
@@ -118,6 +124,10 @@ export const footerNavigationSections = [
       "/performance/steam-deck",
       "/mods",
     ],
+  },
+  {
+    title: "Site Trust",
+    paths: ["/corrections", "/updates"],
   },
 ] as const;
 

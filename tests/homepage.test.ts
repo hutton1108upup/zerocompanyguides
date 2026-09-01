@@ -51,9 +51,18 @@ describe("homepage data", () => {
 
   it("exposes six current popular destinations", () => {
     expect(popularPaths).toHaveLength(6);
+    expect(popularPaths[0]).toBe("/squad-builder");
     for (const path of popularPaths) {
       expect(contentPageByPath.has(path), path).toBe(true);
     }
+  });
+
+  it("makes the account-free Squad Builder the primary product action", () => {
+    const markup = renderToStaticMarkup(createElement(HomePage));
+
+    expect(markup).toContain('href="/squad-builder"');
+    expect(markup).toContain("Build Your Squad");
+    expect(homeSections[0].links[0]).toBe("/squad-builder");
   });
 
   it("provides official quick facts without mutable review counts", () => {

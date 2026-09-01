@@ -1,8 +1,12 @@
 import type { ContentPage } from "./types";
 import { getMediaBlocksForPath } from "./media";
+import { standardClassTableRows } from "./squad-data";
 
 export const requiredPublicPaths = [
   "/",
+  "/squad-builder",
+  "/corrections",
+  "/updates",
   "/classes",
   "/classes/tier-list",
   "/builds",
@@ -47,6 +51,8 @@ const page = (input: PageInput): ContentPage => {
   const defaultVerification =
     input.status === "needs-retest" || input.evidence === "unverified"
       ? "needs-retest"
+      : input.evidence === "editorial"
+        ? "maintained-site-policy"
       : input.evidence === "official"
         ? "official-verified"
         : "source-verified-synthesis";
@@ -68,6 +74,9 @@ const page = (input: PageInput): ContentPage => {
     ],
   };
 };
+
+const correctionIssueUrl =
+  "https://github.com/hutton1108upup/zerocompanyguides/issues/new?title=Correction%3A%20%5Bpage%5D%20claim&body=page%20URL%3A%0Aclaim%20to%20correct%3A%0Aevidence%20link%3A%0Agame%20version%3A%0Aplatform%3A%0Adifficulty%3A%0Awhat%20you%20observed%3A";
 
 export const contentPages: ContentPage[] = [
   page({
@@ -171,7 +180,7 @@ export const contentPages: ContentPage[] = [
     pageType: "hub",
     evidence: "official",
     sources: ["ea-specializations", "ea-class-guide", "ea-gameplay-overview"],
-    related: ["/classes/tier-list", "/builds/hawks", "/builds/best-team", "/weapons"],
+    related: ["/squad-builder", "/classes/tier-list", "/builds/hawks", "/builds/best-team"],
     blocks: [
       {
         type: "briefing",
@@ -186,16 +195,7 @@ export const contentPages: ContentPage[] = [
         heading: "The eight standard Specializations",
         caption: "Official role descriptions, condensed from EA's Specialization guide.",
         columns: ["Class", "Primary job", "Signature tools", "Best fit"],
-        rows: [
-          ["Assault", "Mobile frontline", "Bull Rush, displacement, exposed-target pressure", "Aggressive close-to-mid range"],
-          ["Gunslinger", "Tempo damage", "Extra attacks, quick sidearm shots, critical pressure", "Fast offensive turns"],
-          ["Heavy", "Tank and aggro", "Taunt, retaliation, armor and health", "Holding exposed ground"],
-          ["Medic", "Sustain and recovery", "Morale healing, Combat Stim, stronger Medpacs", "Permadeath safety"],
-          ["Scoundrel", "Assist and setup", "Vulnerable, assist damage, defense penetration", "Coordinated focus fire"],
-          ["Scout", "Recon and Advantage", "Combat Recon, Spotted, Advantage generation", "Team economy"],
-          ["Sharpshooter", "Long-range precision", "Guaranteed hit, accuracy setup, improved Overwatch", "Stable firing positions"],
-          ["Soldier", "All-round offense", "Rocket area damage, melee Daze, broad combat tools", "Straightforward versatility"],
-        ],
+        rows: standardClassTableRows,
       },
       {
         type: "cards",
@@ -281,7 +281,7 @@ export const contentPages: ContentPage[] = [
     pageType: "hub",
     evidence: "community",
     sources: ["ea-class-guide", "ea-gameplay-overview", "pcg-best-class", "reddit-squads"],
-    related: ["/builds/hawks", "/builds/best-team", "/classes", "/weapons"],
+    related: ["/squad-builder", "/builds/hawks", "/builds/best-team", "/classes"],
     blocks: [
       {
         type: "briefing",
@@ -325,7 +325,7 @@ export const contentPages: ContentPage[] = [
     pageType: "decision",
     evidence: "community",
     sources: ["ea-class-guide", "pcg-best-class", "pcg-respec", "reddit-hawks"],
-    related: ["/classes/tier-list", "/guides/respec", "/builds/best-team"],
+    related: ["/squad-builder", "/classes/tier-list", "/guides/respec", "/builds/best-team"],
     blocks: [
       {
         type: "briefing",
@@ -719,6 +719,58 @@ export const contentPages: ContentPage[] = [
           { title: "Check who can cover the next mission", label: "Companions", body: "Review authored Operators, Custom recruits, Injuries, Bonds and spoiler-light recruitment windows before deployment.", href: "/characters/companions", tone: "cyan" },
           { title: "Stabilize the early campaign", label: "Beginner Guide", body: "Review AP, Advantage, expiry and extraction rules before launching the Tactical Mission that advances the Cycle.", href: "/guides/beginners-guide", tone: "green" },
           { title: "Protect the completion route", label: "Trophy Guide", body: "Check difficulty, story and permadeath-sensitive achievement categories before a spoiler-heavy commitment.", href: "/trophy-guide", tone: "amber" },
+        ],
+      },
+    ],
+  }),
+  page({
+    path: "/squad-builder",
+    navLabel: "Squad Builder",
+    title: "Star Wars Zero Company Squad Builder and Team Planner",
+    description:
+      "Build a four-Operator Star Wars Zero Company squad, check source-bounded role coverage and conflicts, then save or share the exact team without an account.",
+    h1: "Star Wars Zero Company Squad Builder & Team Planner",
+    kicker: "Four bays · one plan",
+    summary:
+      "Choose Operators, Specializations and weapons; the readout explains source-backed constraints, inferred gaps and what the team still needs.",
+    pageType: "tool",
+    evidence: "community",
+    verification: "source-verified-synthesis",
+    lastVerified: "2026-09-01",
+    gameVersion: "Launch build — source model checked 2026-09-01",
+    sources: ["ea-class-guide", "ea-gameplay-overview", "ea-tactics-basics", "epic-operators"],
+    related: ["/builds", "/builds/best-team", "/classes", "/weapons"],
+    blocks: [
+      {
+        type: "briefing",
+        items: [
+          "Story mode requires Hawks; Skirmish mode allows any legal four-Operator lineup.",
+          "The planner flags role and resource pressure from published mechanics. It does not simulate unpublished hit chances or promise a best squad.",
+          "Saving stays in this browser and sharing encodes the four bays in the URL. No account or upload is required.",
+        ],
+      },
+      {
+        type: "squad-builder",
+        heading: "Build and evaluate four Operators",
+        intro:
+          "Start from a curated source-bounded preset or replace every bay. The readout keeps confirmed constraints separate from tactical synthesis.",
+      },
+      {
+        type: "faq",
+        heading: "Squad Builder boundaries",
+        items: [
+          {
+            question: "Does this calculate exact damage or hit chance?",
+            answer: "No. The database does not contain enough reproduced enemy Defense, accuracy and patch-specific values to make that honest. The tool evaluates composition and published rules instead.",
+          },
+          {
+            question: "Is a green readout proof that the squad is best?",
+            answer: "No. It means the selected roles cover the recorded dimensions. Mission geometry, difficulty, injuries, upgrades and player execution can still change the result.",
+          },
+          {
+            question: "Do I need an account to save or share a squad?",
+            answer: "No. Save uses versioned browser storage and share links carry the squad code in the URL.",
+          },
         ],
       },
     ],
@@ -2041,6 +2093,135 @@ export const contentPages: ContentPage[] = [
         items: [
           { question: "Is Deluxe worth the extra $10?", answer: "The listed upgrade is cosmetic. Buy it for the armor and weapon themes, not for additional classes or campaign missions." },
           { question: "Should Steam Deck owners buy now?", answer: "Not for native Deck-first play. EA withholds Verified status and two launch tests report sub-30 FPS behavior." },
+        ],
+      },
+    ],
+  }),
+  page({
+    path: "/corrections",
+    navLabel: "Corrections",
+    title: "Star Wars Zero Company Corrections and Editorial Policy",
+    description:
+      "Report a Zero Company guide error with its page, evidence link, game version, platform and difficulty, then follow the site's transparent correction process.",
+    h1: "Star Wars Zero Company Corrections & Editorial Policy",
+    kicker: "Trust is a maintained system",
+    summary:
+      "Send evidence, not just a disagreement. Corrections update the underlying record and preserve what changed instead of silently rewriting history.",
+    pageType: "editorial",
+    evidence: "editorial",
+    verification: "maintained-site-policy",
+    lastVerified: "2026-09-01",
+    gameVersion: "Site policy — maintained 2026-09-01",
+    platforms: ["Web"],
+    difficulty: "Not applicable",
+    sources: [],
+    related: ["/updates", "/squad-builder", "/"],
+    blocks: [
+      {
+        type: "briefing",
+        label: "What makes a correction actionable",
+        items: [
+          "Name the exact page and claim that is wrong.",
+          "Attach an official source, a video timestamp, a screenshot or reproducible in-game evidence.",
+          "For game observations, include game version, platform and difficulty so one save is not presented as a universal rule.",
+        ],
+      },
+      {
+        type: "cards",
+        heading: "Open the correction queue",
+        intro: "The link opens a public GitHub issue template with every field needed to reproduce the claim.",
+        items: [
+          {
+            title: "Submit a correction with evidence",
+            label: "GitHub issue",
+            body: "Include the page URL, disputed claim, evidence link, game version, platform, difficulty and observed result.",
+            href: correctionIssueUrl,
+            tone: "cyan",
+          },
+        ],
+      },
+      {
+        type: "steps",
+        heading: "What happens after a correction",
+        items: [
+          { title: "Record the evidence", body: "Capture the publisher, URL, checked date and exact location supporting the correction." },
+          { title: "Change the source record", body: "Update the shared content or squad-data record rather than patching one visible paragraph in isolation." },
+          { title: "Reset its status", body: "Change verification and last-checked fields when a patch or stronger source alters the conclusion." },
+          { title: "List affected routes", body: "Re-run the content, metadata, sitemap and Builder tests to identify every public surface that depends on the record." },
+          { title: "Publish the change", body: "Add a dated entry to the Updates page that names what changed and why." },
+        ],
+      },
+      {
+        type: "warning",
+        heading: "No invented correction history",
+        body: "The public log begins with actual site changes. It will not be padded with example mistakes or anonymous claims that cannot be reproduced.",
+        tone: "cyan",
+      },
+    ],
+  }),
+  page({
+    path: "/updates",
+    navLabel: "Site Updates",
+    title: "Star Wars Zero Company Site Updates and Change Log",
+    description:
+      "Review dated Zero Company Intel content, UI, evidence and metadata changes, including what moved, which routes were affected and how each update was verified.",
+    h1: "Star Wars Zero Company Site Updates & Change Log",
+    kicker: "Visible maintenance record",
+    summary:
+      "A dated record of meaningful content and product changes—not a freshness date changed without corresponding work.",
+    pageType: "editorial",
+    evidence: "editorial",
+    verification: "maintained-site-policy",
+    lastVerified: "2026-09-01",
+    gameVersion: "Site change log — maintained 2026-09-01",
+    platforms: ["Web"],
+    difficulty: "Not applicable",
+    sources: [],
+    related: ["/corrections", "/squad-builder", "/guides/beginners-guide"],
+    blocks: [
+      {
+        type: "briefing",
+        items: [
+          "An entry appears only when visible content, evidence, product behavior or technical delivery changed.",
+          "A newer date does not imply every older game mechanic was re-tested.",
+          "Game-source changes keep their page-level provenance; site-policy changes use the Editorial label.",
+        ],
+      },
+      {
+        type: "table",
+        heading: "Current public change log",
+        caption: "Verified against the current branch history on September 1, 2026.",
+        columns: ["Date", "Change", "Affected routes", "Verification"],
+        rows: [
+          ["2026-09-01", "Added a source-bounded four-slot Squad Builder, explainable rule engine, local save and share code", "/squad-builder, homepage, navigation", "Engine, route, metadata and interaction tests"],
+          ["2026-09-01", "Polished responsive guide navigation, mobile table behavior and page scanning", "All guide routes", "Responsive browser audit and regression tests"],
+          ["2026-09-01", "Focused the weapon FAQ and decision matrix on AP, range and Weapon Mod boundaries", "/weapons", "Content and metadata contract tests"],
+          ["2026-09-01", "Added responsive official key art and hardened headers, icons and metadata assets", "/, shared metadata", "Desktop/mobile media and metadata tests"],
+          ["2026-09-01", "Expanded companion, campaign and priority player guides with explicit evidence limits", "/characters/companions, /walkthrough, /guides/beginners-guide", "Source-ledger and route-specific tests"],
+          ["2026-08-31", "Replaced generic homepage copy with a practical six-step game loop", "/", "Homepage tests, lint and production build"],
+        ],
+      },
+      {
+        type: "prose",
+        heading: "What does not count as freshness",
+        bullets: [
+          "Changing only a date without rechecking the underlying claim.",
+          "Renaming a heading while leaving a known incorrect mechanic in place.",
+          "Treating one community report as retail-wide verification.",
+          "Calling a local build or preview a production deployment.",
+        ],
+      },
+      {
+        type: "cards",
+        heading: "Found a missing or incorrect change?",
+        items: [
+          {
+            title: "Open the correction process",
+            label: "Evidence required",
+            body: "Report the exact page and source so the record and every dependent route can be updated together.",
+            href: "/corrections",
+            tone: "amber",
+          },
         ],
       },
     ],

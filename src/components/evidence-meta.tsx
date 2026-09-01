@@ -14,12 +14,14 @@ const evidenceLabel = {
   official: "Official sources",
   community: "Community synthesis",
   unverified: "Unverified",
+  editorial: "Site editorial policy",
 } as const;
 
 const verificationLabel = {
   "official-verified": "Official verified",
   "source-verified-synthesis": "Source-verified synthesis",
   "needs-retest": "Needs retest",
+  "maintained-site-policy": "Maintained site policy",
 } as const;
 
 const isoDatePattern = /(\d{4}-\d{2}-\d{2})/g;
@@ -34,7 +36,11 @@ function MetaText({ value }: { value: string }) {
 }
 
 export function EvidenceMeta({ page }: { page: ContentPage }) {
-  const EvidenceIcon = page.evidence === "official" ? CircleCheck : ShieldQuestion;
+  const EvidenceIcon = page.evidence === "official"
+    ? CircleCheck
+    : page.evidence === "editorial"
+      ? BadgeCheck
+      : ShieldQuestion;
 
   return (
     <div className="verification-meta" aria-label="Verification details">
