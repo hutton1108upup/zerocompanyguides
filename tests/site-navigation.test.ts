@@ -5,8 +5,10 @@ import { SiteFooter } from "../src/components/site-footer";
 import { SiteHeader } from "../src/components/site-header";
 import { contentPages } from "../src/content/pages";
 
+const navigationState = vi.hoisted(() => ({ pathname: "/" }));
+
 vi.mock("next/navigation", () => ({
-  usePathname: () => "/",
+  usePathname: () => navigationState.pathname,
 }));
 
 const indexableInnerPaths = contentPages
@@ -40,5 +42,26 @@ describe("rendered site navigation", () => {
         `href="${path}"`,
       );
     }
+  });
+
+  it.each([
+    ["/builds/hawks", "/builds"],
+    ["/performance/pc", "/performance"],
+  ])("keeps one primary owner active for %s", (pathname, owner) => {
+    navigationState.pathname = pathname;
+
+    const markup = renderToStaticMarkup(createElement(SiteHeader));
+    const ownerLink = markup.match(
+      new RegExp(`<a[^>]*href="${owner}"[^>]*>|<a[^>]*data-active="true"[^>]*href="${owner}"[^>]*>`),
+    )?.[0];
+    const moreButton = markup.match(
+      /<button[^>]*class="site-nav__more-button"[^>]*>/,
+    )?.[0];
+
+    expect(ownerLink).toContain('data-active="true"');
+    expect(ownerLink).toContain('aria-current="location"');
+    expect(moreButton).toContain('data-active="false"');
+
+    navigationState.pathname = "/";
   });
 });

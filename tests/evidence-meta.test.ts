@@ -9,7 +9,7 @@ describe("verification metadata", () => {
     const page = contentPages.find((entry) => entry.path === "/performance/pc")!;
     const markup = renderToStaticMarkup(createElement(EvidenceMeta, { page }));
 
-    expect(markup).toContain(page.gameVersion);
+    expect(markup).toContain(page.gameVersion.replace(page.lastVerified, ""));
     expect(markup).toContain(`Difficulty: ${page.difficulty}`);
     expect(markup).toContain("Needs retest");
     expect(markup).not.toContain("Status: verified");
@@ -30,5 +30,17 @@ describe("verification metadata", () => {
     expect(
       renderToStaticMarkup(createElement(EvidenceMeta, { page: synthesisPage })),
     ).toContain("Source-verified synthesis");
+  });
+
+  it("keeps ISO dates atomic and machine-readable", () => {
+    const page = contentPages.find(
+      (entry) => entry.path === "/guides/beginners-guide",
+    )!;
+    const markup = renderToStaticMarkup(createElement(EvidenceMeta, { page }));
+    const renderedDates = markup.match(
+      /<time dateTime="2026-08-31">2026-08-31<\/time>/g,
+    );
+
+    expect(renderedDates ?? []).toHaveLength(2);
   });
 });

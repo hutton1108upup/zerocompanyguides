@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import type { ContentPage } from "../content/types";
 import { getHeadingId, getParentPage } from "../lib/content";
+import { ArticleToc } from "./article-toc";
 import { ContentBlocks } from "./content-blocks";
 import { PageHero } from "./page-hero";
 import { RelatedPages } from "./related-pages";
@@ -12,6 +13,10 @@ export function ContentPageView({ page }: { page: ContentPage }) {
   const tocHeadings = page.blocks
     .filter((block) => "heading" in block)
     .map((block) => block.heading);
+  const tocItems = tocHeadings.map((heading) => ({
+    id: getHeadingId(heading),
+    label: heading,
+  }));
 
   return (
     <main>
@@ -28,8 +33,8 @@ export function ContentPageView({ page }: { page: ContentPage }) {
             <span>{tocHeadings.length} sections</span>
           </summary>
           <nav aria-label="Mobile section navigation">
-            {tocHeadings.map((heading) => (
-              <a href={`#${getHeadingId(heading)}`} key={heading}>{heading}</a>
+            {tocItems.map((item) => (
+              <a href={`#${item.id}`} key={item.id}>{item.label}</a>
             ))}
           </nav>
         </details>
@@ -40,12 +45,7 @@ export function ContentPageView({ page }: { page: ContentPage }) {
           <RelatedPages page={page} />
           <SourceList ids={page.sources} />
         </article>
-        {tocHeadings.length > 1 && (
-          <nav className="toc" aria-label="On this page">
-            <p className="hud-label">On this page</p>
-            {tocHeadings.map((heading) => <a href={`#${getHeadingId(heading)}`} key={heading}>{heading}</a>)}
-          </nav>
-        )}
+        {tocHeadings.length > 1 ? <ArticleToc items={tocItems} /> : null}
       </div>
     </main>
   );
