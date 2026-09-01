@@ -2055,10 +2055,6 @@ export const contentPages: ContentPage[] = [
 
 export const contentPageByPath = new Map(contentPages.map((entry) => [entry.path, entry]));
 
-export const indexableContentPages = contentPages.filter(
-  (entry) => entry.indexable && entry.status !== "draft" && entry.status !== "archived",
-);
-
 export function getContentPage(path: string): ContentPage | undefined {
   return contentPageByPath.get(path);
 }

@@ -1,0 +1,26 @@
+{
+  "name": "Star Wars Zero Company Intel",
+  "short_name": "Zero Company Intel",
+  "description": "Evidence-labeled Star Wars Zero Company guides and tactical planning.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08111d",
+  "theme_color": "#22d3ee",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icon",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

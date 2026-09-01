@@ -8,6 +8,7 @@ import {
 } from "../src/lib/structured-data";
 import {
   buildCanonicalUrl,
+  isPublicIndexablePage,
   defaultSiteOrigin,
   resolveSiteOrigin,
   siteOrigin,
@@ -41,6 +42,15 @@ describe("SEO outputs", () => {
     expect(urls.sort()).toEqual(expectedUrls.sort());
     expect(urls).not.toContain(buildCanonicalUrl("/wiki"));
     expect(urls).not.toContain(buildCanonicalUrl("/classes/best"));
+  });
+
+  it("never treats draft or archived pages as public indexable routes", () => {
+    const basePage = contentPages[0];
+
+    expect(isPublicIndexablePage({ ...basePage, indexable: true, status: "draft" })).toBe(false);
+    expect(isPublicIndexablePage({ ...basePage, indexable: true, status: "archived" })).toBe(false);
+    expect(isPublicIndexablePage({ ...basePage, indexable: false, status: "verified" })).toBe(false);
+    expect(isPublicIndexablePage({ ...basePage, indexable: true, status: "verified" })).toBe(true);
   });
 
   it("points robots at the canonical sitemap and allows crawling", () => {

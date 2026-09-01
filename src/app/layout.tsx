@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
   title: siteName,
   description: siteDescription,
+  manifest: "/site.webmanifest",
   openGraph: {
     type: "website",
     siteName,
