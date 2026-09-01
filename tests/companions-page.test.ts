@@ -39,10 +39,16 @@ describe("companions child page", () => {
     expect(contentPages.some((page) => page.path === "/companions")).toBe(false);
   });
 
-  it("answers companion choice, recruitment, Bonds and survival questions", () => {
+  it("answers best-companion, unlock and Bond-strategy searches on one canonical", () => {
     const companions = contentPages.find((page) => page.path === companionsPath);
     const decisionTable = companions?.blocks.find(
       (block) => block.type === "table" && block.heading === "All six story companions at a glance",
+    );
+    const unlockTable = companions?.blocks.find(
+      (block) => block.type === "table" && block.heading === "How to unlock every companion",
+    );
+    const bondTable = companions?.blocks.find(
+      (block) => block.type === "table" && block.heading === "Best Bond strategy: core team or roster rotation?",
     );
     const headings = companions?.blocks
       .filter((block) => "heading" in block)
@@ -69,13 +75,44 @@ describe("companions child page", () => {
 
     expect(headings).toEqual(
       expect.arrayContaining([
-        "Which companion should you bring?",
+        "Best companions by squad job",
+        "How to unlock every companion",
         "Authored vs Custom Operators",
+        "Best Bond strategy: core team or roster rotation?",
         "How Bonds and Cross Training change squad planning",
         "Injuries, Permadeath and reserve Operators",
         "Companion questions",
       ]),
     );
+
+    expect(unlockTable?.type).toBe("table");
+    if (unlockTable?.type === "table") {
+      expect(unlockTable.rows.map((row) => row[0])).toEqual([
+        "Trick (CT-3301)",
+        "Kabb Uppercut",
+        "Jae Mordant",
+        "Tel-Rea Vokoss",
+        "Cly Kullervo",
+        "Luco Bronc",
+      ]);
+      expect(unlockTable.columns).toEqual([
+        "Companion",
+        "Unlock window",
+        "What to do",
+        "Evidence boundary",
+      ]);
+    }
+
+    expect(bondTable?.type).toBe("table");
+    if (bondTable?.type === "table") {
+      expect(bondTable.rows.map((row) => row[0])).toEqual([
+        "Core team",
+        "Wide rotation",
+        "Hybrid rotation",
+      ]);
+      expect(bondTable.rows[2].join(" ")).toContain("Recommended starting point");
+      expect(bondTable.rows.flat().join(" ")).toContain("community");
+    }
 
     const briefing = companions?.blocks.find((block) => block.type === "briefing");
     expect(briefing?.type).toBe("briefing");

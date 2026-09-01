@@ -28,10 +28,38 @@ describe("content enrichment routes", () => {
     }
 
     const roleMatrix = weapons?.blocks.find(
-      (block) => block.type === "table" && block.heading === "Weapon × Specialization × squad job",
+      (block) => block.type === "table" && block.heading === "Best weapon for every Specialization",
     );
     expect(roleMatrix?.type).toBe("table");
     if (roleMatrix?.type === "table") expect(roleMatrix.rows).toHaveLength(8);
+
+    const classComparison = weapons?.blocks.find(
+      (block) => block.type === "table" && block.heading === "Rifle vs Pistol vs Longarm vs Repeater",
+    );
+    expect(classComparison?.type).toBe("table");
+    if (classComparison?.type === "table") {
+      expect(classComparison.rows.slice(0, 4).map((row) => row[1])).toEqual([
+        "Blaster Pistol",
+        "Blaster Rifle",
+        "Repeater",
+        "Longarm Blaster",
+      ]);
+    }
+
+    const bestChanges = weapons?.blocks.find(
+      (block) => block.type === "table" && block.heading === 'When the "best" weapon changes',
+    );
+    expect(bestChanges?.type).toBe("table");
+    if (bestChanges?.type === "table") {
+      expect(bestChanges.rows.map((row) => row[0])).toEqual([
+        "Map and objective",
+        "Specialization and Talent",
+        "Action Point plan",
+        "Mods and roster-wide upgrades",
+        "Difficulty and Injury state",
+      ]);
+      expect(bestChanges.rows.flat().join(" ")).toContain("community");
+    }
 
     const evidenceTable = weapons?.blocks.find(
       (block) => block.type === "table" && block.heading === "Official values versus launch observations",
@@ -60,9 +88,13 @@ describe("content enrichment routes", () => {
     }
 
     const sourceKinds = new Set(resolveSources(weapons?.sources ?? []).map((source) => source.kind));
+    const sourceIds = resolveSources(weapons?.sources ?? []).map((source) => source.id);
     expect(sourceKinds.has("official")).toBe(true);
     expect(sourceKinds.has("press")).toBe(true);
     expect(sourceKinds.has("community")).toBe(true);
+    expect(sourceIds).toEqual(
+      expect.arrayContaining(["reddit-weapons-specializations", "reddit-repeater-debate"]),
+    );
   });
 
   it("keeps character identity on the hub and companion decisions on its child page", () => {
