@@ -1316,13 +1316,13 @@ export const contentPages: ContentPage[] = [
         type: "table",
         heading: "Rifle vs Pistol vs Longarm vs Repeater",
         caption: "Decision matrix; recommendations are turn-pattern guidance, not a universal tier list.",
-        columns: ["Desired turn", "Start with", "Why it fits", "Main trade-off"],
+        columns: ["Desired turn", "Start with", "Why it fits", "Main trade-off", "When it stops fitting"],
         rows: [
-          ["Move, shoot and keep one option open", "Blaster Pistol", "Every shot costs 1 AP, preserving the cleanest movement and ability choices", "Short range and the lowest base damage"],
-          ["Take one reliable shot, then decide", "Blaster Rifle", "The first shot costs 1 AP with balanced medium-range stats", "A second same-turn shot costs 2 AP"],
-          ["Hold position and convert the turn into damage", "Repeater", "Rapid Fire rewards committing more remaining AP", "Poor fit when the map forces movement first"],
-          ["Set up one high-value long-range attack", "Longarm Blaster", "Highest base and Critical Damage at long range", "A 2-AP shot makes repositioning expensive"],
-          ["Enter an unknown mission with fewer assumptions", "Blaster Rifle", "Medium range and a flexible first attack reduce map-specific risk", "It does not maximize any single extreme"],
+          ["Move, shoot and keep one option open", "Blaster Pistol", "Every shot costs 1 AP, preserving the cleanest movement and ability choices", "Short range and the lowest base damage", "Long sightlines or a prepared burst matter more than flexibility"],
+          ["Take one reliable shot, then decide", "Blaster Rifle", "The first shot costs 1 AP with balanced medium-range stats", "A second same-turn shot costs 2 AP", "The turn needs full-pool damage or a long-range specialist"],
+          ["Hold position and convert the turn into damage", "Repeater", "Rapid Fire rewards committing more remaining AP", "Poor fit when the map forces movement first", "Movement, support or extraction AP must be preserved"],
+          ["Set up one high-value long-range attack", "Longarm Blaster", "Highest base and Critical Damage at long range", "A 2-AP shot makes repositioning expensive", "The map is cramped or the turn still needs movement or utility"],
+          ["Enter an unknown mission with fewer assumptions", "Blaster Rifle", "Medium range and a flexible first attack reduce map-specific risk", "It does not maximize any single extreme", "The objective clearly rewards mobility, range or full-pool damage"],
         ],
       },
       {
@@ -1343,17 +1343,10 @@ export const contentPages: ContentPage[] = [
         ],
       },
       {
-        type: "table",
-        heading: 'When the "best" weapon changes',
-        intro: "A ranking that ignores the mission, Operator and AP plan will fail as soon as one of those inputs changes.",
-        caption: "Five variables that can move a weapon from safe default to poor fit without changing its base stat line.",
-        columns: ["Variable", "Why the answer changes", "Safe action", "Evidence"],
-        rows: [
-          ["Map and objective", "Long sightlines reward Longarm setup; forced movement and short extraction windows reward cheaper actions", "Read the objective and expected movement before locking the loadout", "Official range/AP rules plus conflicting community map reports"],
-          ["Specialization and Talent", "Fast multi-hit kits, anchored retaliation and long-range precision do not spend AP in the same way", "Start with the direct EA pairing, then test the authored Talent and secondary Specialization", "Official class guidance; alternatives are editorial fits"],
-          ["Action Point plan", "A high-damage attack can be the wrong choice if the turn still needs movement, a support ability or extraction", "Write the intended three-AP turn before comparing headline Damage", "Official three-AP and weapon-action rules"],
-          ["Mods and roster-wide upgrades", "An AP refund, range change or class-wide upgrade can overturn the base comparison", "Use the live Armory card and move verified Mods to the Operators actually deploying", "Official systems; this site has not reproduced a complete Mod tier list"],
-          ["Difficulty and Injury state", "A fragile or injured squad may value flexibility and safe range more than theoretical maximum damage", "Choose the weapon that preserves the recovery or positioning action the squad needs", "Editorial decision rule supported by community difficulty and loadout disagreements"],
+        type: "prose",
+        heading: "When the answer changes",
+        paragraphs: [
+          "The matrix is a launch-build starting point, not a permanent ranking. Recheck the map and objective, the Operator's Specialization and Talent, the three-AP plan, current Mods and upgrades, and difficulty or Injury state before locking a loadout. Official rules anchor the comparison; alternatives remain editorial fits until this site reproduces a complete Mod tier list.",
         ],
       },
       {
@@ -1399,7 +1392,8 @@ export const contentPages: ContentPage[] = [
         items: [
           { question: "What is the best weapon in Star Wars Zero Company?", answer: "There is no universal best. Blaster Rifle is the safest flexible start, Pistol preserves AP, Repeater rewards full commitment, and Longarm rewards range and setup." },
           { question: "Do Weapon Mods and weapon upgrades mean the same thing?", answer: "No. Mods are slotted on a weapon and can come from Operations, Missions or the Black Market. The Upgrade Facility also sells roster-wide weapon-class improvements." },
-          { question: "Should I create a page for each weapon now?", answer: "No. Keep the complete comparison on this Hub until GSC or repeated player questions prove that a specific class needs an independent answer." },
+          { question: "Can every Operator use every weapon class?", answer: "No. Tel-Rea uses unique Jedi equipment, Astromech Custom Operators follow Utility-focused loadouts, and authored Operators can have equipment exceptions. Check the individual Armory card before applying the four-class matrix." },
+          { question: "Can I change weapons between deployments?", answer: "Yes. EA identifies the Armory as the Den facility for changing an Operator's default weapon between deployments. Recheck the resulting stat card and AP plan before the next Tactical Mission." },
         ],
       },
     ],
