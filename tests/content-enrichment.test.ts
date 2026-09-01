@@ -38,6 +38,13 @@ describe("content enrichment routes", () => {
     );
     expect(classComparison?.type).toBe("table");
     if (classComparison?.type === "table") {
+      expect(classComparison.columns).toEqual([
+        "Desired turn",
+        "Start with",
+        "Why it fits",
+        "Main trade-off",
+        "When it stops fitting",
+      ]);
       expect(classComparison.rows.slice(0, 4).map((row) => row[1])).toEqual([
         "Blaster Pistol",
         "Blaster Rifle",
@@ -47,18 +54,17 @@ describe("content enrichment routes", () => {
     }
 
     const bestChanges = weapons?.blocks.find(
-      (block) => block.type === "table" && block.heading === 'When the "best" weapon changes',
+      (block) => block.type === "prose" && block.heading === "When the answer changes",
     );
-    expect(bestChanges?.type).toBe("table");
-    if (bestChanges?.type === "table") {
-      expect(bestChanges.rows.map((row) => row[0])).toEqual([
-        "Map and objective",
-        "Specialization and Talent",
-        "Action Point plan",
-        "Mods and roster-wide upgrades",
-        "Difficulty and Injury state",
-      ]);
-      expect(bestChanges.rows.flat().join(" ")).toContain("community");
+    expect(bestChanges?.type).toBe("prose");
+    if (bestChanges?.type === "prose") {
+      const guidance = [...(bestChanges.paragraphs ?? []), ...(bestChanges.bullets ?? [])].join(" ");
+      expect(guidance).toContain("map");
+      expect(guidance).toContain("Specialization");
+      expect(guidance).toContain("AP");
+      expect(guidance).toContain("Mods");
+      expect(guidance).toContain("difficulty");
+      expect(guidance).toContain("editorial");
     }
 
     const evidenceTable = weapons?.blocks.find(
@@ -85,6 +91,17 @@ describe("content enrichment routes", () => {
           ["Astromech Custom Operators", "Support units rely on Utilities and do not follow a conventional primary-blaster loadout", "Droid Bay official; no-standard-weapon behavior observed by launch media", "Plan Utility capacity and role, not a blaster tier"],
         ]),
       );
+    }
+
+    const faq = weapons?.blocks.find(
+      (block) => block.type === "faq" && block.heading === "Weapon questions",
+    );
+    expect(faq?.type).toBe("faq");
+    if (faq?.type === "faq") {
+      const questions = faq.items.map((item) => item.question);
+      expect(questions).toContain("Can every Operator use every weapon class?");
+      expect(questions).toContain("Can I change weapons between deployments?");
+      expect(questions).not.toContain("Should I create a page for each weapon now?");
     }
 
     const sourceKinds = new Set(resolveSources(weapons?.sources ?? []).map((source) => source.kind));
