@@ -270,6 +270,15 @@ const mediaByPath: Record<string, Array<ImageBlock | VideoBlock>> = {
   "/characters": [
     squadLineup("The official authored roster joins through the story; custom recruits add flexible species, looks and standard Specializations."),
   ],
+  "/characters/companions": [
+    officialImage({
+      src: "/media/zero-company/trick-luco.jpg",
+      alt: "Trick and Luco walk together through a dim industrial corridor.",
+      caption: "Authored companions bring their own history and unique combat edge; Bonds reward planning the relationship between roles as well as the individual build.",
+      sourceUrl: eaGamePage,
+      publisher: "Electronic Arts",
+    }),
+  ],
   "/characters/voice-cast": [
     officialImage({
       src: "/media/zero-company/cast-reveal.jpeg",

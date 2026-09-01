@@ -21,6 +21,7 @@ const tableRoutes = [
   "/system-requirements",
   "/weapons",
   "/characters",
+  "/characters/companions",
   "/characters/voice-cast",
   "/guides/beginners-guide",
   "/performance/steam-deck",
@@ -151,7 +152,7 @@ async function assertDrawerDialog(page) {
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Site navigation" });
   await dialog.waitFor({ state: "visible" });
-  invariant(await dialog.locator(".mobile-drawer__link").count() === 22, "drawer must retain all 22 links");
+  invariant(await dialog.locator(".mobile-drawer__link").count() === 23, "drawer must retain all 23 links");
   invariant(
     await dialog.locator(".mobile-drawer__header").evaluate((node) => getComputedStyle(node).position === "sticky"),
     "drawer header should remain visible while scrolling",

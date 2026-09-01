@@ -65,11 +65,12 @@ describe("content enrichment routes", () => {
     expect(sourceKinds.has("community")).toBe(true);
   });
 
-  it("keeps companions on the characters canonical with roster and consequence guidance", () => {
+  it("keeps character identity on the hub and companion decisions on its child page", () => {
     const characters = contentPages.find((page) => page.path === "/characters");
+    const companions = contentPages.find((page) => page.path === "/characters/companions");
 
-    expect(characters?.title.toLowerCase()).toContain("companions");
-    expect(characters?.h1.toLowerCase()).toContain("companions");
+    expect(characters?.title.toLowerCase()).not.toContain("companions");
+    expect(characters?.h1.toLowerCase()).not.toContain("companions");
     expect(contentPages.some((page) => page.path === "/companions")).toBe(false);
     const headings = characters?.blocks
       .filter((block) => "heading" in block)
@@ -77,13 +78,12 @@ describe("content enrichment routes", () => {
     expect(headings).toEqual(
       expect.arrayContaining([
         "Story Operators, Custom Operators and Den staff",
-        "Recruitment timing and missable content",
-        "Bonds, crewmate missions and permadeath",
+        "Character identity, cast and tactical handoffs",
       ]),
     );
 
-    const companionTable = characters?.blocks.find(
-      (block) => block.type === "table" && block.heading === "Six story companions at a glance",
+    const companionTable = companions?.blocks.find(
+      (block) => block.type === "table" && block.heading === "All six story companions at a glance",
     );
     expect(companionTable?.type).toBe("table");
     if (companionTable?.type === "table") {
@@ -102,20 +102,20 @@ describe("content enrichment routes", () => {
       const companionLink = page?.blocks
         .filter((block) => block.type === "cards")
         .flatMap((block) => block.items)
-        .find((item) => item.href === "/characters");
+        .find((item) => item.href === "/characters/companions");
 
       expect(companionLink?.label).toContain("Companions");
     }
 
-    const sourceKinds = new Set(resolveSources(characters?.sources ?? []).map((source) => source.kind));
+    const sourceKinds = new Set(resolveSources(companions?.sources ?? []).map((source) => source.kind));
     expect(sourceKinds.has("official")).toBe(true);
     expect(sourceKinds.has("press")).toBe(true);
     expect(sourceKinds.has("community")).toBe(true);
   });
 
   it("separates confirmed Bonds and Cross Training rules from The Lounge unknowns", () => {
-    const characters = contentPages.find((page) => page.path === "/characters");
-    const relationshipTable = characters?.blocks.find(
+    const companions = contentPages.find((page) => page.path === "/characters/companions");
+    const relationshipTable = companions?.blocks.find(
       (block) => block.type === "table" && block.heading === "Bonds, Cross Training and The Lounge",
     );
 
