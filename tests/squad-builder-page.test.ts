@@ -27,6 +27,12 @@ describe("Squad Builder page", () => {
     expect(markup).toContain("Balanced first run");
     expect(markup).toContain("Findings");
     expect(markup).toContain("Seven-dimension readout");
+    expect(markup).toContain("Secondary specialization");
+    expect(markup).toContain("Talent");
+    expect(markup).toContain("Operator level");
+    expect(markup).toContain("Focus available");
+    expect(markup).toContain("Focus spent");
+    expect(markup).toContain("Observed build");
     expect(markup).toContain("Copy share link");
     expect(markup).not.toContain("Overall score");
   });

@@ -112,6 +112,25 @@ describe("evaluateSquad", () => {
     expect(result.dimensions.find((entry) => entry.id === "advantage")?.status).toBe("strong");
     expect(result.dimensions.find((entry) => entry.id === "role-coverage")?.status).not.toBe("gap");
   });
+
+  it("attaches retail provenance to every finding and dimension", () => {
+    const result = evaluateSquad(validStorySquad);
+
+    for (const finding of result.findings) {
+      expect(finding.evidenceMeta).toMatchObject({
+        observedBuild: expect.any(String),
+        verifiedAt: expect.stringMatching(/^2026-\d{2}-\d{2}$/),
+        sourceIds: expect.arrayContaining([expect.any(String)]),
+      });
+    }
+    for (const dimension of result.dimensions) {
+      expect(dimension.evidenceMeta).toMatchObject({
+        observedBuild: expect.any(String),
+        verifiedAt: expect.stringMatching(/^2026-\d{2}-\d{2}$/),
+        sourceIds: expect.arrayContaining([expect.any(String)]),
+      });
+    }
+  });
 });
 
 describe("share codes", () => {

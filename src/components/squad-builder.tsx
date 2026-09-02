@@ -6,15 +6,18 @@ import {
   operators,
   specializations,
   squadPresets,
+  talents,
   weapons,
   type SquadSlot,
   type SquadState,
 } from "../content/squad-data";
 import { encodeSquadState, decodeSquadState, evaluateSquad } from "../lib/squad-builder";
+import { BuildShareCard } from "./build-share-card";
 
 const storageKey = "zero-company-squad:v1";
 const operatorBySlug = new Map(operators.map((entry) => [entry.slug, entry]));
 const specializationBySlug = new Map(specializations.map((entry) => [entry.slug, entry]));
+const talentBySlug = new Map(talents.map((entry) => [entry.slug, entry]));
 const weaponBySlug = new Map(weapons.map((entry) => [entry.slug, entry]));
 const standardSpecializations = specializations.filter((entry) => entry.availability === "standard");
 
@@ -28,6 +31,24 @@ function allowedSpecializations(operatorSlug: string) {
     return specializations.filter((entry) => entry.slug === operator.lockedSpecializationSlug);
   }
   return standardSpecializations;
+}
+
+function allowedSecondarySpecializations(operatorSlug: string, primarySlug: string) {
+  const operator = operatorBySlug.get(operatorSlug);
+  if (operator?.lockedSpecializationSlug || operator?.canDualSpecialize === false) return [];
+  return standardSpecializations.filter((entry) => entry.slug !== primarySlug);
+}
+
+function allowedTalents(operatorSlug: string) {
+  const operator = operatorBySlug.get(operatorSlug);
+  if (!operator) return [];
+  return talents.filter((entry) => (
+    entry.availability === "universal" && operator.slug === "custom"
+  ) || (
+    entry.availability === "astromech" && operator.slug === "astromech"
+  ) || (
+    entry.availability === "authored" && entry.ownerSlug === operator.slug
+  ));
 }
 
 function readStoredSquad(): SquadState | undefined {
@@ -75,7 +96,20 @@ export function SquadBuilder() {
     const nextSpecialization = options.some((entry) => entry.slug === currentSlot.specializationSlug)
       ? currentSlot.specializationSlug
       : options[0].slug;
-    updateSlot(index, { operatorSlug, specializationSlug: nextSpecialization });
+    const secondaryOptions = allowedSecondarySpecializations(operatorSlug, nextSpecialization);
+    const nextSecondary = secondaryOptions.some((entry) => entry.slug === currentSlot.secondarySpecializationSlug)
+      ? currentSlot.secondarySpecializationSlug
+      : undefined;
+    const talentOptions = allowedTalents(operatorSlug);
+    const nextTalent = talentOptions.some((entry) => entry.slug === currentSlot.talentSlug)
+      ? currentSlot.talentSlug
+      : undefined;
+    updateSlot(index, {
+      operatorSlug,
+      specializationSlug: nextSpecialization,
+      secondarySpecializationSlug: nextSecondary,
+      talentSlug: nextTalent,
+    });
     setFeedback("Readout updated from the selected Operator and legal Specializations.");
   };
 
@@ -164,6 +198,73 @@ export function SquadBuilder() {
                 </select>
               </label>
               <label>
+                <span>Secondary specialization</span>
+                <select
+                  aria-label={`Secondary specialization ${index + 1}`}
+                  disabled={allowedSecondarySpecializations(slot.operatorSlug, slot.specializationSlug).length === 0}
+                  onChange={(event) => updateSlot(index, {
+                    secondarySpecializationSlug: event.target.value || undefined,
+                  })}
+                  value={slot.secondarySpecializationSlug ?? ""}
+                >
+                  <option value="">None selected</option>
+                  {allowedSecondarySpecializations(slot.operatorSlug, slot.specializationSlug).map((entry) => (
+                    <option key={entry.slug} value={entry.slug}>{entry.name}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span>Talent</span>
+                <select
+                  aria-label={`Talent ${index + 1}`}
+                  onChange={(event) => updateSlot(index, { talentSlug: event.target.value || undefined })}
+                  value={slot.talentSlug ?? ""}
+                >
+                  <option value="">No Talent selected</option>
+                  {allowedTalents(slot.operatorSlug).map((entry) => (
+                    <option key={entry.slug} value={entry.slug}>{entry.name}</option>
+                  ))}
+                </select>
+              </label>
+              <div className="squad-slot__numbers">
+                <label>
+                  <span>Operator level</span>
+                  <input
+                    aria-label={`Operator level ${index + 1}`}
+                    min="0"
+                    onChange={(event) => updateSlot(index, {
+                      operatorLevel: event.target.value === "" ? undefined : Number(event.target.value),
+                    })}
+                    type="number"
+                    value={slot.operatorLevel ?? ""}
+                  />
+                </label>
+                <label>
+                  <span>Focus available</span>
+                  <input
+                    aria-label={`Focus available ${index + 1}`}
+                    min="0"
+                    onChange={(event) => updateSlot(index, {
+                      focusAvailable: event.target.value === "" ? undefined : Number(event.target.value),
+                    })}
+                    type="number"
+                    value={slot.focusAvailable ?? ""}
+                  />
+                </label>
+                <label>
+                  <span>Focus spent</span>
+                  <input
+                    aria-label={`Focus spent ${index + 1}`}
+                    min="0"
+                    onChange={(event) => updateSlot(index, {
+                      focusSpent: event.target.value === "" ? undefined : Number(event.target.value),
+                    })}
+                    type="number"
+                    value={slot.focusSpent ?? ""}
+                  />
+                </label>
+              </div>
+              <label>
                 <span>Weapon</span>
                 <select aria-label={`Weapon ${index + 1}`} onChange={(event) => updateSlot(index, { weaponSlug: event.target.value })} value={slot.weaponSlug}>
                   {weapons.map((weapon) => <option key={weapon.slug} value={weapon.slug}>{weapon.name}</option>)}
@@ -171,7 +272,8 @@ export function SquadBuilder() {
               </label>
               <div className="squad-slot__summary">
                 <span>{operatorBySlug.get(slot.operatorSlug)?.summary}</span>
-                <strong>{selectedSpecialization?.roles.join(" · ")}</strong>
+                <strong>{selectedSpecialization?.roles.join(" · ")}{slot.secondarySpecializationSlug ? ` · +${specializationBySlug.get(slot.secondarySpecializationSlug)?.name}` : ""}</strong>
+                {slot.talentSlug && <small>Talent: {talentBySlug.get(slot.talentSlug)?.name}</small>}
                 <small>{weaponBySlug.get(slot.weaponSlug)?.summary}</small>
               </div>
             </fieldset>
@@ -193,6 +295,7 @@ export function SquadBuilder() {
               <article className={`squad-finding squad-finding--${finding.severity}`} key={finding.id}>
                 <div><span>{finding.evidence}</span><strong>{finding.title}</strong></div>
                 <p>{finding.body}</p>
+                <small>Sources: {finding.evidenceMeta.sourceIds.join(", ") || "record pending"} · Observed build: {finding.evidenceMeta.observedBuild} · Checked: {finding.evidenceMeta.verifiedAt}</small>
               </article>
             ))}
           </div>
@@ -210,6 +313,7 @@ export function SquadBuilder() {
               <div className="squad-dimension" data-status={dimension.status} key={dimension.id}>
                 <div><strong>{dimension.label}</strong><span>{dimension.status}</span></div>
                 <p>{dimension.reason}</p>
+                <small>Observed build: {dimension.evidenceMeta.observedBuild} · Checked: {dimension.evidenceMeta.verifiedAt}</small>
               </div>
             ))}
           </div>
@@ -238,6 +342,10 @@ export function SquadBuilder() {
           </button>
         </div>
       </div>
+      <BuildShareCard
+        code={shareCode}
+        summary="The current four-slot plan keeps its roles, selected evidence boundary and optional retail planning fields in the canonical Builder URL."
+      />
     </div>
   );
 }

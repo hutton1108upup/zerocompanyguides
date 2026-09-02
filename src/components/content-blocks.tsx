@@ -4,6 +4,7 @@ import type { ContentBlock, Tone } from "../content/types";
 import { getHeadingId } from "../lib/content";
 import { ContentImage } from "./content-image";
 import { ContentVideo } from "./content-video";
+import { AchievementChecklist } from "./achievement-checklist";
 import { MissionBriefing } from "./mission-briefing";
 import { ResponsiveDataTable } from "./responsive-data-table";
 import { SquadBuilder } from "./squad-builder";
@@ -156,6 +157,16 @@ export function ContentBlocks({ blocks }: { blocks: ContentBlock[] }) {
           <BlockHeading>{block.heading}</BlockHeading>
           <p>{block.intro}</p>
           <SquadBuilder />
+        </section>
+      );
+    }
+
+    if (block.type === "achievement-checklist") {
+      return (
+        <section className="content-section trophy-checklist-section" key={`${block.type}-${block.heading}`}>
+          <BlockHeading>{block.heading}</BlockHeading>
+          <p>{block.intro}</p>
+          <AchievementChecklist />
         </section>
       );
     }

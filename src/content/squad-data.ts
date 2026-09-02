@@ -33,11 +33,20 @@ export type OperatorRecord = SourcedRecord & {
   repeatable: boolean;
   storyRequired?: boolean;
   lockedSpecializationSlug?: string;
+  lockedTalentSlug?: string;
+  canDualSpecialize?: boolean;
 };
 
 export type WeaponRecord = SourcedRecord & {
   range: RangeBand;
   actionProfile: "flexible" | "committed";
+};
+
+export type TalentAvailability = "universal" | "authored" | "astromech";
+
+export type TalentRecord = SourcedRecord & {
+  availability: TalentAvailability;
+  ownerSlug?: string;
 };
 
 export type SquadMode = "story" | "skirmish";
@@ -46,6 +55,11 @@ export type SquadSlot = {
   operatorSlug: string;
   specializationSlug: string;
   weaponSlug: string;
+  secondarySpecializationSlug?: string;
+  talentSlug?: string;
+  operatorLevel?: number;
+  focusAvailable?: number;
+  focusSpent?: number;
 };
 
 export type SquadState = {
@@ -284,6 +298,8 @@ export const operators: OperatorRecord[] = [
     summary: "Jedi Padawan with a unique, locked Force progression.",
     repeatable: false,
     lockedSpecializationSlug: "jedi-padawan",
+    lockedTalentSlug: "strong-with-the-force",
+    canDualSpecialize: false,
     sourceIds: ["ea-gameplay-overview", "epic-operators"],
     evidence: "source-synthesis",
     lastVerified: checkedAt,
@@ -322,6 +338,8 @@ export const operators: OperatorRecord[] = [
     summary: "A repeatable droid recruit with a locked support route.",
     repeatable: true,
     lockedSpecializationSlug: "astromech",
+    lockedTalentSlug: "built-in-comlink",
+    canDualSpecialize: false,
     sourceIds: ["ea-gameplay-overview", "epic-operators"],
     evidence: "source-synthesis",
     lastVerified: checkedAt,
@@ -367,6 +385,149 @@ export const weapons: WeaponRecord[] = [
     actionProfile: "committed",
     sourceIds: ["ea-tactics-basics"],
     evidence: "source-backed",
+    lastVerified: checkedAt,
+  },
+];
+
+export const talents: TalentRecord[] = [
+  {
+    slug: "the-bigger-they-are",
+    name: "The Bigger They Are",
+    summary: "Universal damage pressure against elite and boss targets.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "anticipation",
+    name: "Anticipation",
+    summary: "Universal defensive preparation that builds Evasion.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "cold-blooded",
+    name: "Cold Blooded",
+    summary: "Universal critical pressure that builds Vicious stacks.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "taunt",
+    name: "Taunt",
+    summary: "Universal frontline control and damage reduction.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "a-life-of-labor",
+    name: "A Life of Labor",
+    summary: "Universal health, defense and close-range scaling.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "thievery",
+    name: "Thievery",
+    summary: "Universal Credit income from a completed mission.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "sabotage",
+    name: "Sabotage",
+    summary: "Universal explosive utility with repeated-use upgrades.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "espionage",
+    name: "Espionage",
+    summary: "Universal Intel income from completed operations.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "grit",
+    name: "Grit",
+    summary: "Universal health and injury resilience.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "fortitude",
+    name: "Fortitude",
+    summary: "Universal defense that offsets injury pressure.",
+    availability: "universal",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "fearless-leader",
+    name: "Fearless Leader",
+    summary: "Hawks' authored Talent that improves squad failure tolerance.",
+    availability: "authored",
+    ownerSlug: "hawks",
+    sourceIds: ["epic-operators", "ea-gameplay-overview"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "for-my-brothers",
+    name: "For My Brothers",
+    summary: "Trick's authored Talent with a recovery-focused identity.",
+    availability: "authored",
+    ownerSlug: "trick",
+    sourceIds: ["epic-operators", "ea-gameplay-overview"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "strong-with-the-force",
+    name: "Strong with the Force",
+    summary: "Tel-Rea's authored Talent and Harmony progression.",
+    availability: "authored",
+    ownerSlug: "tel-rea",
+    sourceIds: ["epic-operators", "ea-gameplay-overview"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+    },
+  {
+    slug: "combat-jump",
+    name: "Combat Jump",
+    summary: "Cly's authored mobility Talent.",
+    availability: "authored",
+    ownerSlug: "cly",
+    sourceIds: ["epic-operators", "ea-gameplay-overview"],
+    evidence: "source-synthesis",
+    lastVerified: checkedAt,
+  },
+  {
+    slug: "built-in-comlink",
+    name: "Built-In Comlink",
+    summary: "Astromech authored Talent for handing off Action Points.",
+    availability: "astromech",
+    ownerSlug: "astromech",
+    sourceIds: ["epic-operators", "reddit-expert-builds"],
+    evidence: "source-synthesis",
     lastVerified: checkedAt,
   },
 ];

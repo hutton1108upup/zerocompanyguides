@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react";
 import type { ContentPage } from "../content/types";
 import { getHeadingId, getParentPage } from "../lib/content";
 import { ArticleToc } from "./article-toc";
+import { CorrectionForm } from "./correction-form";
 import { ContentBlocks } from "./content-blocks";
 import { PageHero } from "./page-hero";
 import { RelatedPages } from "./related-pages";
@@ -42,6 +43,7 @@ export function ContentPageView({ page }: { page: ContentPage }) {
       <div className="container article-layout">
         <article className="article-body">
           <ContentBlocks blocks={page.blocks} />
+          {page.evidence !== "editorial" && <CorrectionForm pagePath={page.path} />}
           <RelatedPages page={page} />
           {page.sources.length ? <SourceList ids={page.sources} /> : null}
         </article>
