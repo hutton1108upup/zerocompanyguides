@@ -288,6 +288,24 @@ const mediaByPath: Record<string, Array<ImageBlock | VideoBlock>> = {
       publisher: "Electronic Arts",
     }),
   ],
+  "/walkthrough/back-channels": [
+    officialImage({
+      src: "/media/zero-company/holotable.jpg",
+      alt: "The Zero Company holotable displays time-limited Operations, rewards and mission choices.",
+      caption: "Back Channels is a Critical Operation choice on the Holotable, not a tactical combat map; compare the displayed rewards before committing.",
+      sourceUrl: eaGameplayPage,
+      publisher: "Electronic Arts",
+    }),
+  ],
+  "/walkthrough/sloppy-supply-route": [
+    officialImage({
+      src: "/media/zero-company/holotable.jpg",
+      alt: "The Zero Company holotable displays Operations, their expiry timers and potential rewards.",
+      caption: "Sloppy Supply Route is currently documented from an extracted Operation record; capture the live Holotable card before treating its reward pools as independently verified.",
+      sourceUrl: eaGameplayPage,
+      publisher: "Electronic Arts",
+    }),
+  ],
   "/characters/voice-cast": [
     officialImage({
       src: "/media/zero-company/cast-reveal.jpeg",
