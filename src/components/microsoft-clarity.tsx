@@ -1,3 +1,11 @@
+"use client";
+
+import { useEffect } from "react";
+import {
+  analyticsConsentEventName,
+  browserAnalyticsConsent,
+} from "../lib/analytics-consent";
+
 const clarityBootstrap = `
 (function(c,l,a,r,i,t,y){
   c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -7,11 +15,24 @@ const clarityBootstrap = `
 `;
 
 export function MicrosoftClarity() {
-  return (
-    <script
-      dangerouslySetInnerHTML={{ __html: clarityBootstrap }}
-      id="microsoft-clarity"
-      type="text/javascript"
-    />
-  );
+  useEffect(() => {
+    const sync = () => {
+      const existing = document.getElementById("microsoft-clarity");
+      if (browserAnalyticsConsent() !== "accepted") {
+        existing?.remove();
+        return;
+      }
+      if (existing) return;
+      const script = document.createElement("script");
+      script.id = "microsoft-clarity";
+      script.textContent = clarityBootstrap;
+      document.head.appendChild(script);
+    };
+
+    sync();
+    window.addEventListener(analyticsConsentEventName, sync);
+    return () => window.removeEventListener(analyticsConsentEventName, sync);
+  }, []);
+
+  return null;
 }

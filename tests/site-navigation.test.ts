@@ -3,7 +3,11 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { SiteFooter } from "../src/components/site-footer";
 import { SiteHeader } from "../src/components/site-header";
-import { contentPages } from "../src/content/pages";
+import {
+  footerNavigationSections,
+  moreNavigationSections,
+  primaryNavigationPaths,
+} from "../src/lib/site";
 
 const navigationState = vi.hoisted(() => ({ pathname: "/" }));
 
@@ -11,12 +15,14 @@ vi.mock("next/navigation", () => ({
   usePathname: () => navigationState.pathname,
 }));
 
-const indexableInnerPaths = contentPages
-  .filter((page) => page.indexable && page.path !== "/")
-  .map((page) => page.path);
+const headerPaths = [
+  ...primaryNavigationPaths,
+  ...moreNavigationSections.flatMap((section) => section.paths),
+];
+const footerPaths = footerNavigationSections.flatMap((section) => section.paths);
 
 describe("rendered site navigation", () => {
-  it("keeps every indexable inner page discoverable in the desktop header HTML", () => {
+  it("renders the curated desktop header without expanding every leaf guide", () => {
     const markup = renderToStaticMarkup(createElement(SiteHeader));
     const primaryNav = markup.match(
       /<nav aria-label="Primary site navigation"[\s\S]*?<\/nav>/,
@@ -28,21 +34,25 @@ describe("rendered site navigation", () => {
     expect(primaryNav).toContain('aria-controls="desktop-more-navigation"');
     expect(primaryNav).toContain("More");
 
-    for (const path of indexableInnerPaths) {
-      expect(primaryNav, `${path} should be discoverable in the desktop header`).toContain(
+    for (const path of headerPaths) {
+      expect(primaryNav, `${path} should be present in the desktop header`).toContain(
         `href="${path}"`,
       );
     }
+    expect(primaryNav).not.toContain('href="/walkthrough/nebulous-pursuit"');
+    expect(primaryNav).not.toContain('href="/walkthrough/ship-adrift"');
   });
 
-  it("renders the complete navigation registry in the footer", () => {
+  it("renders the curated footer registry and leaves Operation discovery to the hub", () => {
     const markup = renderToStaticMarkup(createElement(SiteFooter));
 
-    for (const path of indexableInnerPaths) {
+    for (const path of footerPaths) {
       expect(markup, `${path} should be linked from the footer`).toContain(
         `href="${path}"`,
       );
     }
+    expect(markup).not.toContain('href="/walkthrough/nebulous-pursuit"');
+    expect(markup).not.toContain('href="/walkthrough/ship-adrift"');
   });
 
   it.each([

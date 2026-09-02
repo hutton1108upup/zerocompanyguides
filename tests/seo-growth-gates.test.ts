@@ -37,10 +37,10 @@ describe("SEO growth gates", () => {
       expect.arrayContaining([
         "What Permadeath changes",
         "Difficulty, Permadeath and Beskar are separate choices",
-        "Which campaign setup should you choose?",
+        "Which Zero Company difficulty setting should you choose?",
         "Injury, Rally and recovery state",
         "Before-deployment permadeath checklist",
-        "Permadeath questions",
+        "Difficulty and Permadeath questions",
       ]),
     );
     expect(sourceKinds.has("official")).toBe(true);

@@ -347,6 +347,8 @@ describe("content enrichment routes", () => {
     expect(routes?.type).toBe("cards");
     if (routes?.type === "cards") {
       expect(routes.items.map((item) => item.href)).toEqual([
+        "/walkthrough/nebulous-pursuit",
+        "/walkthrough/ship-adrift",
         "/walkthrough/in-debt-to-the-hutts",
         "/walkthrough/back-channels",
         "/walkthrough/sloppy-supply-route",

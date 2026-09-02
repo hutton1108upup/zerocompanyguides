@@ -124,6 +124,12 @@ export type SquadBuilderBlock = {
   intro: string;
 };
 
+export type AchievementChecklistBlock = {
+  type: "achievement-checklist";
+  heading: string;
+  intro: string;
+};
+
 export type ContentBlock =
   | BriefingBlock
   | ProseBlock
@@ -136,7 +142,8 @@ export type ContentBlock =
   | VideoBlock
   | VerdictBlock
   | FaqBlock
-  | SquadBuilderBlock;
+  | SquadBuilderBlock
+  | AchievementChecklistBlock;
 
 export type ContentPage = {
   path: string;
