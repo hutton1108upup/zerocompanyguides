@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono, Orbitron } from "next/font/google";
 import "@/app/globals.css";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { MicrosoftClarity } from "@/components/microsoft-clarity";
 import { siteDescription, siteName, siteOrigin } from "@/lib/site";
 
@@ -65,6 +66,7 @@ export default function RootLayout({
           </div>
           <SiteFooter />
         </div>
+        <GoogleAnalytics />
         <MicrosoftClarity />
       </body>
     </html>
