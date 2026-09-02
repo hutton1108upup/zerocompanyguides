@@ -28,6 +28,8 @@ const tableRoutes = [
   "/performance/steam-deck",
   "/mods",
   "/walkthrough/in-debt-to-the-hutts",
+  "/walkthrough/back-channels",
+  "/walkthrough/sloppy-supply-route",
 ];
 
 function invariant(condition, message) {
@@ -37,6 +39,7 @@ function invariant(condition, message) {
 async function assertArticleFits(page, route) {
   const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "domcontentloaded" });
   invariant(response?.status() === 200, `${route}: expected HTTP 200`);
+  await page.waitForLoadState("networkidle");
   await page.locator("h1").waitFor({ state: "visible" });
 
   const geometry = await page.evaluate(() => {
@@ -89,6 +92,7 @@ async function assertArticleFits(page, route) {
 async function assertPageFitsViewport(page, route) {
   const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "domcontentloaded" });
   invariant(response?.ok(), `${route} did not return a successful response`);
+  await page.waitForLoadState("networkidle");
   const geometry = await page.evaluate(() => ({
     layoutWidth: document.documentElement.clientWidth,
     scrollWidth: document.documentElement.scrollWidth,
@@ -173,7 +177,7 @@ async function assertDrawerDialog(page) {
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Site navigation" });
   await dialog.waitFor({ state: "visible" });
-  invariant(await dialog.locator(".mobile-drawer__link").count() === 24, "drawer must retain all 24 links");
+  invariant(await dialog.locator(".mobile-drawer__link").count() === 28, "drawer must retain all 28 links");
   invariant(
     await dialog.locator(".mobile-drawer__header").evaluate((node) => getComputedStyle(node).position === "sticky"),
     "drawer header should remain visible while scrolling",
@@ -362,6 +366,7 @@ try {
   for (const route of tableRoutes) await assertArticleFits(page, route);
 
   await page.goto(`${baseUrl}/guides/beginners-guide`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
   invariant(await page.locator(".mobile-toc").isVisible(), "long pages need a visible mobile TOC");
   invariant(await page.locator(".mobile-toc a").count() > 1, "mobile TOC should expose section anchors");
   invariant(
@@ -378,6 +383,7 @@ try {
   );
 
   await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
   const homeMetrics = await page.evaluate(() => ({
     heroHeight: document.querySelector(".hero-shell")?.getBoundingClientRect().height ?? 0,
     footerHeight: document.querySelector("footer")?.getBoundingClientRect().height ?? 0,

@@ -307,7 +307,7 @@ describe("content enrichment routes", () => {
     }
   });
 
-  it("adds source-bounded deployment checks for In Debt to the Hutts and Republic Intelligence", () => {
+  it("turns the walkthrough into a campaign router without inventing unverified mission steps", () => {
     const walkthrough = contentPages.find((page) => page.path === "/walkthrough");
     const earlyChecks = walkthrough?.blocks.find(
       (block) => block.type === "table" && block.heading === "Chapter 3–4 deployment checks",
@@ -326,6 +326,37 @@ describe("content enrichment routes", () => {
       expect(earlyChecks.rows.every((row) => row.at(-1)?.includes("planning only"))).toBe(true);
     }
 
-    expect(walkthrough?.lastVerified).toBe("2026-08-31");
+    const contentTypes = walkthrough?.blocks.find(
+      (block) => block.type === "table" && block.heading === "Chapter, Operation or Tactical Mission?",
+    );
+    expect(contentTypes?.type).toBe("table");
+    if (contentTypes?.type === "table") {
+      expect(contentTypes.rows.map((row) => row[0])).toEqual([
+        "Chapter",
+        "Critical Operation",
+        "Operation",
+        "Tactical Mission",
+      ]);
+      expect(contentTypes.rows.find((row) => row[0] === "Tactical Mission")?.join(" ")).toContain("ends the Cycle");
+      expect(contentTypes.rows.find((row) => row[0] === "Operation")?.join(" ")).toContain("can expire");
+    }
+
+    const routes = walkthrough?.blocks.find(
+      (block) => block.type === "cards" && block.heading === "Walkthrough routes and campaign decisions",
+    );
+    expect(routes?.type).toBe("cards");
+    if (routes?.type === "cards") {
+      expect(routes.items.map((item) => item.href)).toEqual([
+        "/walkthrough/in-debt-to-the-hutts",
+        "/walkthrough/back-channels",
+        "/walkthrough/sloppy-supply-route",
+        "/guides/beginners-guide",
+      ]);
+    }
+
+    expect(walkthrough?.description).toBe(
+      "Follow the Critical route, understand Operations versus Tactical Missions, compare important choices and open spoiler-labeled mission walkthroughs.",
+    );
+    expect(walkthrough?.lastVerified).toBe("2026-09-02");
   });
 });
