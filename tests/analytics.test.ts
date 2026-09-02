@@ -32,4 +32,22 @@ describe("site analytics", () => {
     expect(markup).toContain("https://www.clarity.ms/tag/");
     expect(markup).toContain("yajf5sc56v");
   });
+
+  it("emits the configured Google Analytics tag on every page", () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        RootLayout,
+        null,
+        createElement("main", null, "Analytics test page"),
+      ),
+    );
+
+    expect(markup).toContain('id="google-analytics-loader"');
+    expect(markup).toContain(
+      "https://www.googletagmanager.com/gtag/js?id=G-V8KC7HD1PW",
+    );
+    expect(markup).toContain('id="google-analytics-bootstrap"');
+    expect(markup).toContain("window.dataLayer = window.dataLayer || [];");
+    expect(markup).toContain("gtag('config', 'G-V8KC7HD1PW');");
+  });
 });
