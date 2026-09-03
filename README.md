@@ -1,6 +1,6 @@
 # Zero Company Intel
 
-An unofficial, evidence-labeled guide site for *Star Wars Zero Company*. The site covers builds, classes, squad planning, walkthrough preparation, achievements, performance guidance, characters, and purchase decisions across 22 launch routes.
+An unofficial, evidence-labeled guide site for *Star Wars Zero Company*. The site covers an account-free Squad Builder, builds, classes, walkthrough preparation, achievements, performance guidance, characters, purchase decisions, and editorial maintenance across 28 public routes plus one review-only route.
 
 This fan-made project is not affiliated with EA or Lucasfilm.
 

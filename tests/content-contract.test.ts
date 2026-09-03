@@ -5,6 +5,9 @@ const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const entityKeyword = "star wars zero company";
 const intentTermsByPath: Record<string, readonly string[]> = {
   "/": ["wiki", "builds", "walkthrough"],
+  "/squad-builder": ["squad builder", "team planner"],
+  "/corrections": ["corrections", "editorial policy"],
+  "/updates": ["site updates", "change log"],
   "/classes": ["classes", "specializations"],
   "/classes/tier-list": ["class tier list"],
   "/builds": ["builds"],
@@ -12,10 +15,15 @@ const intentTermsByPath: Record<string, readonly string[]> = {
   "/builds/best-team": ["squad"],
   "/guides": ["guides"],
   "/guides/respec": ["respec", "specialization"],
-  "/guides/permadeath": ["permadeath", "injury"],
+  "/guides/permadeath": ["difficulty", "permadeath"],
   "/walkthrough": ["walkthrough"],
+  "/walkthrough/back-channels": ["back channels", "runa", "neesh"],
+  "/walkthrough/help-wanted": ["help wanted"],
   "/walkthrough/in-debt-to-the-hutts": ["in debt to the hutts", "walkthrough"],
-  "/trophy-guide": ["trophy", "achievement"],
+  "/walkthrough/nebulous-pursuit": ["nebulous pursuit"],
+  "/walkthrough/ship-adrift": ["ship adrift"],
+  "/walkthrough/sloppy-supply-route": ["sloppy supply route"],
+  "/trophy-guide": ["platinum trophy", "achievement"],
   "/performance": ["performance", "fixes"],
   "/performance/pc": ["pc performance", "settings"],
   "/performance/fps-fix": ["stutter", "fps", "crash"],
@@ -54,10 +62,14 @@ describe("content registry", () => {
       expect(page.title.length, `${page.path} title`).toBeGreaterThan(20);
       expect(page.description.length, `${page.path} description`).toBeGreaterThan(70);
       expect(page.h1.length, `${page.path} h1`).toBeGreaterThan(8);
-      expect(page.sources.length, `${page.path} sources`).toBeGreaterThan(0);
+      if (page.pageType === "editorial") {
+        expect(page.sources, `${page.path} editorial sources`).toEqual([]);
+      } else {
+        expect(page.sources.length, `${page.path} sources`).toBeGreaterThan(0);
+      }
       expect(page.related.length, `${page.path} related`).toBeGreaterThanOrEqual(2);
       expect(page.lastVerified, `${page.path} lastVerified`).toMatch(datePattern);
-      expect(["official", "community", "unverified"]).toContain(page.evidence);
+      expect(["official", "community", "unverified", "editorial"]).toContain(page.evidence);
       if (page.status === "draft" || page.evidence === "unverified") {
         expect(page.indexable, `${page.path} draft/unverified indexability`).toBe(false);
       }

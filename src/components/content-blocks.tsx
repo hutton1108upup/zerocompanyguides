@@ -4,7 +4,10 @@ import type { ContentBlock, Tone } from "../content/types";
 import { getHeadingId } from "../lib/content";
 import { ContentImage } from "./content-image";
 import { ContentVideo } from "./content-video";
+import { AchievementChecklist } from "./achievement-checklist";
 import { MissionBriefing } from "./mission-briefing";
+import { ResponsiveDataTable } from "./responsive-data-table";
+import { SquadBuilder } from "./squad-builder";
 import { VerdictGrid } from "./verdict-grid";
 
 const toneClass = (tone?: Tone) => (tone ? `tone-${tone}` : "tone-cyan");
@@ -79,34 +82,13 @@ export function ContentBlocks({ blocks }: { blocks: ContentBlock[] }) {
         <section className="content-section" key={`${block.type}-${block.heading}`}>
           <BlockHeading>{block.heading}</BlockHeading>
           {block.intro && <p>{block.intro}</p>}
-          <div
-            aria-describedby={mobileMode === "scroll" ? scrollCueId : undefined}
-            aria-label={block.caption}
-            className={`table-wrap table-wrap--${mobileMode}`}
-            role="region"
-            tabIndex={0}
-          >
-            {mobileMode === "scroll" ? (
-              <p className="table-scroll-cue" id={scrollCueId}>
-                Swipe to view all columns
-              </p>
-            ) : null}
-            <table className={`data-table data-table--${mobileMode}`}>
-              <caption>{block.caption}</caption>
-              <thead><tr>{block.columns.map((column) => <th scope="col" key={column}>{column}</th>)}</tr></thead>
-              <tbody>
-                {block.rows.map((row, rowIndex) => (
-                  <tr key={`${row[0]}-${rowIndex}`}>
-                    {row.map((cell, cellIndex) => cellIndex === 0 ? (
-                      <th scope="row" key={cellIndex}>{cell}</th>
-                    ) : (
-                      <td data-label={block.columns[cellIndex]} key={cellIndex}>{cell}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ResponsiveDataTable
+            caption={block.caption}
+            columns={block.columns}
+            cueId={scrollCueId}
+            mobileMode={mobileMode}
+            rows={block.rows}
+          />
         </section>
       );
     }
@@ -165,6 +147,26 @@ export function ContentBlocks({ blocks }: { blocks: ContentBlock[] }) {
               <div className="faq-answer"><p>{item.answer}</p></div>
             </details>
           ))}
+        </section>
+      );
+    }
+
+    if (block.type === "squad-builder") {
+      return (
+        <section className="content-section squad-builder-section" key={`${block.type}-${block.heading}`}>
+          <BlockHeading>{block.heading}</BlockHeading>
+          <p>{block.intro}</p>
+          <SquadBuilder />
+        </section>
+      );
+    }
+
+    if (block.type === "achievement-checklist") {
+      return (
+        <section className="content-section trophy-checklist-section" key={`${block.type}-${block.heading}`}>
+          <BlockHeading>{block.heading}</BlockHeading>
+          <p>{block.intro}</p>
+          <AchievementChecklist />
         </section>
       );
     }

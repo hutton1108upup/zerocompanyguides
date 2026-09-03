@@ -19,7 +19,7 @@ describe("site analytics", () => {
     expect(metadata.title).toBe(siteName);
   });
 
-  it("emits the Microsoft Clarity loader on every page", () => {
+  it("does not emit the Microsoft Clarity loader before consent", () => {
     const markup = renderToStaticMarkup(
       createElement(
         RootLayout,
@@ -28,8 +28,25 @@ describe("site analytics", () => {
       ),
     );
 
-    expect(markup).toContain('id="microsoft-clarity"');
-    expect(markup).toContain("https://www.clarity.ms/tag/");
-    expect(markup).toContain("yajf5sc56v");
+    expect(markup).not.toContain('id="microsoft-clarity"');
+    expect(markup).not.toContain("https://www.clarity.ms/tag/");
+    expect(markup).toContain("Accept analytics");
+  });
+
+  it("does not emit the Google Analytics tag before consent", () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        RootLayout,
+        null,
+        createElement("main", null, "Analytics test page"),
+      ),
+    );
+
+    expect(markup).not.toContain('id="google-analytics-loader"');
+    expect(markup).not.toContain(
+      "https://www.googletagmanager.com/gtag/js?id=G-V8KC7HD1PW",
+    );
+    expect(markup).not.toContain('id="google-analytics-bootstrap"');
+    expect(markup).toContain("Reject analytics");
   });
 });

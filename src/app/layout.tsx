@@ -4,7 +4,9 @@ import { Inter, JetBrains_Mono, Orbitron } from "next/font/google";
 import "@/app/globals.css";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { MicrosoftClarity } from "@/components/microsoft-clarity";
+import { AnalyticsConsent } from "@/components/analytics-consent";
 import { siteDescription, siteName, siteOrigin } from "@/lib/site";
 
 const displayFont = Orbitron({
@@ -65,7 +67,9 @@ export default function RootLayout({
           </div>
           <SiteFooter />
         </div>
+        <GoogleAnalytics />
         <MicrosoftClarity />
+        <AnalyticsConsent />
       </body>
     </html>
   );

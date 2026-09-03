@@ -130,7 +130,7 @@ describe("SEO outputs", () => {
       const graph = buildPageStructuredData(page);
       const hasFaqBlock = page.blocks.some((block) => block.type === "faq");
 
-      expect(graph.page["@type"]).toMatch(/^(CollectionPage|Article)$/);
+      expect(graph.page["@type"]).toMatch(/^(CollectionPage|Article|WebPage)$/);
       expect(graph.page.name).toBe(page.title);
       expect(graph.page.description).toBe(page.description);
       expect(graph.page.url).toBe(buildCanonicalUrl(page.path));

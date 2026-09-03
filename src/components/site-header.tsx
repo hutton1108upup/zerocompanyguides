@@ -51,6 +51,8 @@ function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+type DrawerFocusRestore = "keyboard" | "none" | "pointer";
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -58,18 +60,18 @@ export function SiteHeader() {
   const drawerCloseRef = useRef<HTMLButtonElement | null>(null);
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const drawerTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const restoreDrawerFocusRef = useRef(false);
+  const restoreDrawerFocusRef = useRef<DrawerFocusRestore>("none");
   const moreNavigationRef = useRef<HTMLDivElement | null>(null);
   const moreTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   const openDrawer = () => {
-    restoreDrawerFocusRef.current = false;
+    restoreDrawerFocusRef.current = "none";
     startTransition(() => {
       setIsDrawerOpen(true);
     });
   };
 
-  const closeDrawer = (restoreFocus = true) => {
+  const closeDrawer = (restoreFocus: DrawerFocusRestore = "keyboard") => {
     restoreDrawerFocusRef.current = restoreFocus;
     startTransition(() => {
       setIsDrawerOpen(false);
@@ -91,7 +93,7 @@ export function SiteHeader() {
   const handleGlobalKeys = useEffectEvent((event: KeyboardEvent) => {
     if (event.key === "Escape" && isDrawerOpen) {
       event.preventDefault();
-      closeDrawer(true);
+      closeDrawer("keyboard");
       return;
     }
 
@@ -114,7 +116,7 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    closeDrawer(false);
+    closeDrawer("none");
     closeMoreNavigation();
   }, [pathname]);
 
@@ -153,12 +155,28 @@ export function SiteHeader() {
       background.forEach((element, index) => {
         element.inert = previousInert[index];
       });
-      if (restoreDrawerFocusRef.current) {
-        requestAnimationFrame(() => drawerTrigger?.focus());
+      const restoreMode = restoreDrawerFocusRef.current;
+      if (restoreMode !== "none") {
+        requestAnimationFrame(() => {
+          if (!drawerTrigger) return;
+          if (restoreMode === "pointer") {
+            drawerTrigger.dataset.focusOrigin = "pointer";
+          } else {
+            delete drawerTrigger.dataset.focusOrigin;
+          }
+          drawerTrigger.focus({ preventScroll: true });
+        });
       }
-      restoreDrawerFocusRef.current = false;
+      restoreDrawerFocusRef.current = "none";
     };
   }, [isDrawerOpen]);
+
+  const activePrimaryPath = primaryLinks.find((link) => (
+    isActivePath(pathname, link.href)
+  ))?.href;
+  const isMoreActive = !activePrimaryPath && moreLinks.some((link) => (
+    isActivePath(pathname, link.href)
+  ));
 
   return (
     <>
@@ -175,7 +193,7 @@ export function SiteHeader() {
               const isActive = isActivePath(pathname, link.href);
               return (
                 <Link
-                  aria-current={pathname === link.href ? "page" : undefined}
+                  aria-current={pathname === link.href ? "page" : isActive ? "location" : undefined}
                   className="site-nav__link"
                   data-active={isActive}
                   href={link.href}
@@ -192,7 +210,7 @@ export function SiteHeader() {
                 aria-expanded={isMoreOpen}
                 aria-haspopup="true"
                 className="site-nav__more-button"
-                data-active={moreLinks.some((link) => isActivePath(pathname, link.href))}
+                data-active={isMoreActive}
                 onClick={toggleMoreNavigation}
                 ref={moreTriggerRef}
                 type="button"
@@ -239,6 +257,7 @@ export function SiteHeader() {
               aria-label="Open mobile navigation"
               className="drawer-toggle"
               onClick={openDrawer}
+              onBlur={(event) => delete event.currentTarget.dataset.focusOrigin}
               ref={drawerTriggerRef}
               type="button"
             >
@@ -253,7 +272,7 @@ export function SiteHeader() {
           <button
             aria-label="Close mobile navigation"
             className="drawer-backdrop"
-            onClick={() => closeDrawer(true)}
+            onClick={() => closeDrawer("pointer")}
             tabIndex={-1}
             type="button"
           />
@@ -279,7 +298,7 @@ export function SiteHeader() {
                 <button
                   aria-label="Close mobile navigation"
                   className="icon-button"
-                  onClick={() => closeDrawer(true)}
+                  onClick={(event) => closeDrawer(event.detail === 0 ? "keyboard" : "pointer")}
                   ref={drawerCloseRef}
                   type="button"
                 >
@@ -297,7 +316,7 @@ export function SiteHeader() {
                       data-active={isActivePath(pathname, link.href)}
                       href={link.href}
                       key={link.href}
-                      onClick={() => closeDrawer(false)}
+                      onClick={() => closeDrawer("none")}
                     >
                       {link.label}
                     </Link>
@@ -320,7 +339,7 @@ export function SiteHeader() {
                         data-active={isActivePath(pathname, link.href)}
                         href={link.href}
                         key={link.href}
-                        onClick={() => closeDrawer(false)}
+                        onClick={() => closeDrawer("none")}
                       >
                         {link.label}
                       </Link>

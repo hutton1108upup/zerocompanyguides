@@ -8,7 +8,11 @@ import { HubCard } from "@/components/hub-card";
 import { PerformanceStatus } from "@/components/performance-status";
 import { getContentPage, contentPageByPath } from "@/content/pages";
 import { homeFacts, homeSections, popularPaths } from "@/lib/home-data";
-import { buildPageStructuredData, buildSiteStructuredData } from "@/lib/structured-data";
+import {
+  buildOrganizationStructuredData,
+  buildPageStructuredData,
+  buildSiteStructuredData,
+} from "@/lib/structured-data";
 import { getMetadataForPath } from "@/lib/site";
 
 const homePage = (() => {
@@ -26,6 +30,7 @@ export function generateMetadata(): Metadata {
 export default function HomePage() {
   const pageGraphs = buildPageStructuredData(homePage);
   const graphs = [
+    buildOrganizationStructuredData(),
     buildSiteStructuredData(homePage),
     pageGraphs.page,
     pageGraphs.breadcrumb,
@@ -54,8 +59,8 @@ export default function HomePage() {
             { label: "Standard classes", value: "8", note: "Official Specializations with distinct squad jobs" },
             { label: "Achievements", value: "53", note: "Full launch list with completion categories" },
           ]}
-          primaryAction={{ href: "/builds/hawks", label: "Find Your Hawks Build", variant: "primary" }}
-          secondaryAction={{ href: "/walkthrough", label: "Browse the Walkthrough", variant: "ghost" }}
+          primaryAction={{ href: "/squad-builder", label: "Build Your Squad", variant: "primary" }}
+          secondaryAction={{ href: "/builds/hawks", label: "Compare Hawks Builds", variant: "ghost" }}
         />
 
       <section className="section home-how-to" aria-label="How to play Star Wars Zero Company">

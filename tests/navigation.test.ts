@@ -12,6 +12,7 @@ const approvedPaths = new Set(contentPages.map((page) => page.path));
 describe("navigation registry", () => {
   it("keeps eight core destinations visible in the primary navigation", () => {
     expect(primaryNavigationPaths).toEqual([
+      "/squad-builder",
       "/builds",
       "/classes",
       "/weapons",
@@ -19,24 +20,27 @@ describe("navigation registry", () => {
       "/walkthrough",
       "/trophy-guide",
       "/performance",
-      "/game-info",
     ]);
   });
 
-  it("covers every indexable inner page exactly once across primary and More", () => {
+  it("keeps the global header focused on approved destinations instead of every leaf guide", () => {
     const morePaths = moreNavigationSections.flatMap((section) => section.paths);
     const headerPaths = [...primaryNavigationPaths, ...morePaths];
-    const indexableInnerPaths = contentPages
-      .filter((page) => page.indexable && page.path !== "/")
-      .map((page) => page.path);
 
     expect(moreNavigationSections.map((section) => section.title)).toEqual([
       "Start & Decide",
       "Build & Squad",
       "Technical & Reference",
+      "This Site",
     ]);
     expect(new Set(headerPaths).size).toBe(headerPaths.length);
-    expect([...headerPaths].sort()).toEqual([...indexableInnerPaths].sort());
+    for (const path of headerPaths) {
+      const page = contentPages.find((entry) => entry.path === path);
+      expect(page, `${path} should resolve`).toBeDefined();
+      expect(page?.indexable, `${path} should be public`).toBe(true);
+    }
+    expect(headerPaths).not.toContain("/walkthrough/nebulous-pursuit");
+    expect(headerPaths).not.toContain("/walkthrough/ship-adrift");
   });
 
   it("uses only approved footer routes and excludes banned duplicates", () => {
@@ -45,6 +49,9 @@ describe("navigation registry", () => {
     expect(new Set(footerPaths).size).toBe(footerPaths.length);
     expect(footerPaths).toEqual(
       expect.arrayContaining([
+        "/squad-builder",
+        "/corrections",
+        "/updates",
         "/game-info",
         "/system-requirements",
         "/multiplayer",
@@ -70,10 +77,8 @@ describe("navigation registry", () => {
     expect(footerPaths).not.toContain("/wiki");
     expect(footerPaths).not.toContain("/classes/best");
 
-    const indexableInnerPaths = contentPages
-      .filter((page) => page.indexable && page.path !== "/")
-      .map((page) => page.path);
-    expect([...footerPaths].sort()).toEqual([...indexableInnerPaths].sort());
+    expect(footerPaths).not.toContain("/walkthrough/nebulous-pursuit");
+    expect(footerPaths).not.toContain("/walkthrough/ship-adrift");
   });
 
   it("keeps the search registry on indexable inner pages only", () => {

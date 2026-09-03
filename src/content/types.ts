@@ -1,11 +1,12 @@
-export type EvidenceLevel = "official" | "community" | "unverified";
+export type EvidenceLevel = "official" | "community" | "unverified" | "editorial";
 export type PageStatus = "draft" | "verified" | "needs-retest" | "archived";
 export type VerificationStatus =
   | "official-verified"
   | "source-verified-synthesis"
-  | "needs-retest";
+  | "needs-retest"
+  | "maintained-site-policy";
 export type SourceKind = "official" | "video" | "community" | "competitor" | "press";
-export type PageType = "home" | "hub" | "article" | "decision" | "tech";
+export type PageType = "home" | "hub" | "article" | "decision" | "tech" | "tool" | "editorial";
 export type Tone = "cyan" | "amber" | "green" | "red" | "muted";
 
 export type Source = {
@@ -117,6 +118,18 @@ export type FaqBlock = {
   items: Array<{ question: string; answer: string }>;
 };
 
+export type SquadBuilderBlock = {
+  type: "squad-builder";
+  heading: string;
+  intro: string;
+};
+
+export type AchievementChecklistBlock = {
+  type: "achievement-checklist";
+  heading: string;
+  intro: string;
+};
+
 export type ContentBlock =
   | BriefingBlock
   | ProseBlock
@@ -128,7 +141,9 @@ export type ContentBlock =
   | ImageBlock
   | VideoBlock
   | VerdictBlock
-  | FaqBlock;
+  | FaqBlock
+  | SquadBuilderBlock
+  | AchievementChecklistBlock;
 
 export type ContentPage = {
   path: string;

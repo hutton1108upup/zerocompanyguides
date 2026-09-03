@@ -28,6 +28,8 @@ const tableRoutes = [
   "/performance/steam-deck",
   "/mods",
   "/walkthrough/in-debt-to-the-hutts",
+  "/walkthrough/back-channels",
+  "/walkthrough/sloppy-supply-route",
 ];
 
 function invariant(condition, message) {
@@ -37,6 +39,7 @@ function invariant(condition, message) {
 async function assertArticleFits(page, route) {
   const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "domcontentloaded" });
   invariant(response?.status() === 200, `${route}: expected HTTP 200`);
+  await page.waitForLoadState("networkidle");
   await page.locator("h1").waitFor({ state: "visible" });
 
   const geometry = await page.evaluate(() => {
@@ -89,6 +92,7 @@ async function assertArticleFits(page, route) {
 async function assertPageFitsViewport(page, route) {
   const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "domcontentloaded" });
   invariant(response?.ok(), `${route} did not return a successful response`);
+  await page.waitForLoadState("networkidle");
   const geometry = await page.evaluate(() => ({
     layoutWidth: document.documentElement.clientWidth,
     scrollWidth: document.documentElement.scrollWidth,
@@ -101,6 +105,7 @@ async function assertPageFitsViewport(page, route) {
 
 async function assertSearchDialog(page) {
   await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
   const trigger = page.getByRole("button", { name: "Search site content" });
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Popular verified routes" });
@@ -141,6 +146,12 @@ async function assertSearchDialog(page) {
   invariant(geometry.panelIsTopLayer, "search backdrop visually covers the search panel");
   invariant(geometry.outsideInsideOverlay, "search backdrop does not block the underlying page");
   invariant(geometry.firstResultHeight <= 180, "mobile search result is too tall");
+  if (await page.evaluate(() => matchMedia("(pointer: coarse)").matches)) {
+    invariant(
+      await page.locator(".search-kbd").evaluate((node) => getComputedStyle(node).display === "none"),
+      "touch search should hide the keyboard-only Escape hint",
+    );
+  }
 
   for (let index = 0; index < 12; index += 1) {
     await page.keyboard.press("Tab");
@@ -161,11 +172,12 @@ async function assertSearchDialog(page) {
 
 async function assertDrawerDialog(page) {
   await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
   const trigger = page.getByRole("button", { name: "Open mobile navigation" });
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Site navigation" });
   await dialog.waitFor({ state: "visible" });
-  invariant(await dialog.locator(".mobile-drawer__link").count() === 24, "drawer must retain all 24 links");
+  invariant(await dialog.locator(".mobile-drawer__link").count() === 28, "drawer must retain all 28 links");
   invariant(
     await dialog.locator(".mobile-drawer__header").evaluate((node) => getComputedStyle(node).position === "sticky"),
     "drawer header should remain visible while scrolling",
@@ -190,6 +202,152 @@ async function assertDrawerDialog(page) {
     await trigger.evaluate((node) => node === document.activeElement),
     "drawer focus did not return to its trigger",
   );
+  invariant(
+    await trigger.evaluate((node) => node.dataset.focusOrigin !== "pointer"),
+    "keyboard drawer close was incorrectly marked as pointer focus",
+  );
+
+  await trigger.click();
+  await dialog.waitFor({ state: "visible" });
+  await dialog.getByRole("button", { name: "Close mobile navigation" }).click();
+  await dialog.waitFor({ state: "hidden" });
+  await page.waitForFunction(() => document.activeElement?.matches(".drawer-toggle"));
+  invariant(
+    await trigger.evaluate((node) => (
+      node.dataset.focusOrigin === "pointer" && getComputedStyle(node).outlineStyle === "none"
+    )),
+    "pointer drawer close should restore focus without a persistent focus ring",
+  );
+}
+
+async function assertWideTableAffordance(page) {
+  await page.goto(`${baseUrl}/weapons`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+  const shell = page.locator(".table-scroll-shell").first();
+  const region = shell.locator(".table-wrap");
+  await shell.scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => (
+    document.querySelector(".table-scroll-shell")?.getAttribute("data-scroll-after") === "true"
+  ));
+
+  const initial = await shell.evaluate((node) => {
+    const shadow = node.querySelector(".table-scroll-shadow--right");
+    const scrollRegion = node.querySelector(".table-wrap");
+    return {
+      cue: scrollRegion?.querySelector(".table-scroll-cue")?.textContent ?? "",
+      rightShadowDisplay: shadow ? getComputedStyle(shadow).display : "none",
+      rightShadowOpacity: shadow ? Number(getComputedStyle(shadow).opacity) : 0,
+    };
+  });
+  invariant(
+    initial.cue.includes("Swipe to view"),
+    "wide table should explain its horizontal gesture",
+  );
+  invariant(
+    initial.rightShadowDisplay !== "none" && initial.rightShadowOpacity > 0.5,
+    "wide table should expose a visible right-edge affordance",
+  );
+
+  await region.evaluate((node) => {
+    node.scrollLeft = node.scrollWidth;
+  });
+  await page.waitForFunction(() => (
+    document.querySelector(".table-scroll-shell")?.getAttribute("data-scroll-after") === "false"
+  ));
+  await page.waitForFunction(() => {
+    const shadow = document.querySelector(".table-scroll-shadow--right");
+    return Boolean(shadow && Number(getComputedStyle(shadow).opacity) < 0.1);
+  });
+
+  const finalGeometry = await shell.evaluate((node) => {
+    const shadow = node.querySelector(".table-scroll-shadow--right");
+    const scrollRegion = node.querySelector(".table-wrap");
+    const firstRowHeader = node.querySelector("tbody th");
+    const regionRect = scrollRegion?.getBoundingClientRect();
+    const headerRect = firstRowHeader?.getBoundingClientRect();
+    return {
+      headerLeft: headerRect?.left ?? 0,
+      regionLeft: regionRect?.left ?? 0,
+      rightShadowOpacity: shadow ? Number(getComputedStyle(shadow).opacity) : 1,
+    };
+  });
+  invariant(finalGeometry.rightShadowOpacity < 0.1, "right-edge affordance should clear at the end");
+  invariant(
+    Math.abs(finalGeometry.headerLeft - finalGeometry.regionLeft) <= 2,
+    "wide table should keep its row label visible while scrolling",
+  );
+}
+
+async function assertMobileHeroLegibility(page) {
+  await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+  const legibility = await page.locator(".hero-shell__content").evaluate((node) => {
+    const localScrim = getComputedStyle(node, "::before");
+    const eyebrow = node.querySelector(".hero-shell__eyebrow, .hero-shell__subheadline");
+    return {
+      eyebrowBackground: eyebrow ? getComputedStyle(eyebrow).backgroundColor : "transparent",
+      localScrimBackground: localScrim.backgroundImage,
+      localScrimPosition: localScrim.position,
+    };
+  });
+  invariant(
+    legibility.localScrimPosition === "absolute" && legibility.localScrimBackground !== "none",
+    "mobile hero copy needs a localized contrast layer",
+  );
+  invariant(
+    !legibility.eyebrowBackground.includes("0, 0, 0, 0") && legibility.eyebrowBackground !== "transparent",
+    `mobile hero eyebrow needs an opaque-enough reading surface: ${legibility.eyebrowBackground}`,
+  );
+}
+
+async function assertDesktopAnchorsAndScrollSpy(page) {
+  await page.goto(`${baseUrl}/classes`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+  const classQuestions = page.locator('.toc a[href="#class-questions"]');
+  await classQuestions.click();
+  await page.waitForFunction(() => window.location.hash === "#class-questions");
+  const anchorGeometry = await page.evaluate(() => {
+    const header = document.querySelector(".site-header")?.getBoundingClientRect();
+    const heading = document.getElementById("class-questions")?.getBoundingClientRect();
+    return {
+      headerBottom: header?.bottom ?? 0,
+      headingTop: heading?.top ?? 0,
+    };
+  });
+  invariant(
+    anchorGeometry.headingTop >= anchorGeometry.headerBottom + 15 &&
+      anchorGeometry.headingTop <= anchorGeometry.headerBottom + 40,
+    `anchor target should clear the header: ${JSON.stringify(anchorGeometry)}`,
+  );
+  invariant(
+    await classQuestions.getAttribute("aria-current") === "location",
+    "clicked desktop TOC item should expose its location state",
+  );
+
+  await page.evaluate(() => {
+    const heading = document.getElementById("choose-by-the-turn-you-want-to-repeat");
+    const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height ?? 0;
+    if (heading) window.scrollTo(0, heading.offsetTop - headerHeight - 24);
+  });
+  await page.waitForFunction(() => (
+    document.querySelector('.toc a[href="#choose-by-the-turn-you-want-to-repeat"]')
+      ?.getAttribute("aria-current") === "location"
+  ));
+}
+
+async function assertNotFoundRoute(page) {
+  const response = await page.goto(`${baseUrl}/not-a-real-route`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
+  invariant(response?.status() === 404, "missing route should retain HTTP 404");
+  invariant(await page.title() === "Page not found | Zero Company Intel", "404 title should identify the error");
+  const robotsDirectives = await page.locator('meta[name="robots"]').evaluateAll((nodes) => (
+    nodes.map((node) => node.getAttribute("content") ?? "")
+  ));
+  invariant(
+    robotsDirectives.some((directive) => directive.includes("noindex")) &&
+      robotsDirectives.every((directive) => !directive.includes("nofollow")),
+    "404 route should remain out of the index while preserving follow links",
+  );
 }
 
 const browser = await chromium.launch({
@@ -198,12 +356,17 @@ const browser = await chromium.launch({
 });
 
 try {
-  const portrait = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const portrait = await browser.newContext({
+    hasTouch: true,
+    isMobile: true,
+    viewport: { width: 390, height: 844 },
+  });
   const page = await portrait.newPage();
 
   for (const route of tableRoutes) await assertArticleFits(page, route);
 
   await page.goto(`${baseUrl}/guides/beginners-guide`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
   invariant(await page.locator(".mobile-toc").isVisible(), "long pages need a visible mobile TOC");
   invariant(await page.locator(".mobile-toc a").count() > 1, "mobile TOC should expose section anchors");
   invariant(
@@ -220,6 +383,7 @@ try {
   );
 
   await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
+  await page.waitForLoadState("networkidle");
   const homeMetrics = await page.evaluate(() => ({
     heroHeight: document.querySelector(".hero-shell")?.getBoundingClientRect().height ?? 0,
     footerHeight: document.querySelector("footer")?.getBoundingClientRect().height ?? 0,
@@ -236,7 +400,18 @@ try {
 
   await assertSearchDialog(page);
   await assertDrawerDialog(page);
+  await assertWideTableAffordance(page);
+  await assertMobileHeroLegibility(page);
   await portrait.close();
+
+  const desktop = await browser.newContext({
+    reducedMotion: "reduce",
+    viewport: { width: 1440, height: 900 },
+  });
+  const desktopPage = await desktop.newPage();
+  await assertDesktopAnchorsAndScrollSpy(desktopPage);
+  await assertNotFoundRoute(desktopPage);
+  await desktop.close();
 
   const responsiveViewports = [
     { width: 320, height: 568 },

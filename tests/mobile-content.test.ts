@@ -14,6 +14,7 @@ describe("mobile content navigation", () => {
     expect(markup).toMatch(/class="[^"]*mobile-toc/);
     expect(markup).toContain("On this page");
     expect(markup).toContain('href="#cycles-1-5-priority-plan"');
+    expect(markup).toContain('aria-current="location"');
   });
 
   it("places next-step navigation before the full source ledger", () => {

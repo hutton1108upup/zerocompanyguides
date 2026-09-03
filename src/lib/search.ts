@@ -31,5 +31,9 @@ export function collectBlockText(block: ContentBlock): string {
       return [block.heading, ...block.items.flatMap((item) => [item.label, ...item.bullets])].join(" ");
     case "faq":
       return [block.heading, ...block.items.flatMap((item) => [item.question, item.answer])].join(" ");
+    case "squad-builder":
+      return [block.heading, block.intro, "Squad Builder four Operators team planner findings evaluation share"].join(" ");
+    case "achievement-checklist":
+      return [block.heading, block.intro, "53 trophies achievement checklist filter spoilers browser save"].join(" ");
   }
 }

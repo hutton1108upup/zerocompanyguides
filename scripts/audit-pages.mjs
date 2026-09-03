@@ -37,7 +37,17 @@ export function parseSitemapUrls(sitemapXml) {
     throw new Error("sitemap.xml contains duplicate URLs");
   }
 
-  return urls;
+const urls = ...;
+
+if (urls.length === 0) {
+  throw new Error("sitemap.xml contains no URLs");
+}
+
+if (new Set(urls).size !== urls.length) {
+  throw new Error("sitemap.xml contains duplicate URLs");
+}
+
+return urls;
 }
 
 export function getPageSignals(html) {
