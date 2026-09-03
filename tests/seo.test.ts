@@ -35,7 +35,7 @@ describe("SEO outputs", () => {
     const entries = await sitemap();
     const urls = entries.map((entry) => entry.url);
     const expectedUrls = contentPages
-      .filter((page) => page.indexable)
+      .filter(isPublicIndexablePage)
       .map((page) => buildCanonicalUrl(page.path));
 
     expect(new Set(urls).size).toBe(urls.length);
