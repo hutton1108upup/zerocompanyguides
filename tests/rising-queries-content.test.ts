@@ -180,7 +180,7 @@ describe("rising-query content expansion", () => {
     const page = getPage("/game-info");
 
     expect(page).toMatchObject({
-      lastVerified: "2026-09-02",
+      lastVerified: "2026-09-03",
       indexable: true,
     });
     if (!page) return;

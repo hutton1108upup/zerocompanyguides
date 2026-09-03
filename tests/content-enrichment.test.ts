@@ -349,6 +349,7 @@ describe("content enrichment routes", () => {
       expect(routes.items.map((item) => item.href)).toEqual([
         "/walkthrough/nebulous-pursuit",
         "/walkthrough/ship-adrift",
+        "/walkthrough/help-wanted",
         "/walkthrough/in-debt-to-the-hutts",
         "/walkthrough/back-channels",
         "/walkthrough/sloppy-supply-route",
@@ -359,6 +360,6 @@ describe("content enrichment routes", () => {
     expect(walkthrough?.description).toBe(
       "Follow the Critical route, understand Operations versus Tactical Missions, compare important choices and open spoiler-labeled mission walkthroughs.",
     );
-    expect(walkthrough?.lastVerified).toBe("2026-09-02");
+    expect(walkthrough?.lastVerified).toBe("2026-09-03");
   });
 });

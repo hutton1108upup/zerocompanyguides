@@ -37,9 +37,11 @@ describe("verification metadata", () => {
       (entry) => entry.path === "/guides/beginners-guide",
     )!;
     const markup = renderToStaticMarkup(createElement(EvidenceMeta, { page }));
-    const renderedDates = markup.match(
-      /<time dateTime="2026-08-31">2026-08-31<\/time>/g,
+    const datePattern = new RegExp(
+      `<time dateTime="${page.lastVerified}">${page.lastVerified}</time>`,
+      "g",
     );
+    const renderedDates = markup.match(datePattern);
 
     expect(renderedDates ?? []).toHaveLength(2);
   });
