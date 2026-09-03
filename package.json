@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "node scripts/cloudflare-build.mjs",
+    "site:audit": "node scripts/audit-pages.mjs",
     "cf:build": "node scripts/cloudflare-build.mjs --adapter",
     "cf:deploy": "opennextjs-cloudflare deploy",
     "cf:upload": "opennextjs-cloudflare upload",
