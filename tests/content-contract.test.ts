@@ -18,6 +18,7 @@ const intentTermsByPath: Record<string, readonly string[]> = {
   "/guides/permadeath": ["difficulty", "permadeath"],
   "/walkthrough": ["walkthrough"],
   "/walkthrough/back-channels": ["back channels", "runa", "neesh"],
+  "/walkthrough/help-wanted": ["help wanted"],
   "/walkthrough/in-debt-to-the-hutts": ["in debt to the hutts", "walkthrough"],
   "/walkthrough/nebulous-pursuit": ["nebulous pursuit"],
   "/walkthrough/ship-adrift": ["ship adrift"],
