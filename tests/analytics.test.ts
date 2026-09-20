@@ -49,4 +49,28 @@ describe("site analytics", () => {
     expect(markup).not.toContain('id="google-analytics-bootstrap"');
     expect(markup).toContain("Reject analytics");
   });
+
+  it("emits both advertising loaders and the native banner container on every page", () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        RootLayout,
+        null,
+        createElement("main", null, "Advertising test page"),
+      ),
+    );
+
+    expect(markup).toContain('id="profitablerate-popunder"');
+    expect(markup).toContain(
+      "https://pl31426954.profitableratecpmnetwork.com/04/b3/48/04b348dffa1f19e7124eacf90c1414a4.js",
+    );
+    expect(markup).toContain('id="profitablerate-native-banner"');
+    expect(markup).toContain('async=""');
+    expect(markup).toContain('data-cfasync="false"');
+    expect(markup).toContain(
+      "https://pl31426956.profitableratecpmnetwork.com/96272942accec8aba062ea528ff5e99c/invoke.js",
+    );
+    expect(markup).toContain(
+      'id="container-96272942accec8aba062ea528ff5e99c"',
+    );
+  });
 });

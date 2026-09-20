@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Inter, JetBrains_Mono, Orbitron } from "next/font/google";
 import "@/app/globals.css";
+import { AdvertisingScripts } from "@/components/advertising-scripts";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { GoogleAnalytics } from "@/components/google-analytics";
@@ -70,6 +71,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <MicrosoftClarity />
         <AnalyticsConsent />
+        <AdvertisingScripts />
       </body>
     </html>
   );
