@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import sitemap from "../src/app/sitemap";
 import { contentPages, requiredPublicPaths } from "../src/content/pages";
 import { resolveSources } from "../src/content/sources";
+import { getHeadingId } from "../src/lib/content";
 import {
   buildCanonicalUrl,
   getInnerRouteParams,
@@ -19,7 +20,7 @@ describe("post-launch query expansion", () => {
     expect(fps).toMatchObject({
       title: "Star Wars Zero Company Stutter, Low FPS and Crash Fixes",
       h1: "Fix Star Wars Zero Company Stutter, Low FPS & Crashes",
-      lastVerified: "2026-09-03",
+      lastVerified: "2026-09-23",
       indexable: true,
     });
     expect(contentPages.some((entry) => entry.path === "/performance/stuttering")).toBe(false);
@@ -33,11 +34,13 @@ describe("post-launch query expansion", () => {
       expect(timeline.rows.map((row) => row[0])).toEqual([
         "August 27, 2026",
         "September 1, 2026",
+        "September 9, 2026",
         "After each patch",
       ]);
       expect(timeline.rows.flat().join(" ")).toContain("crashes and CPU threading");
       expect(timeline.rows.flat().join(" ")).toContain("Last edited");
-      expect(timeline.rows.flat().join(" ")).toContain("lastVerified");
+      expect(timeline.rows.flat().join(" ")).toContain("Patch 1.1 released");
+      expect(fps?.sources).toContain("ea-patch-1-1");
     }
 
     const platformSplit = fps?.blocks.find(
@@ -62,7 +65,7 @@ describe("post-launch query expansion", () => {
       status: "needs-retest",
       verification: "needs-retest",
       indexable: false,
-      lastVerified: "2026-09-03",
+      lastVerified: "2026-09-23",
     });
 
     const answer = sloppy?.blocks.find(
@@ -71,16 +74,16 @@ describe("post-launch query expansion", () => {
     expect(answer?.type).toBe("table");
     if (answer?.type === "table") {
       expect(answer.rows.map((row) => row[0])).toEqual([
-        "Rewards match the extracted record",
-        "You need a verified reward pool",
-        "You already need to assign Operators",
+        "Injured or unavailable roster",
+        "Short on Intel or Credits",
+        "Considering Direct Raid",
       ]);
       expect(answer.rows.flat().join(" ")).toContain("Analyze");
-      expect(answer.rows.flat().join(" ")).toContain("default low-risk option");
-      expect(answer.rows.flat().join(" ")).toContain("Holotable");
+      expect(answer.rows.flat().join(" ")).toContain("missing fields do not prove zero risk");
+      expect(answer.rows.flat().join(" ")).toContain("no droids");
     }
 
-    expect(blockText("/walkthrough/sloppy-supply-route")).toContain("two result screens");
+    expect(blockText("/walkthrough/sloppy-supply-route")).toContain("cannot establish the full reward odds");
     expect(getMetadataForPath("/walkthrough/sloppy-supply-route")?.robots).toBe("noindex, follow");
   });
 
@@ -103,7 +106,7 @@ describe("post-launch query expansion", () => {
       verification: "source-verified-synthesis",
       evidence: "community",
       indexable: true,
-      lastVerified: "2026-09-03",
+      lastVerified: "2026-09-23",
     });
     expect(requiredPublicPaths).toContain("/walkthrough/help-wanted");
     expect(staticPaths).toContain("/walkthrough/help-wanted");
@@ -114,11 +117,11 @@ describe("post-launch query expansion", () => {
     expect(hubCardHrefs).toContain("/walkthrough/help-wanted");
 
     const locator = helpWanted?.blocks.find(
-      (block) => block.type === "table" && block.heading === "Find your Help Wanted variant",
+      (block) => block.type === "cards" && block.heading === "Find your Help Wanted variant",
     );
-    expect(locator?.type).toBe("table");
-    if (locator?.type === "table") {
-      expect(locator.rows.map((row) => row[0])).toEqual([
+    expect(locator?.type).toBe("cards");
+    if (locator?.type === "cards") {
+      expect(locator.items.map((item) => item.title)).toEqual([
         "Skeez and the magic box",
         "Many-armed village beast",
         "Odra transport job",
@@ -126,6 +129,14 @@ describe("post-launch query expansion", () => {
         "Assassin droid",
         "Regional gang weapon cache",
       ]);
+      const sectionIds = helpWanted!.blocks.flatMap((block) =>
+        "heading" in block ? [getHeadingId(block.heading)] : [],
+      );
+      expect(new Set(locator.items.map((item) => item.href)).size).toBe(6);
+      for (const item of locator.items) {
+        expect(item.href).toMatch(/^#help-wanted-/);
+        expect(sectionIds.filter((id) => `#${id}` === item.href)).toHaveLength(1);
+      }
     }
 
     const goals = helpWanted?.blocks.find(
@@ -154,11 +165,15 @@ describe("post-launch query expansion", () => {
     );
     expect(protection?.type).toBe("table");
     if (protection?.type === "table") {
-      expect(protection.rows).toEqual([
-        ["Drink to that", "+1,000 Credits; reported -25 Bond XP across the team", "+3 Influence", "Take only when the Credit bottleneck beats a whole-roster Bond loss"],
-        ["Throw the drink", "+10 Bond XP across the roster", "+3 Influence", "Default when the campaign can survive without the immediate Credits"],
-      ]);
+      expect(protection.rows.map((row) => row[0])).toEqual(["Drink to that", "Throw the drink"]);
+      expect(protection.rows[0][1]).toContain("-25 Bond XP");
+      expect(protection.rows[1][1]).toContain("+10 Bond XP");
+      for (const row of protection.rows) {
+        expect(row[2]).toContain("+3 in the Databank");
+        expect(row[2]).toContain("+4 Zone Cresh in player reports");
+      }
     }
+    expect(blockText("/walkthrough")).not.toContain("28-day query/page");
     expect(walkthrough?.sources).toEqual(expect.arrayContaining(["zerocompany-tools-protection-application", "gamersheroes-choices"]));
   });
 

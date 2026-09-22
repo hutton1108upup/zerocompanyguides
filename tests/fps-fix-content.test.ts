@@ -13,7 +13,7 @@ describe("FPS fix search-intent coverage", () => {
       description:
         "Fix Zero Company stutter and low FPS with an official-status-first checklist for CPU threading, drivers, upscalers, shader issues, Geometry Detail and safe rollback.",
       h1: "Fix Star Wars Zero Company Stutter, Low FPS & Crashes",
-      lastVerified: "2026-09-03",
+      lastVerified: "2026-09-23",
       indexable: true,
     });
 
@@ -59,7 +59,7 @@ describe("FPS fix search-intent coverage", () => {
     expect(experiments?.type).toBe("table");
     if (experiments?.type === "table") {
       expect(experiments.rows.map((row) => row[0])).toEqual([
-        "Environment Geometry Detail",
+        "Environment Geometry Detail on other GPUs",
         "Frame-rate cap",
         "Shader cache change",
         "Engine.ini or performance mod",

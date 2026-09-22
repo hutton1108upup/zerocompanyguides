@@ -360,6 +360,6 @@ describe("content enrichment routes", () => {
     expect(walkthrough?.description).toBe(
       "Follow the Critical route, understand Operations versus Tactical Missions, compare important choices and open spoiler-labeled mission walkthroughs.",
     );
-    expect(walkthrough?.lastVerified).toBe("2026-09-03");
+    expect(walkthrough?.lastVerified).toBe("2026-09-23");
   });
 });
