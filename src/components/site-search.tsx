@@ -15,6 +15,7 @@ import type { ContentPage } from "@/content/types";
 import { ArrowUpRightIcon, CloseIcon, SearchIcon } from "@/components/icons";
 import { collectBlockText } from "@/lib/search";
 import { trapDialogFocus } from "@/lib/focus";
+import { getNavigationGroup, isPublicIndexablePage } from "@/lib/site";
 
 type SearchEntry = {
   href: string;
@@ -27,6 +28,8 @@ type SearchEntry = {
 
 function getSectionLabel(page: ContentPage): string {
   if (page.path === "/") return "Home";
+  const group = getNavigationGroup(page.path);
+  if (group) return group.label;
   const [first] = page.path.split("/").filter(Boolean);
   return first
     ?.split("-")
@@ -35,7 +38,7 @@ function getSectionLabel(page: ContentPage): string {
 }
 
 const searchEntries: SearchEntry[] = contentPages
-  .filter((page) => page.indexable)
+  .filter(isPublicIndexablePage)
   .map((page) => ({
     href: page.path,
     title: page.h1,
@@ -89,7 +92,7 @@ function getResults(query: string) {
     .map((item) => item.entry);
 }
 
-export function SiteSearch() {
+export function SiteSearch({ onOpen }: { onOpen?: () => void } = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
@@ -99,6 +102,7 @@ export function SiteSearch() {
   const restoreFocusRef = useRef(false);
 
   const openSearch = () => {
+    onOpen?.();
     startTransition(() => {
       setIsOpen(true);
     });
@@ -115,6 +119,8 @@ export function SiteSearch() {
   const handleGlobalKeys = useEffectEvent((event: KeyboardEvent) => {
     const isModifierK = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
     if (isModifierK) {
+      // The drawer closes first, then activates this single search dialog.
+      if (document.querySelector(".mobile-drawer")) return;
       event.preventDefault();
       openSearch();
       return;

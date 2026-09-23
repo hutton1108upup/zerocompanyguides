@@ -1,100 +1,64 @@
 import { describe, expect, it } from "vitest";
 import { contentPages } from "../src/content/pages";
+import { getHeadingId } from "../src/lib/content";
+import { homeSections } from "../src/lib/home-data";
 import {
-  footerNavigationSections,
-  getSearchPages,
-  moreNavigationSections,
-  primaryNavigationPaths,
+  footerNavigationSections, getNavigationGroup, getPublicNavigationGroups,
+  getSearchPages, navigationGroups, primaryNavigationPaths,
 } from "../src/lib/site";
 
-const approvedPaths = new Set(contentPages.map((page) => page.path));
-
-describe("navigation registry", () => {
-  it("keeps eight core destinations visible in the primary navigation", () => {
-    expect(primaryNavigationPaths).toEqual([
-      "/squad-builder",
-      "/builds",
-      "/classes",
-      "/weapons",
-      "/characters",
-      "/walkthrough",
-      "/trophy-guide",
-      "/performance",
-    ]);
+describe("shared navigation and contextual discovery", () => {
+  it("uses five task groups consistently across navigation and homepage", () => {
+    expect(primaryNavigationPaths).toEqual(["/walkthrough", "/builds", "/guides", "/performance", "/game-info"]);
+    expect(homeSections.map((section) => section.title)).toEqual(navigationGroups.map((group) => group.label));
+    expect(navigationGroups.every((group) => group.links.length <= 7)).toBe(true);
+    expect(footerNavigationSections.flatMap((section) => section.paths)).toHaveLength(10);
   });
 
-  it("keeps the global header focused on approved destinations instead of every leaf guide", () => {
-    const morePaths = moreNavigationSections.flatMap((section) => section.paths);
-    const headerPaths = [...primaryNavigationPaths, ...morePaths];
+  it.each([
+    ["/weapons", "builds"], ["/classes/tier-list", "builds"],
+    ["/characters/voice-cast", "builds"], ["/guides/respec", "guides"],
+    ["/trophy-guide", "guides"], ["/mods", "fixes"],
+    ["/performance/steam-deck", "fixes"], ["/worth-it", "game-info"],
+    ["/walkthrough/help-wanted", "walkthrough"],
+  ])("assigns %s to its semantic category", (path, id) => {
+    expect(getNavigationGroup(path)?.id).toBe(id);
+  });
 
-    expect(moreNavigationSections.map((section) => section.title)).toEqual([
-      "Start & Decide",
-      "Build & Squad",
-      "Technical & Reference",
-      "This Site",
-    ]);
-    expect(new Set(headerPaths).size).toBe(headerPaths.length);
-    for (const path of headerPaths) {
+  it("keeps navigation public and resolves every fragment to a real section", () => {
+    const hrefs = getPublicNavigationGroups().flatMap((group) => [group.path, ...group.links.map((link) => link.href)]);
+    expect(new Set(hrefs).size).toBe(hrefs.length);
+    for (const href of hrefs) {
+      const [path, fragment] = href.split("#");
       const page = contentPages.find((entry) => entry.path === path);
-      expect(page, `${path} should resolve`).toBeDefined();
-      expect(page?.indexable, `${path} should be public`).toBe(true);
+      expect(page?.indexable, href).toBe(true);
+      if (fragment) {
+        expect(page?.blocks.flatMap((block) => "heading" in block ? [getHeadingId(block.heading)] : [])).toContain(fragment);
+      }
     }
-    expect(headerPaths).not.toContain("/walkthrough/nebulous-pursuit");
-    expect(headerPaths).not.toContain("/walkthrough/ship-adrift");
+    expect(hrefs).not.toContain("/walkthrough/sloppy-supply-route");
+    expect(hrefs).not.toContain("/walkthrough/in-debt-to-the-hutts");
   });
 
-  it("uses only approved footer routes and excludes banned duplicates", () => {
-    const footerPaths = footerNavigationSections.flatMap((section) => section.paths);
-
-    expect(new Set(footerPaths).size).toBe(footerPaths.length);
-    expect(footerPaths).toEqual(
-      expect.arrayContaining([
-        "/squad-builder",
-        "/corrections",
-        "/updates",
-        "/game-info",
-        "/system-requirements",
-        "/multiplayer",
-        "/guides/beginners-guide",
-        "/worth-it",
-        "/guides",
-        "/guides/respec",
-        "/builds/hawks",
-        "/builds/best-team",
-        "/classes/tier-list",
-        "/weapons",
-        "/performance/pc",
-        "/performance/fps-fix",
-        "/performance/steam-deck",
-        "/mods",
-      ]),
-    );
-
-    for (const path of footerPaths) {
-      expect(approvedPaths.has(path), `${path} should exist in contentPages`).toBe(true);
+  it("gives each public game page at least two contextual incoming pages without counting global menus", () => {
+    const publicPages = contentPages.filter((page) => page.indexable && page.pageType !== "editorial" && page.path !== "/");
+    const incoming = new Map<string, Set<string>>();
+    for (const page of publicPages) {
+      const links = [...page.related, ...page.blocks.flatMap((block) => block.type === "cards"
+        ? block.items.flatMap((item) => item.href?.startsWith("/") ? [item.href.split("#")[0]] : []) : [])];
+      for (const target of new Set(links)) {
+        expect(contentPages.some((entry) => entry.path === target), `${page.path} -> ${target}`).toBe(true);
+        if (target === page.path) continue;
+        if (!incoming.has(target)) incoming.set(target, new Set());
+        incoming.get(target)!.add(page.path);
+      }
     }
-
-    expect(footerPaths).not.toContain("/wiki");
-    expect(footerPaths).not.toContain("/classes/best");
-
-    expect(footerPaths).not.toContain("/walkthrough/nebulous-pursuit");
-    expect(footerPaths).not.toContain("/walkthrough/ship-adrift");
+    for (const page of publicPages) {
+      expect(incoming.get(page.path)?.size ?? 0, `${page.path}: incoming contextual pages`).toBeGreaterThanOrEqual(2);
+    }
   });
 
-  it("keeps the search registry on indexable inner pages only", () => {
-    const searchPages = getSearchPages();
-    const searchPaths = searchPages.map((page) => page.path);
-    const expectedSearchPaths = contentPages
-      .filter((page) => page.indexable && page.path !== "/")
-      .map((page) => page.path);
-
-    expect(searchPaths).toEqual(expectedSearchPaths);
-    expect(searchPaths).not.toContain("/");
-    expect(searchPaths).not.toContain("/wiki");
-    expect(searchPaths).not.toContain("/classes/best");
-
-    for (const page of searchPages) {
-      expect(page.indexable, `${page.path} must be indexable`).toBe(true);
-    }
+  it("retains indexable search entries and excludes evidence-gated pages", () => {
+    expect(getSearchPages().map((page) => page.path)).toEqual(contentPages.filter((page) => page.indexable && page.path !== "/").map((page) => page.path));
   });
 });

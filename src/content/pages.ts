@@ -185,7 +185,7 @@ export const contentPages: ContentPage[] = [
     pageType: "hub",
     evidence: "official",
     sources: ["ea-specializations", "ea-class-guide", "ea-gameplay-overview"],
-    related: ["/squad-builder", "/classes/tier-list", "/builds/hawks", "/builds/best-team"],
+    related: ["/squad-builder", "/classes/tier-list", "/builds/hawks", "/builds/best-team", "/builds"],
     blocks: [
       {
         type: "briefing",
@@ -237,7 +237,7 @@ export const contentPages: ContentPage[] = [
     lastVerified: "2026-09-02",
     gameVersion: "Launch build — official roles and post-launch rankings checked 2026-09-02",
     sources: ["ea-class-guide", "pcg-best-class", "mobalytics-tier", "destructoid-tier", "reddit-expert-builds", "reddit-hawks"],
-    related: ["/classes", "/builds/hawks", "/builds/best-team"],
+    related: ["/classes", "/builds/hawks", "/builds/best-team", "/builds"],
     blocks: [
       {
         type: "warning",
@@ -327,7 +327,7 @@ export const contentPages: ContentPage[] = [
     pageType: "hub",
     evidence: "community",
     sources: ["ea-class-guide", "ea-gameplay-overview", "pcg-best-class", "reddit-squads"],
-    related: ["/squad-builder", "/builds/hawks", "/builds/best-team", "/classes"],
+    related: ["/squad-builder", "/builds/hawks", "/builds/best-team", "/classes", "/guides/respec"],
     blocks: [
       {
         type: "briefing",
@@ -341,9 +341,14 @@ export const contentPages: ContentPage[] = [
         type: "cards",
         heading: "Build paths",
         items: [
-          { title: "Hawks by playstyle", label: "Leader", body: "Compare Scoundrel, Medic, Gunslinger and Scout without pretending one route wins every difficulty.", href: "/builds/hawks", tone: "amber" },
-          { title: "Role-complete squads", label: "Four slots", body: "Balance damage, control, sustain and frontline pressure, then record a substitute for each role.", href: "/builds/best-team", tone: "cyan" },
-          { title: "Class reference", label: "Eight standards", body: "Read official role and ability descriptions before spending Focus Points.", href: "/classes", tone: "green" },
+          { title: "Hawks by playstyle", body: "Compare support, Advantage and damage routes for your commander.", href: "/builds/hawks", tone: "cyan" },
+          { title: "Plan a balanced team", body: "Choose four roles and the companions who can fill them.", href: "/builds/best-team", tone: "cyan" },
+          { title: "Open Squad Builder", body: "Try the squad and loadout together in the account-free planning tool.", href: "/squad-builder", tone: "cyan" },
+          { title: "Classes and Specializations", body: "Read the role definitions before choosing a class pairing.", href: "/classes", tone: "cyan" },
+          { title: "Class Tier List", body: "Compare campaign value with role and mission trade-offs.", href: "/classes/tier-list", tone: "cyan" },
+          { title: "Weapons and Mods", body: "Check weapon AP costs and equipment compatibility before following a build.", href: "/weapons", tone: "cyan" },
+          { title: "Characters and their roles", body: "Separate deployable Operators from Den staff and story characters.", href: "/characters", tone: "cyan" },
+          { title: "Companion availability", body: "Check recruitment, injuries and substitutes for your preferred team.", href: "/characters/companions", tone: "cyan" },
         ],
       },
       {
@@ -374,7 +379,7 @@ export const contentPages: ContentPage[] = [
     lastVerified: "2026-09-02",
     gameVersion: "Launch build — Hawks pairings and respec timing checked 2026-09-02",
     sources: ["ea-class-guide", "pcg-best-class", "pcg-respec", "reddit-hawks", "reddit-expert-builds", "reddit-hawks-launch", "allthings-hawks-build"],
-    related: ["/squad-builder", "/classes/tier-list", "/guides/respec", "/builds/best-team"],
+    related: ["/squad-builder", "/classes/tier-list", "/guides/respec", "/builds/best-team", "/weapons"],
     blocks: [
       {
         type: "briefing",
@@ -484,7 +489,7 @@ export const contentPages: ContentPage[] = [
     pageType: "decision",
     evidence: "community",
     sources: ["ea-gameplay-overview", "reddit-squads", "destructoid-squads", "pcg-discord-jedi"],
-    related: ["/builds/hawks", "/classes", "/guides/beginners-guide"],
+    related: ["/builds/hawks", "/classes", "/guides/beginners-guide", "/characters/companions", "/squad-builder"],
     blocks: [
       {
         type: "briefing",
@@ -514,6 +519,7 @@ export const contentPages: ContentPage[] = [
           { title: "Lost your support", body: "Move Hawks or a Custom Operator into Medic/Scout coverage before adding more damage.", tone: "amber" },
           { title: "No Tel-Rea", body: "Replace displacement and control, not the Jedi label. Assault and utility effects can recreate part of the tactical job.", tone: "cyan" },
           { title: "Match a companion to the open job", label: "Companions", body: "Compare authored Talents, join windows, Bonds and replacement consequences before choosing a name for the slot.", href: "/characters/companions", tone: "green" },
+          { title: "Try the team in Squad Builder", label: "Squad Builder", body: "Set the four roles and loadouts, then inspect remaining gaps before deployment.", href: "/squad-builder", tone: "cyan" },
         ],
       },
       {
@@ -538,15 +544,16 @@ export const contentPages: ContentPage[] = [
     pageType: "hub",
     evidence: "official",
     sources: ["ea-gameplay-overview", "ea-faq", "ea-class-guide"],
-    related: ["/guides/beginners-guide", "/guides/respec", "/walkthrough"],
+    related: ["/guides/beginners-guide", "/guides/respec", "/walkthrough", "/guides/permadeath", "/trophy-guide"],
     blocks: [
       {
         type: "cards",
         heading: "Start with the problem in front of you",
         items: [
-          { title: "First mission fundamentals", body: "Three AP, cover, Overwatch, Advantage and a four-role squad plan.", href: "/guides/beginners-guide", tone: "green" },
-          { title: "Change Specialization", body: "When respec unlocks, what is refunded and which authored Talents stay fixed.", href: "/guides/respec", tone: "cyan" },
-          { title: "Campaign order", body: "A spoiler-labeled chapter index and before-you-deploy checklist.", href: "/walkthrough", tone: "amber" },
+          { title: "Beginner Guide", body: "Learn the tactical turn, Den routine and early campaign decisions.", href: "/guides/beginners-guide", tone: "cyan" },
+          { title: "Respec and change class", body: "Check what can change, when it unlocks and what is refunded.", href: "/guides/respec", tone: "cyan" },
+          { title: "Difficulty and Permadeath", body: "Understand injuries and recovery before committing a fragile roster.", href: "/guides/permadeath", tone: "cyan" },
+          { title: "Trophies and Achievements", body: "Plan completion goals, difficulty requirements and missable risks.", href: "/trophy-guide", tone: "cyan" },
         ],
       },
       {
@@ -577,7 +584,7 @@ export const contentPages: ContentPage[] = [
     pageType: "article",
     evidence: "community",
     sources: ["ea-class-guide", "pcg-respec", "pcg-best-class"],
-    related: ["/builds/hawks", "/classes", "/guides/beginners-guide"],
+    related: ["/builds/hawks", "/classes", "/guides/beginners-guide", "/guides", "/classes/tier-list"],
     blocks: [
       {
         type: "steps",
@@ -641,7 +648,7 @@ export const contentPages: ContentPage[] = [
       "reddit-difficulty-question",
       "reddit-permadeath-threat",
     ],
-    related: ["/guides/beginners-guide", "/characters", "/builds/best-team", "/walkthrough"],
+    related: ["/guides/beginners-guide", "/characters", "/builds/best-team", "/walkthrough", "/guides", "/trophy-guide"],
     blocks: [
       {
         type: "briefing",
@@ -845,6 +852,7 @@ export const contentPages: ContentPage[] = [
         heading: "Walkthrough routes and campaign decisions",
         intro: "Open the narrow answer for the blocker in front of you; pages with incomplete first-hand evidence remain visibly gated.",
         items: [
+          { title: "Protection Application: Credits or Bonds?", label: "Protection Application", body: "Jump to the two choices, the deadline and the reported team-wide consequences.", href: "/walkthrough#protection-application-credits-or-team-bond", tone: "cyan" },
           { title: "Find Kin Delima without trusting a fixed planet", label: "Nebulous Pursuit", body: "Compare both pursuit stages, the reported randomized destination, rewards and the Lotho Minor injury-risk branch.", href: "/walkthrough/nebulous-pursuit", tone: "cyan" },
           { title: "Compare all five Ship Adrift choices", label: "Ship Adrift I-V", body: "Choose between Credits, Influence, a Capacitor, Bond progress and later costs across the complete Operation chain.", href: "/walkthrough/ship-adrift", tone: "green" },
           { title: "Identify the right Help Wanted variant", label: "Help Wanted", body: "Use the opening scene - Skeez, village beast, Odra, assassin droid or gang cache - before choosing by Credits, Bonds, Influence and injury risk.", href: "/walkthrough/help-wanted", tone: "cyan" },
@@ -1108,7 +1116,7 @@ export const contentPages: ContentPage[] = [
     gameVersion: "Choice packages and follow-up reports rechecked 2026-09-23; no first-hand patch 1.1 replay",
     spoiler: "minor",
     sources: ["ea-faq", "gamersheroes-choices", "showgamer-choices", "allthings-storm-basin"],
-    related: ["/walkthrough", "/walkthrough/in-debt-to-the-hutts", "/guides/beginners-guide"],
+    related: ["/walkthrough", "/walkthrough/in-debt-to-the-hutts", "/guides/beginners-guide", "/walkthrough/help-wanted", "/walkthrough/ship-adrift"],
     blocks: [
       {
         type: "briefing",
@@ -1343,7 +1351,7 @@ export const contentPages: ContentPage[] = [
     gameVersion: "Six variants in Databank build 25134257 reviewed 2026-09-23; community outcomes, not a first-hand replay",
     spoiler: "minor",
     sources: ["ea-faq", "zerocompany-tools-help-wanted", "gamersheroes-choices", "showgamer-choices"],
-    related: ["/walkthrough", "/guides/beginners-guide", "/guides/permadeath", "/characters/companions"],
+    related: ["/walkthrough", "/guides/beginners-guide", "/guides/permadeath", "/characters/companions", "/walkthrough/back-channels", "/walkthrough/ship-adrift"],
     blocks: [
       {
         type: "briefing",
@@ -1745,7 +1753,7 @@ export const contentPages: ContentPage[] = [
       "reddit-platinum-guide",
       "ea-faq",
     ],
-    related: ["/walkthrough", "/guides/permadeath", "/guides/beginners-guide", "/builds/best-team"],
+    related: ["/walkthrough", "/guides/permadeath", "/guides/beginners-guide", "/builds/best-team", "/guides"],
     blocks: [
       {
         type: "briefing",
@@ -1848,15 +1856,16 @@ export const contentPages: ContentPage[] = [
     pageType: "hub",
     evidence: "official",
     sources: ["ea-faq", "steam-issue-update", "steam-store", "ea-forums"],
-    related: ["/performance/pc", "/performance/fps-fix", "/performance/steam-deck"],
+    related: ["/performance/pc", "/performance/fps-fix", "/performance/steam-deck", "/system-requirements", "/mods"],
     blocks: [
       {
         type: "cards",
         heading: "Choose the right diagnostic",
         items: [
-          { title: "PC performance", body: "Official CPU/upscaler context, measured-review evidence and settings trade-offs.", href: "/performance/pc", tone: "cyan" },
-          { title: "Stutter and crashes", body: "Driver, file, Intel stability and reversible settings checks in a safe order.", href: "/performance/fps-fix", tone: "red" },
-          { title: "Steam Deck", body: "Official unsupported-at-launch status and two launch-test snapshots.", href: "/performance/steam-deck", tone: "amber" },
+          { title: "FPS and crash fixes", body: "Start with patch guidance and a symptom-specific troubleshooting order.", href: "/performance/fps-fix", tone: "cyan" },
+          { title: "PC settings", body: "Compare CPU, upscaling and graphics-setting trade-offs.", href: "/performance/pc", tone: "cyan" },
+          { title: "Steam Deck", body: "Check compatibility and the limits of the available testing.", href: "/performance/steam-deck", tone: "cyan" },
+          { title: "Mods and compatibility", body: "Review unofficial mod installation, dependencies and removal before changing files.", href: "/mods", tone: "cyan" },
         ],
       },
       {
@@ -1891,7 +1900,7 @@ export const contentPages: ContentPage[] = [
     gameVersion: "Launch build — performance guidance checked 2026-08-31",
     platforms: ["PC"],
     sources: ["ea-faq", "steam-issue-update", "pcg-review", "pcg-linear-abilities", "techradar-review", "gamesgg-settings", "reddit-geometry"],
-    related: ["/system-requirements", "/performance/fps-fix", "/performance/steam-deck"],
+    related: ["/system-requirements", "/performance/fps-fix", "/performance/steam-deck", "/performance", "/mods"],
     blocks: [
       {
         type: "briefing",
@@ -1951,7 +1960,7 @@ export const contentPages: ContentPage[] = [
     gameVersion: "Patch 1.1 official notes reviewed 2026-09-23; older community workarounds have not been retested",
     platforms: ["PC"],
     sources: ["ea-patch-1-1", "steam-issue-update", "ea-faq", "ea-forums", "reddit-geometry", "reddit-performance-megathread", "reddit-pc-stutter-reports"],
-    related: ["/performance/pc", "/system-requirements", "/mods"],
+    related: ["/performance/pc", "/system-requirements", "/mods", "/performance"],
     blocks: [
       {
         type: "briefing",
@@ -2096,8 +2105,18 @@ export const contentPages: ContentPage[] = [
     lastVerified: "2026-09-03",
     gameVersion: "Launch storefront and Steam metadata checked 2026-09-03",
     sources: ["ea-game", "steam-store", "steam-store-hungarian", "steamdb-config", "ea-faq", "ea-official-video"],
-    related: ["/system-requirements", "/multiplayer", "/worth-it"],
+    related: ["/system-requirements", "/multiplayer", "/worth-it", "/characters", "/characters/voice-cast"],
     blocks: [
+      {
+        type: "cards",
+        heading: "Plan your purchase and first session",
+        items: [
+          { title: "System Requirements", body: "Compare the official PC specification targets with your hardware.", href: "/system-requirements", tone: "cyan" },
+          { title: "Multiplayer and co-op", body: "Check what the single-player campaign does and does not support.", href: "/multiplayer", tone: "cyan" },
+          { title: "Worth buying?", body: "Compare the tactical campaign with the experience you want.", href: "/worth-it", tone: "cyan" },
+          { title: "Meet the characters", body: "Find the Operator roster, supporting cast and voice cast.", href: "/characters", tone: "cyan" },
+        ],
+      },
       {
         type: "facts",
         heading: "Quick facts",
@@ -2195,7 +2214,7 @@ export const contentPages: ContentPage[] = [
     evidence: "official",
     platforms: ["PC"],
     sources: ["steam-store", "ea-faq"],
-    related: ["/performance/pc", "/performance/fps-fix", "/game-info"],
+    related: ["/performance/pc", "/performance/fps-fix", "/game-info", "/performance/steam-deck"],
     blocks: [
       {
         type: "table",
@@ -2242,7 +2261,7 @@ export const contentPages: ContentPage[] = [
     pageType: "article",
     evidence: "official",
     sources: ["ea-faq", "ea-game", "steam-store"],
-    related: ["/game-info", "/worth-it", "/guides/beginners-guide"],
+    related: ["/game-info", "/worth-it", "/guides/beginners-guide", "/guides"],
     blocks: [
       {
         type: "briefing",
@@ -2294,7 +2313,7 @@ export const contentPages: ContentPage[] = [
       "reddit-weapons-specializations",
       "reddit-repeater-debate",
     ],
-    related: ["/classes", "/builds", "/guides/beginners-guide"],
+    related: ["/classes", "/builds", "/guides/beginners-guide", "/builds/hawks", "/squad-builder"],
     blocks: [
       {
         type: "briefing",
@@ -2429,7 +2448,7 @@ export const contentPages: ContentPage[] = [
       "starwars-cast",
       "steam-dev-faq",
     ],
-    related: ["/characters/companions", "/characters/voice-cast", "/game-info", "/walkthrough"],
+    related: ["/characters/companions", "/characters/voice-cast", "/game-info", "/walkthrough", "/builds"],
     blocks: [
       {
         type: "briefing",
@@ -2515,7 +2534,7 @@ export const contentPages: ContentPage[] = [
       "reddit-bond-strategies",
       "reddit-roster-rotation",
     ],
-    related: ["/characters", "/builds/best-team", "/guides/beginners-guide", "/classes"],
+    related: ["/characters", "/builds/best-team", "/guides/beginners-guide", "/classes", "/guides/permadeath"],
     blocks: [
       {
         type: "briefing",
@@ -2679,7 +2698,7 @@ export const contentPages: ContentPage[] = [
     pageType: "article",
     evidence: "official",
     sources: ["starwars-cast"],
-    related: ["/characters", "/game-info", "/walkthrough"],
+    related: ["/characters", "/game-info", "/walkthrough", "/characters/companions"],
     blocks: [
       {
         type: "table",
@@ -2738,7 +2757,7 @@ export const contentPages: ContentPage[] = [
       "gamesradar-review",
       "reddit-beginner-friendly",
     ],
-    related: ["/classes", "/weapons", "/builds/hawks", "/walkthrough"],
+    related: ["/classes", "/weapons", "/builds/hawks", "/walkthrough", "/guides", "/guides/permadeath"],
     blocks: [
       {
         type: "briefing",
@@ -2883,6 +2902,15 @@ export const contentPages: ContentPage[] = [
           { question: "Do I need to kill every enemy?", answer: "No. Follow the mission objective. StarWars.com's official guide explicitly says a full clear is unnecessary unless the objective requires it." },
         ],
       },
+      {
+        type: "cards",
+        heading: "Next decisions in your campaign",
+        items: [
+          { title: "Compare Operation choices", body: "Find a named job and its choices in the Walkthrough hub.", href: "/walkthrough", tone: "cyan" },
+          { title: "Identify your Help Wanted job", body: "Match the opening scene before comparing rewards and injury risk.", href: "/walkthrough/help-wanted", tone: "cyan" },
+          { title: "Build the team for the next mission", body: "Plan role coverage and replacements rather than copying four fixed names.", href: "/builds/best-team", tone: "cyan" },
+        ],
+      },
     ],
   }),
   page({
@@ -2901,7 +2929,7 @@ export const contentPages: ContentPage[] = [
     gameVersion: "Valve tested build 24414723 plus launch performance reports checked 2026-09-02",
     platforms: ["Steam Deck"],
     sources: ["ea-faq", "steamdb-config", "pcg-review", "steamdeckhq"],
-    related: ["/performance/pc", "/system-requirements", "/performance/fps-fix"],
+    related: ["/performance/pc", "/system-requirements", "/performance/fps-fix", "/performance", "/worth-it"],
     blocks: [
       {
         type: "briefing",
@@ -2979,7 +3007,7 @@ export const contentPages: ContentPage[] = [
       "steam-store-hungarian",
       "google-trends-help",
     ],
-    related: ["/performance/pc", "/performance/fps-fix", "/game-info"],
+    related: ["/performance/pc", "/performance/fps-fix", "/game-info", "/performance", "/system-requirements"],
     blocks: [
       {
         type: "warning",
@@ -3068,7 +3096,7 @@ export const contentPages: ContentPage[] = [
     lastVerified: "2026-09-02",
     gameVersion: "Launch reviews, Steam metadata and issue status checked 2026-09-02",
     sources: ["steam-store", "steamdb-config", "pcg-review", "techradar-review", "gamesradar-review", "windowscentral-review", "ea-faq", "steam-issue-update"],
-    related: ["/game-info", "/system-requirements", "/performance/pc"],
+    related: ["/game-info", "/system-requirements", "/performance/pc", "/multiplayer", "/performance/steam-deck"],
     blocks: [
       {
         type: "facts",

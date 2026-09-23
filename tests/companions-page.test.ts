@@ -5,7 +5,7 @@ import {
   footerNavigationSections,
   getBreadcrumbPages,
   getMetadataForPath,
-  moreNavigationSections,
+  navigationGroups,
   primaryNavigationPaths,
 } from "../src/lib/site";
 
@@ -150,7 +150,7 @@ describe("companions child page", () => {
     const characterLinks = characters?.blocks
       .filter((block) => block.type === "cards")
       .flatMap((block) => block.items.map((item) => item.href));
-    const morePaths = moreNavigationSections.flatMap((section) => section.paths);
+    const morePaths = navigationGroups.flatMap((section) => section.links.map((link) => link.href));
     const footerPaths = footerNavigationSections.flatMap((section) => section.paths);
 
     expect(characters?.title).toBe(
@@ -160,6 +160,6 @@ describe("companions child page", () => {
     expect(characterLinks).toContain(companionsPath);
     expect(primaryNavigationPaths).not.toContain(companionsPath);
     expect(morePaths).toContain(companionsPath);
-    expect(footerPaths).toContain(companionsPath);
+    expect(footerPaths).not.toContain(companionsPath);
   });
 });

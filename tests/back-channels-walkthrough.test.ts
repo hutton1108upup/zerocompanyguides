@@ -8,7 +8,7 @@ import {
   getInnerRouteParams,
   getMetadataForPath,
   getSearchPages,
-  moreNavigationSections,
+  navigationGroups,
   primaryNavigationPaths,
 } from "../src/lib/site";
 
@@ -21,7 +21,7 @@ describe("Back Channels decision route", () => {
     const staticPaths = getInnerRouteParams().map((entry) => `/${entry.slug.join("/")}`);
     const navigationPaths = [
       ...primaryNavigationPaths,
-      ...moreNavigationSections.flatMap((section) => section.paths),
+      ...navigationGroups.flatMap((section) => section.links.map((link) => link.href)),
       ...footerNavigationSections.flatMap((section) => section.paths),
     ];
 
@@ -40,7 +40,7 @@ describe("Back Channels decision route", () => {
     expect(requiredPublicPaths).toContain(path);
     expect(getSearchPages().map((entry) => entry.path)).toContain(path);
     expect(sitemapUrls).toContain(buildCanonicalUrl(path));
-    expect(navigationPaths.filter((entry) => entry === path)).toHaveLength(2);
+    expect(navigationPaths.filter((entry) => entry === path)).toHaveLength(1);
     expect(getMetadataForPath(path)?.robots).toBe("index, follow");
     expect(getMetadataForPath(path)?.alternates?.canonical).toBe(buildCanonicalUrl(path));
   });

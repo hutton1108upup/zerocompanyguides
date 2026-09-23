@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import HomePage from "../src/app/page";
-import { homeFacts, homeSections, popularPaths } from "../src/lib/home-data";
+import { homeFacts, homeSections, quickAnswers } from "../src/lib/home-data";
 import { contentPageByPath } from "../src/content/pages";
 
 describe("homepage data", () => {
@@ -39,7 +39,7 @@ describe("homepage data", () => {
   it("puts mobile task decisions before secondary media and reference sections", () => {
     const markup = renderToStaticMarkup(createElement(HomePage));
     const start = markup.indexOf("Three decisions before the next Cycle");
-    const popular = markup.indexOf("Popular now");
+    const popular = markup.indexOf("Quick Answers");
     const quickFacts = markup.indexOf("Quick game facts");
     const media = markup.indexOf('aria-label="Official visual briefing"');
 
@@ -49,11 +49,11 @@ describe("homepage data", () => {
     expect(quickFacts).toBeLessThan(media);
   });
 
-  it("exposes six current popular destinations", () => {
-    expect(popularPaths).toHaveLength(6);
-    expect(popularPaths[0]).toBe("/squad-builder");
-    for (const path of popularPaths) {
-      expect(contentPageByPath.has(path), path).toBe(true);
+  it("exposes four direct answers without claiming traffic popularity", () => {
+    expect(quickAnswers).toHaveLength(4);
+    expect(quickAnswers[0].href).toContain("/walkthrough#protection-application");
+    for (const answer of quickAnswers) {
+      expect(contentPageByPath.has(answer.path), answer.path).toBe(true);
     }
   });
 
@@ -62,7 +62,7 @@ describe("homepage data", () => {
 
     expect(markup).toContain('href="/squad-builder"');
     expect(markup).toContain("Build Your Squad");
-    expect(homeSections[0].links[0]).toBe("/squad-builder");
+    expect(homeSections[1].links).toContain("/squad-builder");
   });
 
   it("provides official quick facts without mutable review counts", () => {
@@ -73,7 +73,7 @@ describe("homepage data", () => {
   });
 
   it("routes users through all core content clusters", () => {
-    expect(homeSections).toHaveLength(6);
+    expect(homeSections).toHaveLength(5);
     for (const section of homeSections) {
       expect(section.links.length).toBeGreaterThanOrEqual(2);
       for (const link of section.links) expect(contentPageByPath.has(link)).toBe(true);

@@ -7,7 +7,7 @@ import { HomeHero } from "@/components/home-hero";
 import { HubCard } from "@/components/hub-card";
 import { PerformanceStatus } from "@/components/performance-status";
 import { getContentPage, contentPageByPath } from "@/content/pages";
-import { homeFacts, homeSections, popularPaths } from "@/lib/home-data";
+import { homeFacts, homeSections, quickAnswers } from "@/lib/home-data";
 import {
   buildOrganizationStructuredData,
   buildPageStructuredData,
@@ -21,7 +21,7 @@ const homePage = (() => {
   return entry;
 })();
 
-const sectionIcons = [Radar, ShieldCheck, Route, CheckCircle2, Gauge, ArrowUpRight];
+const sectionIcons = [Route, ShieldCheck, CheckCircle2, Gauge, Radar];
 
 export function generateMetadata(): Metadata {
   return getMetadataForPath("/") ?? {};
@@ -106,19 +106,19 @@ export default function HomePage() {
       <section className="section" aria-labelledby="popular-title">
         <div className="container">
           <p className="hud-label">Current mission board</p>
-          <h2 className="section-title" id="popular-title">Popular now</h2>
-          <p className="section-sub">Manually selected launch tasks—not an invented real-time trend feed.</p>
+          <h2 className="section-title" id="popular-title">Quick Answers</h2>
+          <p className="section-sub">Jump straight to a task choice or a performance problem.</p>
           <div className="card-grid">
-            {popularPaths.map((path) => {
-              const page = contentPageByPath.get(path)!;
+            {quickAnswers.map((answer) => {
+              const page = contentPageByPath.get(answer.path)!;
               return (
-                <Link className="article-card shell-panel angled-panel" href={path} key={path}>
+                <Link className="article-card shell-panel angled-panel" href={answer.href} key={answer.href}>
                   <div className="card-meta">
                     <span className={`tag tag-${page.evidence}`}>{page.evidence}</span>
                     <time dateTime={page.lastVerified}>{page.lastVerified}</time>
                   </div>
-                  <h3>{page.h1}</h3>
-                  <p>{page.summary}</p>
+                  <h3>{answer.title}</h3>
+                  <p>{answer.summary}</p>
                   <span className="card-cta">Open briefing <ArrowUpRight aria-hidden="true" size={15} /></span>
                 </Link>
               );
@@ -165,7 +165,7 @@ export default function HomePage() {
       <section className="section" aria-labelledby="section-map-title">
         <div className="container">
           <p className="hud-label">Command index</p>
-          <h2 className="section-title" id="section-map-title">Browse every intelligence lane</h2>
+          <h2 className="section-title" id="section-map-title">Browse by task</h2>
           <div className="hub-grid">
             {homeSections.map((section, index) => {
               const Icon = sectionIcons[index];
@@ -177,7 +177,7 @@ export default function HomePage() {
                   description={section.description}
                   icon={<Icon aria-hidden="true" size={22} />}
                   links={section.links.map((path) => ({ href: path, label: contentPageByPath.get(path)!.navLabel }))}
-                  tone={index === 4 ? "red" : index === 5 ? "amber" : "cyan"}
+                  tone={index === 3 ? "red" : index === 4 ? "amber" : "cyan"}
                 />
               );
             })}

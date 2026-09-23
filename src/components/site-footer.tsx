@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { contentPages } from "@/content/pages";
-import { footerNavigationSections } from "@/lib/site";
+import { footerNavigationSections, getNavigationLabel, isPublicIndexablePage } from "@/lib/site";
 
 const pageByPath = new Map(contentPages.map((page) => [page.path, page]));
 
@@ -19,10 +19,10 @@ export function SiteFooter() {
               <div className="site-footer__links">
                 {group.paths.map((path) => {
                   const page = pageByPath.get(path);
-                  if (!page) return null;
+                  if (!page || !isPublicIndexablePage(page)) return null;
                   return (
                     <Link className="site-footer__link" href={path} key={path}>
-                      {page.navLabel}
+                      {getNavigationLabel(path)}
                     </Link>
                   );
                 })}

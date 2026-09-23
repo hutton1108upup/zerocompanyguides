@@ -29,109 +29,103 @@ export function resolveSiteOrigin(env?: OriginEnv): string {
 
 export const siteOrigin = resolveSiteOrigin();
 
-export const primaryNavigationPaths = [
-  "/squad-builder",
-  "/builds",
-  "/classes",
-  "/weapons",
-  "/characters",
-  "/walkthrough",
-  "/trophy-guide",
-  "/performance",
-] as const;
+export type NavigationLink = { href: string; label: string };
+export type NavigationGroup = {
+  id: string;
+  label: string;
+  path: string;
+  links: readonly NavigationLink[];
+};
 
-export const moreNavigationSections = [
+export const navigationGroups: readonly NavigationGroup[] = [
   {
-    title: "Start & Decide",
-    paths: [
-      "/game-info",
-      "/guides",
-      "/guides/beginners-guide",
-      "/guides/permadeath",
-      "/walkthrough/back-channels",
-      "/worth-it",
-      "/system-requirements",
-      "/multiplayer",
+    id: "walkthrough", label: "Walkthrough", path: "/walkthrough",
+    links: [
+      { href: "/walkthrough#protection-application-credits-or-team-bond", label: "Protection Application" },
+      { href: "/walkthrough/help-wanted", label: "Help Wanted" },
+      { href: "/walkthrough/back-channels", label: "Back Channels" },
+      { href: "/walkthrough/nebulous-pursuit", label: "Nebulous Pursuit" },
+      { href: "/walkthrough/ship-adrift", label: "Ship Adrift" },
     ],
   },
   {
-    title: "Build & Squad",
-    paths: [
-      "/classes/tier-list",
-      "/builds/hawks",
-      "/builds/best-team",
-      "/characters/companions",
-      "/guides/respec",
+    id: "builds", label: "Builds & Gear", path: "/builds",
+    links: [
+      { href: "/builds/hawks", label: "Hawks Build" },
+      { href: "/builds/best-team", label: "Best Team" },
+      { href: "/classes/tier-list", label: "Class Tier List" },
+      { href: "/classes", label: "Classes" },
+      { href: "/weapons", label: "Weapons" },
+      { href: "/characters", label: "Characters" },
+      { href: "/characters/companions", label: "Companions" },
     ],
   },
   {
-    title: "Technical & Reference",
-    paths: [
-      "/performance/pc",
-      "/performance/fps-fix",
-      "/performance/steam-deck",
-      "/mods",
-      "/characters/voice-cast",
+    id: "guides", label: "Guides", path: "/guides",
+    links: [
+      { href: "/guides/beginners-guide", label: "Beginner Guide" },
+      { href: "/guides/permadeath", label: "Difficulty & Permadeath" },
+      { href: "/guides/respec", label: "Respec" },
+      { href: "/trophy-guide", label: "Trophies & Achievements" },
     ],
   },
   {
-    title: "This Site",
-    paths: ["/corrections", "/updates"],
+    id: "fixes", label: "Fixes", path: "/performance",
+    links: [
+      { href: "/performance/fps-fix", label: "FPS & Crash Fixes" },
+      { href: "/performance/pc", label: "PC Settings" },
+      { href: "/performance/steam-deck", label: "Steam Deck" },
+      { href: "/mods", label: "Mods" },
+    ],
   },
+  {
+    id: "game-info", label: "Game Info", path: "/game-info",
+    links: [
+      { href: "/system-requirements", label: "System Requirements" },
+      { href: "/multiplayer", label: "Multiplayer & Co-op" },
+      { href: "/worth-it", label: "Worth Buying?" },
+    ],
+  },
+];
+
+export const primaryNavigationPaths = navigationGroups.map((group) => group.path);
+export const siteUtilityLinks = [
+  { href: "/corrections", label: "Corrections" },
+  { href: "/updates", label: "Site Updates" },
 ] as const;
 
 export const footerNavigationSections = [
-  {
-    title: "Decide & Start",
-    paths: [
-      "/game-info",
-      "/system-requirements",
-      "/multiplayer",
-      "/guides/beginners-guide",
-      "/guides/permadeath",
-      "/worth-it",
-    ],
-  },
-  {
-    title: "Build & Strategy",
-    paths: [
-      "/squad-builder",
-      "/classes",
-      "/classes/tier-list",
-      "/builds",
-      "/builds/hawks",
-      "/builds/best-team",
-      "/weapons",
-    ],
-  },
-  {
-    title: "Campaign & Roster",
-    paths: [
-      "/guides",
-      "/guides/respec",
-      "/walkthrough",
-      "/walkthrough/back-channels",
-      "/trophy-guide",
-      "/characters",
-      "/characters/companions",
-      "/characters/voice-cast",
-    ],
-  },
-  {
-    title: "Technical & Extras",
-    paths: [
-      "/performance",
-      "/performance/pc",
-      "/performance/fps-fix",
-      "/performance/steam-deck",
-      "/mods",
-    ],
-  },
-  {
-    title: "Site Trust",
-    paths: ["/corrections", "/updates"],
-  },
+  { title: "Explore", paths: ["/walkthrough", "/builds", "/guides", "/performance"] },
+  { title: "Game & Tools", paths: ["/game-info", "/system-requirements", "/worth-it", "/squad-builder"] },
+  { title: "About", paths: ["/corrections", "/updates"] },
 ] as const;
+
+export function getNavigationGroup(pathname: string): NavigationGroup | undefined {
+  const path = pathname.split("#")[0].split("?")[0];
+  return navigationGroups.find((group) =>
+    [group.path, ...group.links.filter((link) => !link.href.includes("#")).map((link) => link.href)]
+      .some((owner) => path === owner || path.startsWith(`${owner}/`)),
+  );
+}
+
+export function getNavigationLabel(path: string): string {
+  return navigationGroups.find((group) => group.path === path)?.label
+    ?? contentPages.find((page) => page.path === path)?.navLabel
+    ?? path;
+}
+
+export function getPublicNavigationGroups(): NavigationGroup[] {
+  return navigationGroups.filter((group) => {
+    const page = contentPages.find((entry) => entry.path === group.path);
+    return page && isPublicIndexablePage(page);
+  }).map((group) => ({
+    ...group,
+    links: group.links.filter((link) => {
+      const page = contentPages.find((entry) => entry.path === link.href.split("#")[0]);
+      return page && isPublicIndexablePage(page);
+    }),
+  }));
+}
 
 const pageByPath = new Map(contentPages.map((page) => [page.path, page]));
 
