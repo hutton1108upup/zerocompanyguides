@@ -66,6 +66,8 @@ export const navigationGroups: readonly NavigationGroup[] = [
       { href: "/guides/beginners-guide", label: "Beginner Guide" },
       { href: "/guides/permadeath", label: "Difficulty & Permadeath" },
       { href: "/guides/respec", label: "Respec" },
+      { href: "/guides/reinforcements-and-extraction", label: "Reinforcements & Extraction" },
+      { href: "/guides/credits-and-den-upgrades", label: "Credits & Den Upgrades" },
       { href: "/trophy-guide", label: "Trophies & Achievements" },
     ],
   },

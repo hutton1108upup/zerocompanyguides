@@ -2,6 +2,7 @@ import type { ContentPage } from "./types";
 import { getMediaBlocksForPath } from "./media";
 import { standardClassTableRows } from "./squad-data";
 import { trophyAchievementRows } from "./trophy-data";
+import { playerNeedsPages } from "./player-needs-pages";
 
 export const requiredPublicPaths = [
   "/",
@@ -16,6 +17,8 @@ export const requiredPublicPaths = [
   "/guides",
   "/guides/respec",
   "/guides/permadeath",
+  "/guides/reinforcements-and-extraction",
+  "/guides/credits-and-den-upgrades",
   "/walkthrough",
   "/walkthrough/back-channels",
   "/walkthrough/help-wanted",
@@ -550,6 +553,9 @@ export const contentPages: ContentPage[] = [
         type: "cards",
         heading: "Start with the problem in front of you",
         items: [
+          { title: "Visser at Mordant Citadel", label: "Review draft · spoilers", body: "Compare the published strategy and player reports. Completion conditions still need an independent replay.", href: "/walkthrough/retake-mordant-citadel", tone: "red" },
+          { title: "Reinforcements and extraction", body: "Identify the objective and plan a route out instead of clearing every wave.", href: "/guides/reinforcements-and-extraction", tone: "amber" },
+          { title: "Credits and Den upgrades", body: "Compare recovery, upgrades and shopping before committing scarce Credits.", href: "/guides/credits-and-den-upgrades", tone: "green" },
           { title: "Beginner Guide", body: "Learn the tactical turn, Den routine and early campaign decisions.", href: "/guides/beginners-guide", tone: "cyan" },
           { title: "Respec and change class", body: "Check what can change, when it unlocks and what is refunded.", href: "/guides/respec", tone: "cyan" },
           { title: "Difficulty and Permadeath", body: "Understand injuries and recovery before committing a fragile roster.", href: "/guides/permadeath", tone: "cyan" },
@@ -765,7 +771,7 @@ export const contentPages: ContentPage[] = [
     pageType: "hub",
     evidence: "community",
     lastVerified: "2026-09-23",
-    gameVersion: "Protection Application sources and 1.1 Operation rules reviewed 2026-09-23; chapter order retains its August 30 source check",
+    gameVersion: "Mission timers, Protection Application and 1.1 Operation rules reviewed 2026-09-23; chapter order retains its August 30 source check",
     spoiler: "minor",
     sources: [
       "ea-gameplay-overview",
@@ -777,6 +783,7 @@ export const contentPages: ContentPage[] = [
       "gamersheroes-choices",
       "ea-patch-1-1",
       "starwars-play-guide",
+      "reddit-companion-deadlines",
     ],
     related: [
       "/walkthrough/help-wanted",
@@ -800,6 +807,35 @@ export const contentPages: ContentPage[] = [
         paragraphs: [
           "Follow work marked Critical when the goal is to move the main story. Return to the Den after a major deployment, read every expiry timer, then decide whether optional work fits before the next Tactical Mission advances the Cycle.",
           "Operations resolve on the strategic layer and can grant rewards, choices or new Missions. Tactical Missions deploy a squad to an objective and end the current Cycle. A Chapter is the broader story phase that can contain both.",
+        ],
+      },
+      {
+        type: "table",
+        heading: "Mission timers: what to do before a deadline collision",
+        intro: "EA confirms that Operations and Tactical Missions can expire, while story-critical missions eventually become obligatory. The priority checks below are editorial planning advice, not a fixed calendar for every campaign.",
+        caption: "Read the mission card and its consequence before choosing the next deployment.",
+        columns: ["Work on the Holotable", "What the deadline means", "Planning decision"],
+        rows: [
+          ["Story-critical mission", "EA says it eventually becomes obligatory", "Check what optional work would be lost before advancing to that point; delaying the story is not unlimited free time"],
+          ["Companion mission or its prerequisite Operation", "A limited window can overlap other work", "If preserving that story is your goal, unlock and schedule it early; budget Intel for the full prerequisite chain"],
+          ["Coil intervention", "Players report a choice between an enemy upgrade and competing companion content", "Read the actual enemy benefit and compare it with the companion consequence; there is no universal always-skip rule"],
+          ["Other optional work", "Its reward may disappear when the timer expires", "Take it only when the reward and travel through the campaign clock fit your higher-priority objectives"],
+        ],
+      },
+      {
+        type: "prose",
+        heading: "Can you fit two companion missions and one intervention?",
+        paragraphs: ["Not into two remaining deployments. If both companion missions have two Cycles left and the intervention expires after the next deployment, you must choose which consequence to accept. Earlier scheduling can prevent this situation; it cannot create an extra slot once the deadlines already overlap.", "Players describe this conflict around Luco and Tel, including an Intel shortage in a multi-part prerequisite chain. The example below assumes both companion missions are already available, each consumes one deployment, and no story obligation interrupts the two slots."],
+      },
+      {
+        type: "table",
+        heading: "Two-Cycle scheduling example",
+        caption: "Illustrative choices based on the reported conflict, not a fixed campaign calendar.",
+        columns: ["First deployment", "Second deployment", "Trade-off"],
+        rows: [
+          ["Companion A", "Companion B", "Both stories fit; the intervention expires and its stated enemy benefit may take effect"],
+          ["Intervention", "Companion A", "You stop that intervention but Companion B has no remaining deployment slot"],
+          ["An unrelated reward mission", "One companion mission", "You lose the intervention opportunity and cannot fit both companion missions"],
         ],
       },
       {
@@ -852,6 +888,7 @@ export const contentPages: ContentPage[] = [
         heading: "Walkthrough routes and campaign decisions",
         intro: "Open the narrow answer for the blocker in front of you; pages with incomplete first-hand evidence remain visibly gated.",
         items: [
+          { title: "Retake Mordant Citadel: Visser", label: "Review draft · spoilers", body: "Read the encounter plan and Miasma reports; exact completion and patch behavior remain under review.", href: "/walkthrough/retake-mordant-citadel", tone: "red" },
           { title: "Protection Application: Credits or Bonds?", label: "Protection Application", body: "Jump to the two choices, the deadline and the reported team-wide consequences.", href: "/walkthrough#protection-application-credits-or-team-bond", tone: "cyan" },
           { title: "Find Kin Delima without trusting a fixed planet", label: "Nebulous Pursuit", body: "Compare both pursuit stages, the reported randomized destination, rewards and the Lotho Minor injury-risk branch.", href: "/walkthrough/nebulous-pursuit", tone: "cyan" },
           { title: "Compare all five Ship Adrift choices", label: "Ship Adrift I-V", body: "Choose between Credits, Influence, a Capacitor, Bond progress and later costs across the complete Operation chain.", href: "/walkthrough/ship-adrift", tone: "green" },
@@ -1959,7 +1996,7 @@ export const contentPages: ContentPage[] = [
     lastVerified: "2026-09-23",
     gameVersion: "Patch 1.1 official notes reviewed 2026-09-23; older community workarounds have not been retested",
     platforms: ["PC", "PS5", "Xbox Series X|S"],
-    sources: ["ea-patch-1-1", "ea-common-issues", "ea-news-index", "steam-issue-update", "ea-faq", "ea-forums", "reddit-geometry", "reddit-performance-megathread", "reddit-pc-stutter-reports"],
+    sources: ["ea-patch-1-1", "ea-common-issues", "ea-news-index", "reddit-umbara-softlock", "reddit-no-ap", "steam-issue-update", "ea-faq", "ea-forums", "reddit-geometry", "reddit-performance-megathread", "reddit-pc-stutter-reports"],
     related: ["/performance/pc", "/system-requirements", "/mods", "/performance"],
     blocks: [
       {
@@ -2061,6 +2098,30 @@ export const contentPages: ContentPage[] = [
           ["Turn or Overwatch pause", "Check whether the action eventually finishes and record the elapsed time", "Mission, reaction sequence, build and whether the menu responds"],
           ["Camera problem or visible stutter", "Separate camera movement from uneven image delivery; retest the same scene after updating", "Exact model, scene and a short clip if available"],
         ],
+      },
+      {
+        type: "table",
+        heading: "Mission softlocks: Umbara cutscene and no-AP reports",
+        intro: "There is no verified fix on this site for either exact symptom. Start with EA's basic troubleshooting and preserve the affected save for a report.",
+        caption: "Player reports checked September 23. Installed builds and causes are unconfirmed.",
+        columns: ["Symptom and platform", "Trigger", "Next action"],
+        rows: [
+          ["Static cutscene; PS5 / PS5 Pro reports", "After the Umbara turbolift; some replies also mention the Holotable", "Keep an existing pre-lift save, restart and update, then report the last responsive scene and exact console model"],
+          ["No AP; platform unspecified", "Custom Operator in a Beskar retrieval mission; enemy turns skip", "Capture AP, health, status and the initial turn. Do not delete the Operator or overwrite the only campaign save as an experiment"],
+        ],
+      },
+      {
+        type: "cards",
+        heading: "Official troubleshooting and bug reports",
+        items: [
+          { title: "EA Help: common issues", body: "Follow the platform-specific restart, update and repair checks.", href: "https://help.ea.com/en/articles/star-wars/zero-company/troubleshoot-common-issues/", tone: "cyan" },
+          { title: "EA FAQ: report a bug", body: "Open the official FAQ and use its bug-report or technical-support forum link. Include the build, platform, mission and reproduction steps.", href: "https://www.ea.com/games/starwars/zero-company/faq", tone: "amber" },
+        ],
+      },
+      {
+        type: "prose",
+        heading: "A difficult encounter is not automatically a softlock",
+        paragraphs: ["A softlock means required progress cannot continue while the game may still respond. A difficult fight still permits legal actions. Record whether any Operator can act, whether the objective changes and whether the delay eventually ends. Screenshots of the objective and status panels help separate missing requirements from an action-processing fault.", "Patch 1.1 lists progression, save and combat fixes, but does not explicitly name these Umbara-lift or Custom Operator no-AP reports. No reproducible fix for either exact case has been verified by this site. Use the EA Forums source below if basic official troubleshooting fails. Console players should not apply PC config or driver advice."],
       },
       {
         type: "steps",
@@ -2559,8 +2620,8 @@ export const contentPages: ContentPage[] = [
     pageType: "article",
     evidence: "community",
     verification: "source-verified-synthesis",
-    lastVerified: "2026-09-01",
-    gameVersion: "Launch build — source synthesis checked 2026-09-01",
+    lastVerified: "2026-09-23",
+    gameVersion: "Companion deadline planning checked 2026-09-23; roster and Bond synthesis retains its 2026-09-01 scope",
     spoiler: "minor",
     sources: [
       "ea-game",
@@ -2573,8 +2634,10 @@ export const contentPages: ContentPage[] = [
       "reddit-squads",
       "reddit-bond-strategies",
       "reddit-roster-rotation",
+      "ea-faq",
+      "reddit-companion-deadlines",
     ],
-    related: ["/characters", "/builds/best-team", "/guides/beginners-guide", "/classes", "/guides/permadeath"],
+    related: ["/characters", "/builds/best-team", "/guides/beginners-guide", "/walkthrough", "/classes", "/guides/permadeath"],
     blocks: [
       {
         type: "briefing",
@@ -2638,6 +2701,24 @@ export const contentPages: ContentPage[] = [
           ["Custom Operators", "Recruit from a Cycle-based pool in the Den; appearance, voice, name and other choices can be adjusted", "Flexible standard Specializations, Talents and a personal roster fantasy", "Recruit for a missing job, an injured replacement or the campaign story you want"],
           ["Astromech Custom Operators", "Require the Droid Bay upgrade before entering the recruitment pool", "A distinct droid support route rather than another conventional blaster body", "Treat the facility as the real gate and budget the build time"],
           ["Den staff", "Bennic, Runa, Neesh and M-3VO support facilities and story functions", "Intelligence, finance, Armory, Black Market, piloting and Medbay context", "Do not count Den staff as the six authored field companions"],
+        ],
+      },
+      {
+        type: "steps",
+        heading: "Avoid missing a companion mission",
+        intro: "Use this before each deployment if keeping companion stories is your priority. The official FAQ confirms expiry; the Luco/Tel conflict is a player-reported example, not a guaranteed schedule.",
+        items: [
+          { title: "Check new conversations and mission cards", body: "After returning to the Den, inspect new companion work and note its remaining Cycles. Do not wait for the last Cycle simply because the current timer looks generous." },
+          { title: "Budget the prerequisite chain", body: "An Operation can unlock a Tactical Mission rather than finish the story itself. Check for a second Operation and its Intel cost before spending your remaining Intel elsewhere." },
+          { title: "Compare all deadlines together", body: "Write down the companion missions, story obligation and any Coil intervention. Prefer an early slot for the companion you want to keep when later deployments could consume the available window." },
+          { title: "Choose what to keep if deadlines already overlap", body: "If you have more required deployments than remaining Cycles, decide which consequence you will accept. Use the two-Cycle example in the Walkthrough hub to compare the schedules." },
+        ],
+      },
+      {
+        type: "cards",
+        heading: "Compare a deadline conflict",
+        items: [
+          { title: "Two companion missions, two Cycles", body: "See what happens when you prioritize the companions, the intervention or an unrelated reward mission.", href: "/walkthrough#two-cycle-scheduling-example", tone: "amber" },
         ],
       },
       {
@@ -2940,6 +3021,14 @@ export const contentPages: ContentPage[] = [
           { question: "Should I turn permadeath off?", answer: "Choose before starting the Campaign. Keep it on for lasting roster consequences or turn it off while learning; the updated EA Help guide says changing it later requires a new Campaign." },
           { question: "What class is easiest to learn?", answer: "EA uses Soldier or Assault with a Blaster Rifle as a straightforward beginner example. It is a learning path, not a claim that other classes are poor starters." },
           { question: "Do I need to kill every enemy?", answer: "No. Follow the mission objective. StarWars.com's official guide explicitly says a full clear is unnecessary unless the objective requires it." },
+        ],
+      },
+      {
+        type: "cards",
+        heading: "Plan the next mission and the next purchase",
+        items: [
+          { title: "Reinforcements and extraction", body: "Budget movement and clear only the threats that block the objective.", href: "/guides/reinforcements-and-extraction", tone: "amber" },
+          { title: "Credits and Den upgrades", body: "Compare immediate recovery with upgrades and Black Market purchases.", href: "/guides/credits-and-den-upgrades", tone: "green" },
         ],
       },
       {
@@ -3351,6 +3440,7 @@ export const contentPages: ContentPage[] = [
       },
     ],
   }),
+  ...playerNeedsPages,
 ];
 
 export const contentPageByPath = new Map(contentPages.map((entry) => [entry.path, entry]));
