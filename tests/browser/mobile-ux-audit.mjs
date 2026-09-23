@@ -177,7 +177,8 @@ async function assertDrawerDialog(page) {
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Site navigation" });
   await dialog.waitFor({ state: "visible" });
-  invariant(await dialog.locator(".mobile-drawer__link").count() === 28, "drawer must retain all 28 links");
+  invariant(await dialog.locator(".mobile-drawer__category").count() === 5, "drawer must share the five task categories");
+  invariant(await dialog.locator(".mobile-drawer__link").count() === 23, "drawer must retain all curated category links");
   invariant(
     await dialog.locator(".mobile-drawer__header").evaluate((node) => getComputedStyle(node).position === "sticky"),
     "drawer header should remain visible while scrolling",

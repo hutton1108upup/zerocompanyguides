@@ -1,10 +1,8 @@
-export const popularPaths = [
-  "/squad-builder",
-  "/builds/hawks",
-  "/classes/tier-list",
-  "/builds/best-team",
-  "/performance/fps-fix",
-  "/walkthrough",
+export const quickAnswers = [
+  { path: "/walkthrough", href: "/walkthrough#protection-application-credits-or-team-bond", title: "Protection Application", summary: "Compare the Credit payout with team Bond changes before choosing a response." },
+  { path: "/walkthrough/help-wanted", href: "/walkthrough/help-wanted", title: "Help Wanted", summary: "Match one of six opening scenes to its choices, costs and risks." },
+  { path: "/walkthrough/back-channels", href: "/walkthrough/back-channels", title: "Back Channels", summary: "Compare Runa and Neesh, their rewards and the next mission each unlocks." },
+  { path: "/performance/fps-fix", href: "/performance/fps-fix", title: "FPS & Crash Fixes", summary: "Start with official patch guidance, then narrow down your hardware and symptom." },
 ] as const;
 
 export const homeFacts = [
@@ -18,39 +16,33 @@ export const homeFacts = [
 
 export const homeSections = [
   {
-    title: "Builds",
-    kicker: "Operator loadouts",
-    description: "Plan four legal bays, inspect role and resource gaps, then open the evidence behind each recommendation.",
-    links: ["/squad-builder", "/builds", "/builds/hawks", "/builds/best-team"],
+    title: "Walkthrough",
+    kicker: "Missions and choices",
+    description: "Find a named Operation, compare outcomes and follow the campaign route.",
+    links: ["/walkthrough", "/walkthrough/help-wanted", "/walkthrough/back-channels", "/walkthrough/ship-adrift"],
   },
   {
-    title: "Classes",
-    kicker: "Eight standards",
-    description: "Use official role definitions first and editorial tiers second.",
-    links: ["/classes", "/classes/tier-list", "/guides/respec"],
+    title: "Builds & Gear",
+    kicker: "Plan the squad",
+    description: "Connect Operator builds with classes, weapons and available companions.",
+    links: ["/builds", "/squad-builder", "/classes/tier-list", "/weapons", "/characters/companions"],
   },
   {
-    title: "Field Guides",
-    kicker: "Learn the loop",
-    description: "Master AP, Advantage, cover, injuries and the Den before chasing damage.",
-    links: ["/guides", "/guides/beginners-guide", "/walkthrough"],
+    title: "Guides",
+    kicker: "Learn and progress",
+    description: "Start a campaign, change Specialization, manage injuries and plan achievements.",
+    links: ["/guides", "/guides/beginners-guide", "/guides/respec", "/guides/permadeath", "/trophy-guide"],
   },
   {
-    title: "Company Dossiers",
-    kicker: "Authored operators",
-    description: "Meet the squad, understand unique roles and verify the announced cast.",
-    links: ["/characters", "/characters/voice-cast"],
+    title: "Fixes",
+    kicker: "Settings and troubleshooting",
+    description: "Find help for PC performance, crashes, Steam Deck and unofficial mods.",
+    links: ["/performance", "/performance/fps-fix", "/performance/pc", "/performance/steam-deck", "/mods"],
   },
   {
-    title: "Performance",
-    kicker: "Launch diagnostics",
-    description: "Separate official issue guidance from hardware-specific community fixes.",
-    links: ["/performance", "/performance/pc", "/performance/fps-fix"],
-  },
-  {
-    title: "Before You Buy",
-    kicker: "Official facts",
-    description: "Check price, platforms, requirements, multiplayer and Deck limits.",
-    links: ["/game-info", "/system-requirements", "/worth-it"],
+    title: "Game Info",
+    kicker: "Before you buy",
+    description: "Check platforms, requirements, single-player support and buying considerations.",
+    links: ["/game-info", "/system-requirements", "/multiplayer", "/worth-it"],
   },
 ] as const;

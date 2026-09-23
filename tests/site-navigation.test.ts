@@ -3,88 +3,44 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { SiteFooter } from "../src/components/site-footer";
 import { SiteHeader } from "../src/components/site-header";
-import {
-  footerNavigationSections,
-  moreNavigationSections,
-  primaryNavigationPaths,
-} from "../src/lib/site";
+import { navigationGroups } from "../src/lib/site";
 
-const navigationState = vi.hoisted(() => ({ pathname: "/" }));
+const state = vi.hoisted(() => ({ pathname: "/" }));
+vi.mock("next/navigation", () => ({ usePathname: () => state.pathname }));
 
-vi.mock("next/navigation", () => ({
-  usePathname: () => navigationState.pathname,
-}));
-
-const headerPaths = [
-  ...primaryNavigationPaths,
-  ...moreNavigationSections.flatMap((section) => section.paths),
-];
-const footerPaths = footerNavigationSections.flatMap((section) => section.paths);
-
-describe("rendered site navigation", () => {
-  it("renders the curated desktop header without expanding every leaf guide", () => {
+describe("rendered task navigation", () => {
+  it("renders crawlable links in five closed category panels and an independent tool", () => {
     const markup = renderToStaticMarkup(createElement(SiteHeader));
-    const primaryNav = markup.match(
-      /<nav aria-label="Primary site navigation"[\s\S]*?<\/nav>/,
-    )?.[0];
-
-    expect(primaryNav).toContain('href="/weapons"');
-    expect(primaryNav).toContain('href="/game-info"');
-    expect(primaryNav).toContain('href="/squad-builder"');
-    expect(primaryNav).toContain('aria-controls="desktop-more-navigation"');
-    expect(primaryNav).toContain("More");
-
-    for (const path of headerPaths) {
-      expect(primaryNav, `${path} should be present in the desktop header`).toContain(
-        `href="${path}"`,
-      );
+    expect(markup).not.toContain("desktop-more-navigation");
+    expect(markup).not.toContain("site-nav__more");
+    for (const group of navigationGroups) {
+      expect(markup).toContain(`aria-controls="desktop-nav-${group.id}"`);
+      expect(markup).toContain(`id="desktop-nav-${group.id}" hidden=""`);
+      for (const link of group.links) expect(markup).toContain(`href="${link.href}"`);
     }
-    expect(primaryNav).not.toContain('href="/walkthrough/nebulous-pursuit"');
-    expect(primaryNav).not.toContain('href="/walkthrough/ship-adrift"');
+    expect(markup).toContain('class="site-tool-link"');
+    expect(markup).toContain('href="/squad-builder"');
   });
 
-  it("renders the curated footer registry and leaves Operation discovery to the hub", () => {
+  it.each([["/weapons", "/builds"], ["/trophy-guide", "/guides"], ["/mods", "/performance"]])(
+    "highlights a single semantic owner for %s", (path, owner) => {
+      state.pathname = path;
+      const markup = renderToStaticMarkup(createElement(SiteHeader));
+      const primaryLinks = markup.match(/<a[^>]*class="site-nav__link"[^>]*>/g) ?? [];
+      const active = primaryLinks.filter((link) => link.includes('data-active="true"'));
+      expect(active).toHaveLength(1);
+      expect(active[0]).toContain(`href="${owner}"`);
+      expect(active[0]).toContain('aria-current="location"');
+      state.pathname = "/";
+    },
+  );
+
+  it("keeps the footer compact with the same category labels", () => {
     const markup = renderToStaticMarkup(createElement(SiteFooter));
-
-    for (const path of footerPaths) {
-      expect(markup, `${path} should be linked from the footer`).toContain(
-        `href="${path}"`,
-      );
-    }
-    expect(markup).not.toContain('href="/walkthrough/nebulous-pursuit"');
-    expect(markup).not.toContain('href="/walkthrough/ship-adrift"');
-  });
-
-  it.each([
-    ["/builds/hawks", "/builds"],
-    ["/performance/pc", "/performance"],
-  ])("keeps one primary owner active for %s", (pathname, owner) => {
-    navigationState.pathname = pathname;
-
-    const markup = renderToStaticMarkup(createElement(SiteHeader));
-    const ownerLink = markup.match(
-      new RegExp(`<a[^>]*href="${owner}"[^>]*>|<a[^>]*data-active="true"[^>]*href="${owner}"[^>]*>`),
-    )?.[0];
-    const moreButton = markup.match(
-      /<button[^>]*class="site-nav__more-button"[^>]*>/,
-    )?.[0];
-
-    expect(ownerLink).toContain('data-active="true"');
-    expect(ownerLink).toContain('aria-current="location"');
-    expect(moreButton).toContain('data-active="false"');
-
-    navigationState.pathname = "/";
-  });
-
-  it("marks the Squad Builder as the current primary page", () => {
-    navigationState.pathname = "/squad-builder";
-
-    const markup = renderToStaticMarkup(createElement(SiteHeader));
-    const builderLink = markup.match(/<a[^>]*href="\/squad-builder"[^>]*>/)?.[0];
-
-    expect(builderLink).toContain('data-active="true"');
-    expect(builderLink).toContain('aria-current="page"');
-
-    navigationState.pathname = "/";
+    expect(markup.match(/class="site-footer__link"/g)).toHaveLength(10);
+    expect(markup).toContain("Builds &amp; Gear");
+    expect(markup).toContain(">Fixes<");
+    expect(markup).toContain('href="/corrections"');
+    expect(markup).not.toContain('href="/walkthrough/back-channels"');
   });
 });

@@ -8,7 +8,7 @@ import {
   getInnerRouteParams,
   getMetadataForPath,
   getSearchPages,
-  moreNavigationSections,
+  navigationGroups,
   primaryNavigationPaths,
 } from "../src/lib/site";
 
@@ -21,7 +21,7 @@ describe("Sloppy Supply Route evidence gate", () => {
     const staticPaths = getInnerRouteParams().map((entry) => `/${entry.slug.join("/")}`);
     const navigationPaths = [
       ...primaryNavigationPaths,
-      ...moreNavigationSections.flatMap((section) => section.paths),
+      ...navigationGroups.flatMap((section) => section.links.map((link) => link.href)),
       ...footerNavigationSections.flatMap((section) => section.paths),
     ];
 
