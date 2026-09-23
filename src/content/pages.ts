@@ -1958,8 +1958,8 @@ export const contentPages: ContentPage[] = [
     evidence: "official",
     lastVerified: "2026-09-23",
     gameVersion: "Patch 1.1 official notes reviewed 2026-09-23; older community workarounds have not been retested",
-    platforms: ["PC"],
-    sources: ["ea-patch-1-1", "steam-issue-update", "ea-faq", "ea-forums", "reddit-geometry", "reddit-performance-megathread", "reddit-pc-stutter-reports"],
+    platforms: ["PC", "PS5", "Xbox Series X|S"],
+    sources: ["ea-patch-1-1", "ea-common-issues", "ea-news-index", "steam-issue-update", "ea-faq", "ea-forums", "reddit-geometry", "reddit-performance-megathread", "reddit-pc-stutter-reports"],
     related: ["/performance/pc", "/system-requirements", "/mods", "/performance"],
     blocks: [
       {
@@ -2020,6 +2020,46 @@ export const contentPages: ContentPage[] = [
           ["The Den, cutscene or ship-loading dip", "Scene-specific streaming or CPU load", "Reproduce the same transition and separate a short loading dip from persistent gameplay stutter", "One loading hitch proves the whole campaign has low FPS"],
           ["DLSS or NVIDIA crash", "Driver or DLSS path", "Check for a current Game Ready Driver and compare another supported upscaler", "DLSS is the cause on every NVIDIA system"],
           ["Intel 13th/14th-gen desktop crash", "Known platform stability boundary", "Use current Intel and motherboard-vendor BIOS guidance", "A game guide should provide BIOS flashing instructions"],
+        ],
+      },
+      {
+        type: "steps",
+        heading: "Crash when loading a save",
+        intro: "Patch 1.1 addresses Beskar save failures and corruption associated with interrupted shutdowns. It does not promise recovery of every existing save. The comparisons below are a diagnostic sequence, not a confirmed save-repair method.",
+        items: [
+          { title: "Update before retesting", body: "Install available game and system updates, restart your device, then note the installed build. On PC, use the storefront repair or verify option if loading still crashes." },
+          { title: "Separate one save from every save", body: "If another existing save is available, compare whether it loads without overwriting the failing save. Record whether failure happens before loading completes or after control returns. A single failing save and every save failing need different investigation; neither proves corruption by itself." },
+          { title: "Preserve your campaign", body: "Do not delete saves or overwrite a cloud copy as a troubleshooting shortcut. Beskar may not offer another save to compare. Ask EA support for a platform-appropriate recovery path if you cannot safely test another save." },
+          { title: "Report the repeatable failure", body: "Use the EA Forums link in the official FAQ. Include PC storefront or exact console model, build, mission, game mode, error message and whether other saves load. PC reports should also include hardware, driver and installed mods." },
+        ],
+      },
+      {
+        type: "prose",
+        heading: "Avoid interrupting a save",
+        paragraphs: ["EA Help advises waiting a few seconds after regaining control of Hawks or starting a mission before quitting. This is a precaution for future saves, not a way to restore progress that is already missing."],
+      },
+      {
+        type: "table",
+        heading: "Slow turns and Overwatch delays",
+        intro: "Patch 1.1 includes action-processing, turn-order and Overwatch fixes. Those entries do not establish a maximum wait time or prove every long pause is resolved. These symptom categories help describe a report; they are not confirmed engine diagnoses.",
+        caption: "Record the same action after updating before applying an FPS workaround.",
+        columns: ["What you see", "What to record", "Next step"],
+        rows: [
+          ["Camera or animation continues but the next action is delayed", "Elapsed time, mission, acting unit and whether control eventually returns", "Retest the same encounter where safely possible; lowering graphics is not a verified fix for action delays"],
+          ["Overwatch triggers and combat stops progressing", "Attacker, target, reaction sequence and whether menus still respond", "Report the sequence and build to EA; do not assume the patch's targeting fixes also resolve this pause"],
+          ["Whole image freezes or the game closes", "Freeze versus crash, error code and exact platform", "Use EA Help's restart/update checks and PC repair guidance as applicable"],
+          ["Camera drifts, wobbles or hides the action", "Camera transition and ability used; keep this separate from FPS", "Retest after updating; 1.1 lists camera fixes but does not guarantee every angle is corrected"],
+        ],
+      },
+      {
+        type: "table",
+        heading: "Console symptoms: PS5, PS5 Pro and Xbox Series X|S",
+        caption: "Official support steps plus an editorial reporting checklist; no console benchmark or universal fix is claimed.",
+        columns: ["Symptom", "Safe first action", "Include in the report"],
+        rows: [
+          ["Loading a save crashes", "Restart and install available game/system updates; preserve existing saves", "Exact model: PS5, PS5 Pro, Xbox Series X or Series S; one save or all saves"],
+          ["Turn or Overwatch pause", "Check whether the action eventually finishes and record the elapsed time", "Mission, reaction sequence, build and whether the menu responds"],
+          ["Camera problem or visible stutter", "Separate camera movement from uneven image delivery; retest the same scene after updating", "Exact model, scene and a short clip if available"],
         ],
       },
       {
@@ -3090,17 +3130,31 @@ export const contentPages: ContentPage[] = [
       "Decide whether Zero Company is worth buying based on its tactics, story, 30–40 hour review context, $49.99 US price, PC performance and Deck limits.",
     h1: "Is Star Wars Zero Company Worth It?",
     kicker: "Purchase decision",
-    summary: "Buy for polished squad tactics and a cinematic Clone Wars story; wait if launch performance or Steam Deck is your deciding factor.",
+    summary: "Consider buying for squad tactics and the Clone Wars story; returning players should retest their original blocker after updating. Platform support alone does not guarantee a smooth campaign.",
     pageType: "decision",
     evidence: "community",
-    lastVerified: "2026-09-02",
-    gameVersion: "Launch reviews, Steam metadata and issue status checked 2026-09-02",
-    sources: ["steam-store", "steamdb-config", "pcg-review", "techradar-review", "gamesradar-review", "windowscentral-review", "ea-faq", "steam-issue-update"],
-    related: ["/game-info", "/system-requirements", "/performance/pc", "/multiplayer", "/performance/steam-deck"],
+    lastVerified: "2026-09-23",
+    gameVersion: "EA news, patch 1.1, FAQ and Help checked 2026-09-23; launch reviews and dated storefront snapshots are historical, not fresh benchmarks",
+    sources: ["ea-news-index", "ea-patch-1-1", "ea-common-issues", "ea-faq", "steam-store", "steamdb-config", "pcg-review", "techradar-review", "gamesradar-review", "windowscentral-review"],
+    related: ["/game-info", "/system-requirements", "/performance/fps-fix", "/performance/pc", "/multiplayer", "/performance/steam-deck"],
     blocks: [
       {
+        type: "table",
+        heading: "Buy now or return after a break?",
+        intro: "Patch 1.1 was the newest patch article found on EA's news page on September 23. Released fixes justify a retest, not an all-clear verdict. The recommendations below are editorial judgments based on official information; this site has not benchmarked the patch.",
+        caption: "Match your platform and original blocker before committing to a long campaign.",
+        columns: ["Your situation", "Recommendation", "What still needs checking"],
+        rows: [
+          ["First-time PC buyer", "Consider buying if the tactical campaign appeals and your PC meets the official targets", "EA's recommended 1440p/60 target uses upscaling; hardware requirements are not proof of consistent frame delivery"],
+          ["First-time PS5 or Xbox Series buyer", "Consider buying for the campaign, but wait if technical polish is essential", "Official platform availability does not establish current PS5 Pro, Series X or Series S performance; check recent evidence for your exact console"],
+          ["Returning after a save crash", "Update and test whether the original save loads before starting a long session", "Listed save fixes do not guarantee recovery of an already damaged save; preserve the original and use the crash guide if it still fails"],
+          ["Returning after slow turns or Overwatch pauses", "Retest the encounter that made you stop playing", "Action-processing fixes are documented, but universal delay removal and a maximum turn time are not"],
+          ["Native Steam Deck is essential", "Wait for newer compatibility evidence before buying specifically for Deck", "EA still describes the lack of launch verification; the Unsupported metadata and performance tests cited below are historical, not a new September 23 test"],
+        ],
+      },
+      {
         type: "facts",
-        heading: "Decision snapshot",
+        heading: "Dated launch context",
         items: [
           { label: "US entry price", value: "$49.99", note: "Steam, checked 2026-08-30" },
           { label: "Steam rating", value: "Mostly Positive", note: "Live label changes; checked 2026-08-30" },
@@ -3120,7 +3174,7 @@ export const contentPages: ContentPage[] = [
             bullets: [
               "You want XCOM-style turn-based tactics with Star Wars production values.",
               "You value squad customization, Bonds and campaign consequences.",
-              "Your PC meets the real recommended target or you are playing on a supported console.",
+              "You have checked recent evidence for your exact hardware or console and accept the remaining uncertainty.",
             ],
           },
           {
@@ -3129,7 +3183,7 @@ export const contentPages: ContentPage[] = [
             bullets: [
               "You are sensitive to shader/CPU stutter or use affected PC hardware.",
               "Steam Deck is your primary device.",
-              "You want post-launch issue fixes before a long permadeath run.",
+              "Your original save crash or turn delay still reproduces after updating, especially before a long permadeath run.",
             ],
           },
           {
@@ -3162,7 +3216,8 @@ export const contentPages: ContentPage[] = [
         heading: "Buying questions",
         items: [
           { question: "Is Deluxe worth the extra $10?", answer: "The listed upgrade is cosmetic. Buy it for the armor and weapon themes, not for additional classes or campaign missions." },
-          { question: "Should Steam Deck owners buy now?", answer: "Not for native Deck-first play. Valve's current record is Unsupported and two launch tests report sub-30 FPS behavior." },
+          { question: "Should Steam Deck owners buy now?", answer: "Wait if native Deck play is essential. EA's FAQ still describes no launch verification; the Unsupported metadata and sub-30 FPS reports cited here are dated launch evidence, not a fresh compatibility or performance test." },
+          { question: "Is Zero Company fixed enough to return now?", answer: "Patch 1.1 documents stability, save and combat fixes. Update and retest the specific save or encounter that blocked you. A released fix is not proof that every system or existing save is recovered." },
         ],
       },
     ],

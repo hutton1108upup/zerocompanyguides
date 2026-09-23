@@ -2,6 +2,24 @@ import type { Source } from "./types";
 
 export const sources: Source[] = [
   {
+    id: "ea-common-issues",
+    title: "Troubleshoot common STAR WARS Zero Company issues",
+    publisher: "EA Help",
+    url: "https://help.ea.com/en/articles/star-wars/zero-company/troubleshoot-common-issues/",
+    kind: "official",
+    checkedAt: "2026-09-23",
+    note: "Restart, game/system updates and PC repair guidance; saving precaution before quitting. General troubleshooting is not a guaranteed repair for an already damaged save.",
+  },
+  {
+    id: "ea-news-index",
+    title: "STAR WARS Zero Company News and Updates",
+    publisher: "Electronic Arts",
+    url: "https://www.ea.com/games/starwars/zero-company/news",
+    kind: "official",
+    checkedAt: "2026-09-23",
+    note: "Patch 1.1 was the newest patch article found in the official news listing during this check; platform installation and individual results require separate verification.",
+  },
+  {
     id: "ea-game",
     title: "Star Wars Zero Company",
     publisher: "Electronic Arts",
