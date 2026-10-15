@@ -21,6 +21,7 @@ const intentTermsByPath: Record<string, readonly string[]> = {
   "/walkthrough/retake-mordant-citadel": ["visser", "mordant citadel"],
   "/walkthrough": ["walkthrough"],
   "/walkthrough/back-channels": ["back channels", "runa", "neesh"],
+  "/walkthrough/strange-bedfellows": ["strange bedfellows", "review draft"],
   "/walkthrough/help-wanted": ["help wanted"],
   "/walkthrough/in-debt-to-the-hutts": ["in debt to the hutts", "walkthrough"],
   "/walkthrough/nebulous-pursuit": ["nebulous pursuit"],

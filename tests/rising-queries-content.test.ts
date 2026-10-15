@@ -107,7 +107,7 @@ describe("rising-query content expansion", () => {
       verification: "source-verified-synthesis",
       evidence: "community",
       indexable: true,
-      lastVerified: "2026-09-02",
+      lastVerified: "2026-10-15",
     });
     if (!page) return;
 
