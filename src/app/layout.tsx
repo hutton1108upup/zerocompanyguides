@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Inter, JetBrains_Mono, Orbitron } from "next/font/google";
+import localFont from "next/font/local";
 import "@/app/globals.css";
 import { AdvertisingScripts } from "@/components/advertising-scripts";
 import { SiteFooter } from "@/components/site-footer";
@@ -10,21 +10,27 @@ import { MicrosoftClarity } from "@/components/microsoft-clarity";
 import { AnalyticsConsent } from "@/components/analytics-consent";
 import { siteDescription, siteName, siteOrigin } from "@/lib/site";
 
-const displayFont = Orbitron({
-  subsets: ["latin"],
-  weight: ["700", "900"],
+const displayFont = localFont({
+  src: "../../public/fonts/orbitron-latin.woff2",
+  weight: "700 900",
+  style: "normal",
+  display: "swap",
   variable: "--font-display",
 });
 
-const bodyFont = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+const bodyFont = localFont({
+  src: "../../public/fonts/inter-latin.woff2",
+  weight: "400 600",
+  style: "normal",
+  display: "swap",
   variable: "--font-sans",
 });
 
-const monoFont = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
+const monoFont = localFont({
+  src: "../../public/fonts/jetbrains-mono-latin.woff2",
+  weight: "400 700",
+  style: "normal",
+  display: "swap",
   variable: "--font-mono",
 });
 

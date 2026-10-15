@@ -771,7 +771,7 @@ export const contentPages: ContentPage[] = [
     pageType: "hub",
     evidence: "community",
     lastVerified: "2026-09-23",
-    gameVersion: "Mission timers, Protection Application and 1.1 Operation rules reviewed 2026-09-23; chapter order retains its August 30 source check",
+    gameVersion: "Mixed source dates; see each section for its latest check",
     spoiler: "minor",
     sources: [
       "ea-gameplay-overview",
@@ -891,7 +891,7 @@ export const contentPages: ContentPage[] = [
           { title: "Retake Mordant Citadel: Visser", label: "Review draft · spoilers", body: "Read the encounter plan and Miasma reports; exact completion and patch behavior remain under review.", href: "/walkthrough/retake-mordant-citadel", tone: "red" },
           { title: "Protection Application: Credits or Bonds?", label: "Protection Application", body: "Jump to the two choices, the deadline and the reported team-wide consequences.", href: "/walkthrough#protection-application-credits-or-team-bond", tone: "cyan" },
           { title: "Find Kin Delima without trusting a fixed planet", label: "Nebulous Pursuit", body: "Compare both pursuit stages, the reported randomized destination, rewards and the Lotho Minor injury-risk branch.", href: "/walkthrough/nebulous-pursuit", tone: "cyan" },
-          { title: "Compare all five Ship Adrift choices", label: "Ship Adrift I-V", body: "Choose between Credits, Influence, a Capacitor, Bond progress and later costs across the complete Operation chain.", href: "/walkthrough/ship-adrift", tone: "green" },
+          { title: "Find your Ship Adrift choice", label: "Ship Adrift I-V", body: "Match the repair, tea, demolition, wager or toll scene before comparing its resource trade-offs. Additional variants are not covered here.", href: "/walkthrough/ship-adrift", tone: "green" },
           { title: "Identify the right Help Wanted variant", label: "Help Wanted", body: "Use the opening scene - Skeez, village beast, Odra, assassin droid or gang cache - before choosing by Credits, Bonds, Influence and injury risk.", href: "/walkthrough/help-wanted", tone: "cyan" },
           { title: "Clear Gorga's 80,000-Credit debt", label: "In Debt to the Hutts", body: "Review the Bruckner, Lothal, Pick Your Poison, Republic Intelligence and Payback route with the first-hand replay boundary intact.", href: "/walkthrough/in-debt-to-the-hutts", tone: "amber" },
           { title: "Choose Runa or Neesh", label: "Back Channels", body: "Compare the fixed Capacitor, Contracts, equipment and follow-up Mission packages without treating the Operation as a combat map.", href: "/walkthrough/back-channels", tone: "cyan" },
@@ -900,10 +900,19 @@ export const contentPages: ContentPage[] = [
         ],
       },
       {
+        type: "cards",
+        heading: "Protection Application quick decision",
+        intro: "At the Coruscant lounge toast, compare the team-wide Bond XP change with the cash you need now. The 50-Intel entry cost is separate from the rewards.",
+        items: [
+          { title: "Protect team Bonds", body: "Throw the drink for the reported +10 Bond XP across the roster. No Credit payout is listed.", href: "/walkthrough#protection-application-credits-or-team-bond", tone: "green" },
+          { title: "Take immediate Credits", body: "Drink to that for 1,000 Credits, with a reported -25 Bond XP across the team. Consider whether an essential expense warrants that trade-off.", href: "/walkthrough#protection-application-credits-or-team-bond", tone: "amber" },
+        ],
+      },
+      {
         type: "table",
         heading: "Protection Application: Credits or team Bond?",
         intro: "Choose Throw the drink when protecting team Bonds matters most. Drink to that pays immediate Credits but reduces team Bond XP, so consider it only when the money solves a more urgent problem, such as essential treatment.",
-        caption: "Credit and Bond outcomes agree across the Databank and Gamers Heroes, reviewed September 23, 2026. Influence values conflict between sources.",
+        caption: "Credit and Bond outcomes agree across the Databank and Gamers Heroes, rechecked October 15, 2026. Influence values conflict between sources.",
         columns: ["Choice", "Reported reward", "Shared result", "Use when"],
         rows: [
           ["Drink to that", "+1,000 Credits; reported -25 Bond XP across the team", "Influence: +3 in the Databank; +4 Zone Cresh in player reports", "Consider when immediate treatment or another essential expense outweighs the team Bond loss"],
@@ -1149,10 +1158,10 @@ export const contentPages: ContentPage[] = [
     status: "verified",
     verification: "source-verified-synthesis",
     indexable: true,
-    lastVerified: "2026-09-23",
-    gameVersion: "Choice packages and follow-up reports rechecked 2026-09-23; no first-hand patch 1.1 replay",
+    lastVerified: "2026-10-15",
+    gameVersion: "Published choice reports; no first-hand replay",
     spoiler: "minor",
-    sources: ["ea-faq", "gamersheroes-choices", "showgamer-choices", "allthings-storm-basin"],
+    sources: ["ea-faq", "gamersheroes-choices", "showgamer-choices", "allthings-storm-basin", "zerocompany-tools-strange-bedfellows"],
     related: ["/walkthrough", "/walkthrough/in-debt-to-the-hutts", "/guides/beginners-guide", "/walkthrough/help-wanted", "/walkthrough/ship-adrift"],
     blocks: [
       {
@@ -1176,7 +1185,7 @@ export const contentPages: ContentPage[] = [
       {
         type: "table",
         heading: "Runa's Connection vs Neesh's Connection",
-        caption: "Reward packages agree in Gamers Heroes and ShowGamer, rechecked September 23, 2026; the mission split also has a separate Storm Basin report.",
+        caption: "Reward packages agree in Gamers Heroes and ShowGamer, rechecked October 15, 2026; the separate Storm Basin report retains its earlier check.",
         columns: ["Choice", "Item or resource", "Mission unlocked", "Best when", "Trade-off"],
         rows: [
           ["Runa's Connection", "Random Exquisite Utility Item; +1 Capacitor", "Storm Basin Mission", "You value a limited facility currency or want the Storm Basin route", "You give up Neesh's Weapon Mod and +2 Contracts"],
@@ -1228,8 +1237,26 @@ export const contentPages: ContentPage[] = [
         type: "prose",
         heading: "Strange Bedfellows: Intel or Contacts?",
         paragraphs: [
-          "If Strange Bedfellows appears on your Runa route, the reviewed guides report two offers: warn about the threat to Republic delegates for 50 Intel and one Contact, or warn about the threat to citizens for 25 Intel and two Contacts. Both report +3 Zone Esk Influence.",
-          "That later decision trades 25 Intel for one additional Contact. It is not an extra reward paid immediately by Back Channels. Contacts in this follow-up and the two Contracts listed in Neesh's package are different labels; check the game UI before treating them as interchangeable.",
+          "Choose the Republic-delegates warning when Intel is the immediate bottleneck, or the citizens warning when you need another Contact. Published guides place this decision on Runa's route after Back Channels; confirm the active Holotable objective rather than assuming it appears immediately.",
+          "The Databank separately lists a 50-Intel entry cost and availability for 3 turns. That is a window to act, not an execution duration. Rewards below are gross receipts, not net profit after entry; the entry charge has not been replayed by this site.",
+        ],
+      },
+      {
+        type: "table",
+        heading: "Strange Bedfellows choice rewards",
+        caption: "Community-reported rewards, not first-hand results. The difference is 25 Intel versus one additional Contact; both choices report +3 Zone Esk Influence.",
+        columns: ["Warning", "Intel received", "Contacts received", "Use when"],
+        rows: [
+          ["Threat to the Republic delegates", "+50 Intel", "+1 Contact", "You need more Intel for the next assignment"],
+          ["Threat to their citizens", "+25 Intel", "+2 Contacts", "The additional Contact matters more than 25 Intel"],
+        ],
+      },
+      {
+        type: "prose",
+        heading: "What the Strange Bedfellows decision establishes",
+        paragraphs: [
+          "These are later Operation rewards, not additional items in Runa's Back Channels package. Contacts here and Neesh's earlier Contracts are different source labels; do not add them together as one resource.",
+          "The extracted text reports the same immediate security refusal for both warnings. It does not establish identical later story consequences, guaranteed mission access or an ending change. Choice-guide agreement is not proof of independent testing, and the source build does not establish results on every platform or patch.",
         ],
       },
       {
@@ -1237,7 +1264,7 @@ export const contentPages: ContentPage[] = [
         heading: "Put the Back Channels rewards to work",
         intro: "Check what you can use now before valuing a random item above a resource that removes a real campaign bottleneck.",
         items: [
-          { title: "Plan a Den upgrade", label: "Capacitor", body: "For Runa, inspect the cost of the facility upgrade you actually want. Do not assume one Capacitor pays for every upgrade.", href: "/guides/beginners-guide", tone: "green" },
+          { title: "Plan a Den upgrade", label: "Capacitor", body: "For Runa, inspect the cost of the facility upgrade you actually want. Do not assume one Capacitor pays for every upgrade.", href: "/guides/credits-and-den-upgrades", tone: "green" },
           { title: "Check the equipment fit", label: "Weapon Mod or Utility", body: "For Neesh, compare the random Mod with your squad's weapon setup. Exquisite describes a reward tier, not a guaranteed item for a specific build.", href: "/weapons", tone: "cyan" },
         ],
       },
@@ -1636,21 +1663,90 @@ export const contentPages: ContentPage[] = [
     ],
   }),
   page({
+    path: "/walkthrough/strange-bedfellows",
+    navLabel: "Strange Bedfellows",
+    title: "Star Wars Zero Company Strange Bedfellows Review Draft",
+    description:
+      "Review draft for Strange Bedfellows: compare the community-reported Intel, Contact and Influence outcomes while waiting for first-hand replay.",
+    h1: "Star Wars Zero Company Strange Bedfellows Review Draft",
+    kicker: "Operation choice draft",
+    summary: "A review draft of the Runa-route follow-up with community reports separated from the 50-Intel entry cost and the unresolved later-choice boundary.",
+    pageType: "decision",
+    evidence: "community",
+    status: "draft",
+    verification: "needs-retest",
+    indexable: false,
+    lastVerified: "2026-10-15",
+    gameVersion: "Databank build 25513890; no first-hand replay",
+    spoiler: "minor",
+    sources: ["zerocompany-tools-strange-bedfellows", "gamersheroes-choices", "showgamer-choices"],
+    related: ["/walkthrough", "/walkthrough/back-channels"],
+    blocks: [
+      {
+        type: "briefing",
+        label: "Review draft · no first-hand replay",
+        items: [
+          "This page is a review draft based on extracted Databank text and published choice guides; this site has not replayed Strange Bedfellows first-hand.",
+          "Need Intel? The delegates warning is the reported fit (+50 Intel, +1 Contact). Need an additional Contact? The citizens warning is the reported fit (+25 Intel, +2 Contacts). Both remain community reports pending replay.",
+          "Published reports place it on the Runa route after Back Channels. Confirm the active Holotable objective before assuming it appears in a particular Cycle.",
+          "The 50 Intel entry cost and 3-turn availability are separate from the reward table. Available for 3 turns is a launch window, not a claim about how long the Operation takes to complete.",
+        ],
+      },
+      {
+        type: "table",
+        heading: "Strange Bedfellows choice table",
+        intro: "The following outcomes are community-reported and remain awaiting first-hand replay.",
+        caption: "Both choices report +3 Zone Esk Influence and the same immediate refusal text. Later consequences and ending changes are unverified.",
+        columns: ["Warning", "Intel received", "Contacts received", "Shared reported result", "Practical trade-off"],
+        rows: [
+          ["Threat to the Republic delegates", "+50 Intel", "+1 Contact", "+3 Zone Esk Influence; same immediate refusal", "Keep 25 more Intel; receive one fewer Contact"],
+          ["Threat to their citizens", "+25 Intel", "+2 Contacts", "+3 Zone Esk Influence; same immediate refusal", "Give up 25 Intel for one additional Contact"],
+        ],
+      },
+      {
+        type: "facts",
+        heading: "Entry cost and availability",
+        items: [
+          { label: "Entry cost", value: "50 Intel", note: "Databank build 25513890" },
+          { label: "Availability", value: "3 turns", note: "A window to launch; not an execution-duration measurement" },
+          { label: "Route reported by guides", value: "Runa after Back Channels", note: "Community report; confirm the live Holotable" },
+        ],
+      },
+      {
+        type: "warning",
+        heading: "What remains unverified",
+        body: "The same immediate refusal does not prove the two warnings have identical later consequences or endings. Contacts are not Contracts, and the +50/+1 and +25/+2 rows are gross reported rewards rather than a net calculation after the 50-Intel entry cost. No video, reward capture, patch 1.2 replay or guaranteed follow-up has been verified here.",
+        tone: "amber",
+      },
+      {
+        type: "steps",
+        heading: "Before choosing: record the live result",
+        intro: "Use the current Operation card as the authority while this draft awaits first-hand testing.",
+        items: [
+          { title: "Check the campaign need", body: "Choose the delegates report when Intel is the bottleneck, or the citizens report when one additional Contact matters more." },
+          { title: "Read the live cost and window", body: "Confirm the 50-Intel entry cost and 3-turn availability. The window is not a completion-time estimate." },
+          { title: "Compare both rows", body: "Keep the reported +50/+1 and +25/+2 rewards separate from the entry cost, and keep Contacts separate from Contracts." },
+          { title: "Record version and outcome", body: "Capture the current game build, route, immediate refusal, later consequence and ending signal so the community report can be retested." },
+        ],
+      },
+    ],
+  }),
+  page({
     path: "/walkthrough/ship-adrift",
     navLabel: "Ship Adrift",
     title: "Star Wars Zero Company Ship Adrift Choices and Rewards Guide",
     description:
-      "Compare every Ship Adrift I-V choice, including Credits, Zone Influence, Capacitor, Bond and wagering outcomes across the strategic Operation chain.",
+      "Find your Ship Adrift repair, tea, demolition, wager or toll choice. Compare reported rewards, net Credit costs and uncertain outcomes in the I-V guide.",
     h1: "Star Wars Zero Company Ship Adrift I-V Operation Guide",
-    kicker: "Five-part Operation ledger",
-    summary: "Ship Adrift is a recurring strategic chain. The useful choice changes with whether the current campaign needs Credits, Influence, a Capacitor or Bond progress.",
+    kicker: "Recurring Operation choices",
+    summary: "Match the scene on your current Ship Adrift card, then choose for Credits, Influence, a Capacitor or Bond progress. This guide covers the five commonly numbered I-V variants, not every reported encounter.",
     pageType: "decision",
     evidence: "community",
     status: "verified",
     verification: "source-verified-synthesis",
     indexable: true,
-    lastVerified: "2026-09-02",
-    gameVersion: "Launch-build Operation outcomes cross-checked 2026-09-02",
+    lastVerified: "2026-10-15",
+    gameVersion: "I-V source synthesis; no first-hand replay",
     spoiler: "minor",
     sources: ["ea-faq", "gamersheroes-choices", "showgamer-choices"],
     related: [
@@ -1664,9 +1760,29 @@ export const contentPages: ContentPage[] = [
         type: "briefing",
         label: "Ship Adrift quick answer",
         items: [
-          "Ship Adrift I-V is a chain of strategic choices rather than five tactical combat maps.",
+          "Find the matching scene below: damaged ship, Moogan tea, demolition, wager or toll. These are strategic choices rather than tactical combat maps.",
           "The best option depends on the resource currently blocking the Den: Credits, Influence, a Capacitor or Bond progress.",
-          "The outcome ledger is cross-checked between two launch guides but remains source-verified synthesis rather than a first-hand site replay.",
+          "I-V are guide labels for the five covered variants, not proof of a fixed encounter order. Other variants are reported, and the wager winner is not reliably fixed.",
+        ],
+      },
+      {
+        type: "cards",
+        heading: "Which Ship Adrift scene are you on?",
+        intro: "Use the visible prompt rather than assuming a fixed order. Choose a scene to jump straight to its comparison.",
+        items: [
+          { title: "Repair, tow or take the Capacitor", label: "I · Damaged ship", body: "Compare money, Influence and the facility resource.", href: "/walkthrough/ship-adrift#ship-adrift-i-choices" },
+          { title: "Try the Moogan tea or leave", label: "II · Tea", body: "Compare the reported Bond bonus for assigned Operators.", href: "/walkthrough/ship-adrift#ship-adrift-ii-choices" },
+          { title: "Assign two Operators or blow it up", label: "III · Demolition", body: "Compare the Credit reward with committing two Operators.", href: "/walkthrough/ship-adrift#ship-adrift-iii-choices" },
+          { title: "Place a wager or keep your Credits", label: "IV · Wager", body: "Check the stake and uncertain winner before betting.", href: "/walkthrough/ship-adrift#ship-adrift-iv-choices" },
+          { title: "Run for it or pay the toll", label: "V · Toll", body: "Compare the fee with the listed result.", href: "/walkthrough/ship-adrift#ship-adrift-v-choices" },
+        ],
+      },
+      {
+        type: "prose",
+        heading: "Coverage and later encounter limits",
+        paragraphs: [
+          "Additional Ship Adrift variants appear in newer community reports. This page covers the five scenes below, not the complete set. Encounter numbering is a guide convention; a fixed order and universal prerequisites have not been reproduced here.",
+          "The sources do not establish whether taking the Capacitor, leaving the tea or any other early choice blocks a later encounter. Absence of a listed penalty is not proof of no consequence. Read the current Operation card and retain your result if it differs.",
         ],
       },
       {
@@ -1674,9 +1790,9 @@ export const contentPages: ContentPage[] = [
         heading: "Ship Adrift at a glance",
         items: [
           { label: "Content type", value: "Recurring strategic Operation chain" },
-          { label: "Stages covered", value: "Ship Adrift I through V" },
+          { label: "Variants covered", value: "Five guide entries labeled I-V; additional variants are reported" },
           { label: "Main trade-offs", value: "Credits, Influence, Capacitor and Bond progress" },
-          { label: "Verification", value: "Two-source launch synthesis; live results can be reported through Corrections" },
+          { label: "Verification", value: "Published tables and conflicting wager reports reviewed; no first-hand replay" },
         ],
       },
       {
@@ -1713,13 +1829,14 @@ export const contentPages: ContentPage[] = [
       {
         type: "table",
         heading: "Ship Adrift IV choices",
-        caption: "The reported wager has one winning name; the live game remains the authority if the roster changes.",
+        intro: "There is no verified fixed winner. The guide table below records one reported outcome; Gamers Heroes also flags possible randomness and contains a player report naming a different winner and payout. Do not treat Immuren Bag as a guaranteed win.",
+        caption: "Example Credit accounting: a 1,000-Credit stake and 5,000-Credit receipt yield +4,000 net, not +5,000 profit. Your result can differ.",
         columns: ["Choice", "Reported result", "Best fit"],
         rows: [
-          ["Bet on Immuren Bag", "+3 Zone Grek Influence, pay 1,000 Credits, receive 5,000 Credits", "Best recorded net Credit result"],
-          ["Bet on Feigheff", "+3 Zone Grek Influence and lose the 1,000-Credit stake", "No recorded upside beyond the shared Influence"],
-          ["Bet on Cha'hul Mechiiw", "+3 Zone Grek Influence and lose the 1,000-Credit stake", "No recorded upside beyond the shared Influence"],
-          ["Do not wager", "+3 Zone Grek Influence", "Avoids the stake when the live outcome is uncertain"],
+          ["Bet on Immuren Bag", "Example: pay 1,000 Credits; receive 5,000; net +4,000, plus reported Influence", "Reported winning example only; winner and payout are not guaranteed"],
+          ["Bet on Feigheff", "Example: pay 1,000 Credits; receive 0; net -1,000, plus reported Influence", "Losing example, not proof this contender always loses"],
+          ["Bet on Cha'hul Mechiiw", "Guide example: pay 1,000 Credits; receive 0; net -1,000; a separate player reports this contender winning", "Conflicting outcomes; no fixed-winner recommendation"],
+          ["Do not wager", "No stake; no wager receipt; net 0 Credits; guide reports +3 Zone Grek Influence", "Preserves Credits when you cannot afford a losing bet"],
         ],
       },
       {
@@ -1729,7 +1846,7 @@ export const contentPages: ContentPage[] = [
         columns: ["Choice", "Reported result", "Best fit"],
         rows: [
           ["Run for it", "+3 Zone Esk Influence", "Best recorded value when no missing live penalty is shown"],
-          ["Pay the fee", "+3 Zone Esk Influence and pay 1,500 Credits", "Use only if the live card exposes a consequence absent from current sources"],
+          ["Pay the fee", "+3 Zone Esk Influence; pay 1,500 Credits; no Credit receipt listed; net -1,500 Credits", "Use only if the live card exposes a consequence absent from current sources"],
         ],
       },
       {
@@ -1762,7 +1879,7 @@ export const contentPages: ContentPage[] = [
         items: [
           { question: "Should I repair, tow or steal the Capacitor in Ship Adrift I?", answer: "Repair for the larger Credit payout, tow for more Zone Leth Influence, or take the Capacitor when a permanent Den upgrade is the real bottleneck." },
           { question: "Should I drink the Moogan tea?", answer: "The reviewed sources report Influence plus a doubled Bond bonus, while leaving has no listed reward. Confirm the live card before assigning an irreplaceable pair." },
-          { question: "Who wins the Ship Adrift IV wager?", answer: "Both reviewed guides identify Immuren Bag as the rewarding wager. Keep the no-wager option in mind if the live game presents different names or costs." },
+          { question: "Who wins the Ship Adrift IV wager?", answer: "A fixed winner is not verified. Published tables show Immuren Bag winning, but Gamers Heroes warns of possible randomness and a player reports Cha'hul Mechiiw winning with a different payout. A 1,000-Credit stake returning 5,000 yields +4,000 net only in that example; skip the wager if you cannot afford a loss." },
           { question: "Is Ship Adrift a combat mission?", answer: "No. The reviewed entries resolve as strategic Operations, so enemy lists and tactical-map instructions do not belong in this guide." },
         ],
       },
