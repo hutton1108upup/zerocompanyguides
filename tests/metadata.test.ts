@@ -1,10 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { metadata } from "../src/app/layout";
 
-vi.mock("next/font/google", () => ({
-  Inter: () => ({ variable: "font-sans" }),
-  JetBrains_Mono: () => ({ variable: "font-mono" }),
-  Orbitron: () => ({ variable: "font-display" }),
+vi.mock("next/font/local", () => ({
+  default: ({ variable }: { variable: string }) => ({ variable }),
 }));
 
 describe("site metadata", () => {
