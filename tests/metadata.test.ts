@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { metadata } from "../src/app/layout";
+import { getMetadataForPath } from "../src/lib/site";
 
 vi.mock("next/font/local", () => ({
   default: ({ variable }: { variable: string }) => ({ variable }),
@@ -14,5 +15,17 @@ describe("site metadata", () => {
 
   it("uses the concise visual brand as the site-wide Open Graph name", () => {
     expect(metadata.openGraph?.siteName).toBe("Zero Company Intel");
+  });
+
+  it("uses the patch notes' existing game artwork for social previews", () => {
+    const patchNotes = getMetadataForPath("/patch-notes");
+    const images = [expect.objectContaining({
+      url: new URL("/media/zero-company/key-art.jpg", metadata.metadataBase!),
+      width: 3840,
+      height: 2160,
+    })];
+
+    expect(patchNotes?.openGraph?.images).toEqual(images);
+    expect(patchNotes?.twitter?.images).toEqual(images);
   });
 });

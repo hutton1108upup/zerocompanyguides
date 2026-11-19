@@ -20,7 +20,7 @@ describe("post-launch query expansion", () => {
     expect(fps).toMatchObject({
       title: "Star Wars Zero Company Stutter, Low FPS and Crash Fixes",
       h1: "Fix Star Wars Zero Company Stutter, Low FPS & Crashes",
-      lastVerified: "2026-09-23",
+      lastVerified: "2026-11-19",
       indexable: true,
     });
     expect(contentPages.some((entry) => entry.path === "/performance/stuttering")).toBe(false);
@@ -35,6 +35,9 @@ describe("post-launch query expansion", () => {
         "August 27, 2026",
         "September 1, 2026",
         "September 9, 2026",
+        "September 28, 2026",
+        "October 15, 2026",
+        "November 10, 2026",
         "After each patch",
       ]);
       expect(timeline.rows.flat().join(" ")).toContain("crashes and CPU threading");
@@ -181,7 +184,7 @@ describe("post-launch query expansion", () => {
     const beginnerText = blockText("/guides/beginners-guide");
     const modsText = blockText("/mods");
 
-    expect(page("/guides/beginners-guide")?.lastVerified).toBe("2026-09-03");
+    expect(page("/guides/beginners-guide")?.lastVerified).toBe("2026-11-19");
     expect(beginnerText).toContain("How to use Inspect Mode");
     expect(beginnerText).toContain("controller users");
     expect(beginnerText).toContain("current binding");

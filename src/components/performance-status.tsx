@@ -23,7 +23,7 @@ function firstBriefingItem(path: string) {
 const defaultItems: StatusCard[] = [
   {
     eyebrow: "Official issue status",
-    title: "Developer investigation remains active",
+    title: "November 10 hotfix is live",
     body:
       getContentPage("/performance")?.blocks.find((entry) => entry.type === "warning")?.body ??
       "EA's launch support guidance is still the first stop before community tweaks.",

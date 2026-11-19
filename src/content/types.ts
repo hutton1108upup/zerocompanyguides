@@ -153,6 +153,7 @@ export type ContentPage = {
   h1: string;
   kicker: string;
   summary: string;
+  socialImage?: { src: string; alt: string; width: number; height: number };
   pageType: PageType;
   evidence: EvidenceLevel;
   status: PageStatus;
