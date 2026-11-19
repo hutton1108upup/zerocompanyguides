@@ -107,7 +107,7 @@ export default function HomePage() {
         <div className="container">
           <p className="hud-label">Current mission board</p>
           <h2 className="section-title" id="popular-title">Quick Answers</h2>
-          <p className="section-sub">Jump straight to a task choice or a performance problem.</p>
+          <p className="section-sub">Jump to a task choice, troubleshoot a performance problem or check the <Link className="text-link" href="/patch-notes">latest game patch notes</Link>.</p>
           <div className="card-grid">
             {quickAnswers.map((answer) => {
               const page = contentPageByPath.get(answer.path)!;

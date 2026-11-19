@@ -1,6 +1,6 @@
 import type { ContentPage } from "./types";
 
-type GuideInput = Pick<ContentPage, "path" | "navLabel" | "title" | "description" | "h1" | "summary" | "sources" | "related" | "blocks"> & Partial<Pick<ContentPage, "spoiler" | "gameVersion" | "status" | "verification" | "indexable" | "difficulty">>;
+type GuideInput = Pick<ContentPage, "path" | "navLabel" | "title" | "description" | "h1" | "summary" | "sources" | "related" | "blocks"> & Partial<Pick<ContentPage, "spoiler" | "lastVerified" | "gameVersion" | "status" | "verification" | "indexable" | "difficulty">>;
 
 function guide(input: GuideInput): ContentPage {
   return {
@@ -79,15 +79,31 @@ export const playerNeedsPages: ContentPage[] = [
     description: "Decide how to spend scarce Credits in Star Wars Zero Company: compare Den upgrades, recovery, recruitment and Black Market purchases without a rigid build order.",
     h1: "Star Wars Zero Company Credits & Den Upgrades",
     summary: "Keep enough Credits to field a healthy squad. Then prioritize useful equipment slots and early Networking; buy Black Market improvements when you can also afford the gear. Upgrade the weapon types your regular squad carries before spreading money across the whole Armory.",
-    sources: ["ea-gameplay-overview", "ea-community-qa", "reddit-credit-budget", "reddit-credit-shortage", "prodigy-den-upgrades", "allthings-den-priorities"],
-    related: ["/guides/beginners-guide", "/walkthrough", "/characters/companions", "/weapons", "/guides/permadeath"],
+    lastVerified: "2026-11-19",
+    gameVersion: "Patch 1.2 prices from EA; upgrade priorities are editorial",
+    sources: ["ea-patch-1-2", "ea-gameplay-overview", "ea-community-qa", "reddit-credit-budget", "reddit-credit-shortage", "prodigy-den-upgrades", "allthings-den-priorities"],
+    related: ["/patch-notes", "/guides/beginners-guide", "/walkthrough", "/characters/companions", "/weapons", "/guides/permadeath"],
     blocks: [
       { type: "briefing", items: [
         "Credits, Intel and upgrade materials are different constraints. More Credits do not replace missing prerequisites or an unavailable material.",
+        "Patch 1.2 makes recruitment a flat 100 Credits per Operator. Increased Crew Quarters I–IV cost 0 Credits, and Focus Point I–III cost 2,000 Credits each.",
         "For a first campaign, preserve urgent recovery and mission access before optional shopping. Then improve the roles and weapons the squad actually uses.",
         "The order below is our recommendation for a healthy first-campaign squad. Move recovery to the top when injuries prevent the next deployment.",
       ] },
-      { type: "table", heading: "Which Den upgrades should you prioritize?", caption: "Names and effects are described in the linked community upgrade guides; priority is our editorial recommendation. Prices and unlock levels are not independently verified here.", columns: ["Priority and upgrade", "What you gain", "When to buy or postpone"], rows: [
+      { type: "table", heading: "Patch 1.2 recruitment and upgrade costs", caption: "Credit prices reported by EA. Check the in-game upgrade card for materials, prerequisites and build time.", columns: ["Item", "Credits in Patch 1.2", "When it helps"], rows: [
+        ["Recruit an Operator", "100 per Operator", "Price a replacement when an injury or an expiring mission leaves a gap"],
+        ["Increased Crew Quarters I–IV", "0 each", "Check the facility requirements when roster space blocks a recruit"],
+        ["Focus Point I–III", "2,000 each", "Buy when the squad can use the added Focus and immediate deployment is covered"],
+        ["Medical Bed III and IV", "500 each", "Consider capacity if repeated injuries prevent you from fielding a team"],
+        ["Additional Weapon Mod Slot / Additional Utility Slot", "4,000 each", "Price the slot when you already have equipment worth using"],
+        ["Rifle Damage II and III", "2,500 each", "Consider the upgrade when regular Operators carry rifles"],
+      ] },
+      { type: "prose", heading: "Choose the next purchase by squad need", paragraphs: [
+        "Short a replacement? Use the 100-Credit recruit price to compare hiring against waiting for recovery. If capacity is the only blocker, check the free Crew Quarters upgrade and its other requirements.",
+        "Too many injuries? Compare available Medbay capacity and recovery timing with the next mission deadline. If the squad is healthy but short on damage, prioritize an upgrade for the weapon type your regular Operators use.",
+        "EA's English notes list Pistol Movement III twice, with different former prices. Verify the tier and displayed cost in the Upgrade Facility before planning that purchase.",
+      ] },
+      { type: "table", heading: "Which Den upgrades should you prioritize?", caption: "Upgrade names and roles draw on the linked community guides. The order is an editorial recommendation.", columns: ["Priority and upgrade", "What you gain", "When to buy or postpone"], rows: [
         ["First when useful: Utility Items / Weapon Mods", "Additional equipment slots at the relevant upgrades", "Buy when spare Utilities or Mods can improve the active squad. Follow the branch prerequisites before budgeting for the slot"],
         ["Early investment: Networking", "Improved Influence gains", "Move it up when you are still building regional rewards and have Contacts to use; it has less time to pay back near the finale"],
         ["Conditional: Black Market Quality I", "Better-tier shop stock", "Budget for the improvement and the item you want. Postpone it if mission rewards already supply the equipment you need"],

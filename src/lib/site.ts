@@ -213,6 +213,13 @@ export function getMetadataForPath(path: string): Metadata | undefined {
   }
 
   const canonical = buildCanonicalUrl(page.path);
+  const socialImage = page.socialImage;
+  const images = socialImage && [{
+    url: new URL(socialImage.src, siteOrigin),
+    alt: socialImage.alt,
+    width: socialImage.width,
+    height: socialImage.height,
+  }];
 
   return {
     title: page.title,
@@ -226,11 +233,13 @@ export function getMetadataForPath(path: string): Metadata | undefined {
       description: page.description,
       url: canonical,
       siteName,
+      images,
     },
     twitter: {
       card: "summary_large_image",
       title: page.title,
       description: page.description,
+      images,
     },
     robots: getRobotsDirective(page),
   };

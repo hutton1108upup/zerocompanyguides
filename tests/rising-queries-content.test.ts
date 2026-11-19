@@ -159,7 +159,7 @@ describe("rising-query content expansion", () => {
     expect(page).toMatchObject({
       title: "Star Wars Zero Company Difficulty Settings and Permadeath Guide",
       h1: "Star Wars Zero Company Difficulty Settings, Permadeath & Injury Guide",
-      lastVerified: "2026-09-02",
+      lastVerified: "2026-11-19",
       indexable: true,
     });
     if (!page) return;
@@ -169,6 +169,8 @@ describe("rising-query content expansion", () => {
       .map((block) => block.heading);
     expect(headings).toEqual(
       expect.arrayContaining([
+        "Campaign Modifiers in Patch 1.2",
+        "Three campaign setups to try",
         "Difficulty, Permadeath and Beskar are separate choices",
         "Which Zero Company difficulty setting should you choose?",
         "Difficulty and Permadeath questions",

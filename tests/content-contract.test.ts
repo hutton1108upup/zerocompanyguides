@@ -8,6 +8,7 @@ const intentTermsByPath: Record<string, readonly string[]> = {
   "/squad-builder": ["squad builder", "team planner"],
   "/corrections": ["corrections", "editorial policy"],
   "/updates": ["site updates", "change log"],
+  "/patch-notes": ["patch notes", "hotfixes"],
   "/classes": ["classes", "specializations"],
   "/classes/tier-list": ["class tier list"],
   "/builds": ["builds"],
