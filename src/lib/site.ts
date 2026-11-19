@@ -29,6 +29,13 @@ export function resolveSiteOrigin(env?: OriginEnv): string {
 
 export const siteOrigin = resolveSiteOrigin();
 
+export const defaultSocialImage = {
+  url: new URL("/opengraph-image.png", siteOrigin),
+  alt: "Star Wars Zero Company. Build your squad with spoiler-safe guides.",
+  width: 1200,
+  height: 630,
+};
+
 export type NavigationLink = { href: string; label: string };
 export type NavigationGroup = {
   id: string;
@@ -214,12 +221,12 @@ export function getMetadataForPath(path: string): Metadata | undefined {
 
   const canonical = buildCanonicalUrl(page.path);
   const socialImage = page.socialImage;
-  const images = socialImage && [{
+  const images = [socialImage ? {
     url: new URL(socialImage.src, siteOrigin),
     alt: socialImage.alt,
     width: socialImage.width,
     height: socialImage.height,
-  }];
+  } : defaultSocialImage];
 
   return {
     title: page.title,

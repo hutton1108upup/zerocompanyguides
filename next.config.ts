@@ -5,6 +5,13 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: false,
   poweredByHeader: false,
+  async redirects() {
+    return [
+      { source: "/icon", destination: "/icon-192.png", permanent: true },
+      { source: "/apple-icon", destination: "/apple-icon.png", permanent: true },
+      { source: "/opengraph-image", destination: "/opengraph-image.png", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
