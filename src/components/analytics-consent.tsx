@@ -38,7 +38,7 @@ export function AnalyticsConsent() {
       <aside aria-label="Analytics consent" className="analytics-consent" data-analytics-consent="unknown">
         <div>
           <strong>Help improve this guide</strong>
-          <p>Optional analytics show which pages and tools need clearer answers. No account or game data is collected.</p>
+          <p>Optional analytics show which pages and tools need clearer answers. PVUV.ai uses cookies and collects page visits, traffic sources, device information, and interaction signals to measure usage and detect bots.</p>
         </div>
         <div className="analytics-consent__actions">
           <button className="button-chip button-chip--primary" onClick={() => decide("accepted")} type="button">Accept analytics</button>
