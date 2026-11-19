@@ -9,7 +9,7 @@ import { GoogleAnalytics } from "@/components/google-analytics";
 import { MicrosoftClarity } from "@/components/microsoft-clarity";
 import { PvuvAnalytics } from "@/components/pvuv-analytics";
 import { AnalyticsConsent } from "@/components/analytics-consent";
-import { siteDescription, siteName, siteOrigin } from "@/lib/site";
+import { defaultSocialImage, siteDescription, siteName, siteOrigin } from "@/lib/site";
 
 const displayFont = localFont({
   src: "../../public/fonts/orbitron-latin.woff2",
@@ -45,11 +45,13 @@ export const metadata: Metadata = {
     siteName,
     title: siteName,
     description: siteDescription,
+    images: [defaultSocialImage],
   },
   twitter: {
     card: "summary_large_image",
     title: siteName,
     description: siteDescription,
+    images: [defaultSocialImage],
   },
 };
 

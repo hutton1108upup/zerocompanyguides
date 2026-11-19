@@ -28,4 +28,18 @@ describe("site metadata", () => {
     expect(patchNotes?.openGraph?.images).toEqual(images);
     expect(patchNotes?.twitter?.images).toEqual(images);
   });
+
+  it("uses the approved brand image for pages without their own social artwork", () => {
+    const images = [expect.objectContaining({
+      url: new URL("/opengraph-image.png", metadata.metadataBase!),
+      width: 1200,
+      height: 630,
+    })];
+
+    for (const path of ["/", "/squad-builder"]) {
+      const pageMetadata = getMetadataForPath(path);
+      expect(pageMetadata?.openGraph?.images).toEqual(images);
+      expect(pageMetadata?.twitter?.images).toEqual(images);
+    }
+  });
 });
