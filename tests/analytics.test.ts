@@ -48,6 +48,19 @@ describe("site analytics", () => {
     expect(markup).toContain("Reject analytics");
   });
 
+  it("discloses PVUV without loading it before consent", () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        RootLayout,
+        null,
+        createElement("main", null, "Analytics test page"),
+      ),
+    );
+
+    expect(markup).toContain("PVUV.ai uses cookies");
+    expect(markup).not.toContain("https://www.pvuv.ai/f.js");
+  });
+
   it("emits both advertising loaders and the native banner container on every page", () => {
     const markup = renderToStaticMarkup(
       createElement(
