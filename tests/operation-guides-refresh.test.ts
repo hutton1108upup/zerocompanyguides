@@ -3,48 +3,32 @@ import sitemap from "../src/app/sitemap";
 import { contentPages, requiredPublicPaths } from "../src/content/pages";
 import {
   buildCanonicalUrl,
-  footerNavigationSections,
   getInnerRouteParams,
   getMetadataForPath,
   getSearchPages,
-  navigationGroups,
-  primaryNavigationPaths,
 } from "../src/lib/site";
 
 const page = (path: string) => contentPages.find((entry) => entry.path === path);
 
 describe("Operation guide refresh boundaries", () => {
-  it("keeps Strange Bedfellows directly routable but out of public discovery", async () => {
+  it("publishes Strange Bedfellows as an indexed Operation decision guide", async () => {
     const path = "/walkthrough/strange-bedfellows";
-    const draft = page(path);
+    const guide = page(path);
     const sitemapUrls = (await sitemap()).map((entry) => entry.url);
 
-    expect(draft).toMatchObject({
-      status: "draft",
-      verification: "needs-retest",
+    expect(guide).toMatchObject({
+      status: "verified",
+      verification: "source-verified-synthesis",
       evidence: "community",
-      indexable: false,
-      lastVerified: "2026-10-15",
+      indexable: true,
+      lastVerified: "2026-11-23",
     });
     expect(getInnerRouteParams().map((entry) => `/${entry.slug.join("/")}`)).toContain(path);
-    expect(requiredPublicPaths).not.toContain(path);
-    expect(getSearchPages().map((entry) => entry.path)).not.toContain(path);
-    expect(sitemapUrls).not.toContain(buildCanonicalUrl(path));
-    expect(getMetadataForPath(path)?.robots).toBe("noindex, follow");
+    expect(requiredPublicPaths).toContain(path);
+    expect(getSearchPages().map((entry) => entry.path)).toContain(path);
+    expect(sitemapUrls).toContain(buildCanonicalUrl(path));
+    expect(getMetadataForPath(path)?.robots).toBe("index, follow");
     expect(getMetadataForPath(path)?.alternates?.canonical).toBe(buildCanonicalUrl(path));
-
-    const publicLinks = contentPages
-      .filter((entry) => entry.path !== path)
-      .flatMap((entry) => [entry.path, ...entry.related, ...entry.blocks.flatMap((block) =>
-        block.type === "cards" ? block.items.flatMap((item) => item.href ? [item.href.split("#")[0]] : []) : [],
-      )]);
-    expect(publicLinks).not.toContain(path);
-    const navigationLinks = [
-      ...primaryNavigationPaths,
-      ...navigationGroups.flatMap((group) => group.links.map((link) => link.href.split("#")[0])),
-      ...footerNavigationSections.flatMap((section) => section.paths),
-    ];
-    expect(navigationLinks).not.toContain(path);
   });
 
   it("keeps the five Ship Adrift anchors and qualifies wager arithmetic", () => {

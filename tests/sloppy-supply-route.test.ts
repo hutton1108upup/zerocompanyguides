@@ -15,7 +15,7 @@ import {
 const path = "/walkthrough/sloppy-supply-route";
 
 describe("Sloppy Supply Route evidence gate", () => {
-  it("builds a direct review route without publishing single-source outcomes", async () => {
+  it("publishes Sloppy Supply Route as an indexed Operation decision guide", async () => {
     const page = contentPages.find((entry) => entry.path === path);
     const sitemapUrls = (await sitemap()).map((entry) => entry.url);
     const staticPaths = getInnerRouteParams().map((entry) => `/${entry.slug.join("/")}`);
@@ -27,21 +27,21 @@ describe("Sloppy Supply Route evidence gate", () => {
 
     expect(page).toMatchObject({
       navLabel: "Sloppy Supply Route",
-      title: "Star Wars Zero Company Sloppy Supply Route Guide",
+      title: "Star Wars Zero Company Sloppy Supply Route: Analyze, Pay Off or Raid?",
       description:
-        "Review the Sloppy Supply Route Operation, its 100-Intel cost, three-turn deadline, Analyze, Pay Off and Direct Raid options, risks and reported rewards.",
-      h1: "Star Wars Zero Company Sloppy Supply Route Operation Guide",
-      status: "needs-retest",
-      verification: "needs-retest",
+        "Compare the Sloppy Supply Route Operation choices in Star Wars Zero Company: Analyze, Pay Off or Direct Raid—Intel cost, non-droid Operator rules, injury risks and Weapon Mod rewards.",
+      h1: "Star Wars Zero Company Sloppy Supply Route: Analyze, Pay Off or Direct Raid?",
+      status: "verified",
+      verification: "source-verified-synthesis",
       evidence: "community",
-      indexable: false,
+      indexable: true,
     });
     expect(staticPaths).toContain(path);
-    expect(requiredPublicPaths).not.toContain(path);
-    expect(getSearchPages().map((entry) => entry.path)).not.toContain(path);
-    expect(sitemapUrls).not.toContain(buildCanonicalUrl(path));
-    expect(navigationPaths).not.toContain(path);
-    expect(getMetadataForPath(path)?.robots).toBe("noindex, follow");
+    expect(requiredPublicPaths).toContain(path);
+    expect(getSearchPages().map((entry) => entry.path)).toContain(path);
+    expect(sitemapUrls).toContain(buildCanonicalUrl(path));
+    expect(navigationPaths).toContain(path);
+    expect(getMetadataForPath(path)?.robots).toBe("index, follow");
     expect(getMetadataForPath(path)?.alternates?.canonical).toBe(buildCanonicalUrl(path));
   });
 

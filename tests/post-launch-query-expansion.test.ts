@@ -18,9 +18,9 @@ describe("post-launch query expansion", () => {
     const fps = page("/performance/fps-fix");
 
     expect(fps).toMatchObject({
-      title: "Star Wars Zero Company Stutter, Low FPS and Crash Fixes",
-      h1: "Fix Star Wars Zero Company Stutter, Low FPS & Crashes",
-      lastVerified: "2026-11-19",
+      title: "Star Wars Zero Company Stutter, Low FPS, Screen Tearing & Crash Fixes",
+      h1: "Fix Star Wars Zero Company Stutter, Low FPS, Screen Tearing & Crashes",
+      lastVerified: "2026-11-23",
       indexable: true,
     });
     expect(contentPages.some((entry) => entry.path === "/performance/stuttering")).toBe(false);
@@ -61,14 +61,14 @@ describe("post-launch query expansion", () => {
     }
   });
 
-  it("keeps Sloppy Supply Route noindex while adding the answer-first review block", () => {
+  it("publishes Sloppy Supply Route as an indexed Operation decision guide", () => {
     const sloppy = page("/walkthrough/sloppy-supply-route");
 
     expect(sloppy).toMatchObject({
-      status: "needs-retest",
-      verification: "needs-retest",
-      indexable: false,
-      lastVerified: "2026-09-23",
+      status: "verified",
+      verification: "source-verified-synthesis",
+      indexable: true,
+      lastVerified: "2026-11-23",
     });
 
     const answer = sloppy?.blocks.find(
@@ -87,7 +87,7 @@ describe("post-launch query expansion", () => {
     }
 
     expect(blockText("/walkthrough/sloppy-supply-route")).toContain("cannot establish the full reward odds");
-    expect(getMetadataForPath("/walkthrough/sloppy-supply-route")?.robots).toBe("noindex, follow");
+    expect(getMetadataForPath("/walkthrough/sloppy-supply-route")?.robots).toBe("index, follow");
   });
 
   it("publishes Help Wanted as the indexed multi-variant Operation owner", async () => {
@@ -103,8 +103,8 @@ describe("post-launch query expansion", () => {
     ) ?? [];
 
     expect(helpWanted).toMatchObject({
-      title: "Star Wars Zero Company Help Wanted Choices and Rewards",
-      h1: "Star Wars Zero Company Help Wanted Operation: Every Variant, Choice & Outcome",
+      title: "Star Wars Zero Company Help Wanted Choices: Skeez, Odra & All Variants",
+      h1: "Star Wars Zero Company Help Wanted Operation: Skeez, Odra & All 6 Variants",
       status: "verified",
       verification: "source-verified-synthesis",
       evidence: "community",
@@ -159,25 +159,28 @@ describe("post-launch query expansion", () => {
     );
   });
 
-  it("keeps Protection Application on the Walkthrough hub instead of creating a thin route", () => {
-    const walkthrough = page("/walkthrough");
+  it("publishes Protection Application as a dedicated indexed Operation decision route", () => {
+    const protectionPage = page("/walkthrough/protection-application");
 
-    expect(contentPages.some((entry) => entry.path === "/walkthrough/protection-application")).toBe(false);
-    const protection = walkthrough?.blocks.find(
-      (block) => block.type === "table" && block.heading === "Protection Application: Credits or team Bond?",
+    expect(protectionPage).toMatchObject({
+      status: "verified",
+      verification: "source-verified-synthesis",
+      indexable: true,
+    });
+    const protection = protectionPage?.blocks.find(
+      (block) => block.type === "table" && block.heading === "Protection Application choice comparison",
     );
     expect(protection?.type).toBe("table");
     if (protection?.type === "table") {
-      expect(protection.rows.map((row) => row[0])).toEqual(["Drink to that", "Throw the drink"]);
-      expect(protection.rows[0][1]).toContain("-25 Bond XP");
-      expect(protection.rows[1][1]).toContain("+10 Bond XP");
+      expect(protection.rows.map((row) => row[0])).toEqual(["Throw the drink", "Drink to that"]);
+      expect(protection.rows[0][1]).toContain("+10 Bond XP");
+      expect(protection.rows[1][1]).toContain("-25 Bond XP");
       for (const row of protection.rows) {
         expect(row[2]).toContain("+3 in the Databank");
         expect(row[2]).toContain("+4 Zone Cresh in player reports");
       }
     }
-    expect(blockText("/walkthrough")).not.toContain("28-day query/page");
-    expect(walkthrough?.sources).toEqual(expect.arrayContaining(["zerocompany-tools-protection-application", "gamersheroes-choices"]));
+    expect(protectionPage?.sources).toEqual(expect.arrayContaining(["zerocompany-tools-protection-application", "gamersheroes-choices"]));
   });
 
   it("answers Inspect Mode on the beginner guide and separates the Nexus mod on Mods", () => {

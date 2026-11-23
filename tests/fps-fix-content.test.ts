@@ -9,11 +9,11 @@ describe("FPS fix search-intent coverage", () => {
     const page = contentPages.find((entry) => entry.path === path);
 
     expect(page).toMatchObject({
-      title: "Star Wars Zero Company Stutter, Low FPS and Crash Fixes",
+      title: "Star Wars Zero Company Stutter, Low FPS, Screen Tearing & Crash Fixes",
       description:
-        "Fix Zero Company stutter and low FPS with an official-status-first checklist for CPU threading, drivers, upscalers, shader issues, Geometry Detail and safe rollback.",
-      h1: "Fix Star Wars Zero Company Stutter, Low FPS & Crashes",
-      lastVerified: "2026-11-19",
+        "Fix Star Wars Zero Company stutter, low FPS, screen tearing and crashes after Patch 1.2 and the Nov 10 hotfix with an official-first checklist for CPU threading, drivers, V-Sync, upscalers and safe rollback.",
+      h1: "Fix Star Wars Zero Company Stutter, Low FPS, Screen Tearing & Crashes",
+      lastVerified: "2026-11-23",
       indexable: true,
     });
 
@@ -49,6 +49,7 @@ describe("FPS fix search-intent coverage", () => {
         "The Den, cutscene or ship-loading dip",
         "DLSS or NVIDIA crash",
         "Intel 13th/14th-gen desktop crash",
+        "Screen tearing during camera pans",
       ]);
       expect(diagnosis.rows.flat().join(" ")).toContain("CPU-bound");
       expect(diagnosis.rows.flat().join(" ")).toContain("Frame pacing");

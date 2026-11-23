@@ -18,10 +18,10 @@ describe("companions child page", () => {
 
     expect(companions).toMatchObject({
       navLabel: "Companions",
-      title: "Star Wars Zero Company Companions: All Operators & Bonds",
+      title: "Star Wars Zero Company Companions: All Operators, Bonds & Missed Missions",
       description:
-        "Meet all six Star Wars Zero Company companions, learn when they join, what each unique talent does, how Bonds work, and when to rotate Custom Operators.",
-      h1: "Star Wars Zero Company: All Companions & Story Operators",
+        "Meet all six Star Wars Zero Company companions, learn when they join, what happens if you miss a companion mission, how Bonds work and when to rotate Custom Operators.",
+      h1: "Star Wars Zero Company: All Companions, Story Operators & Missed Missions",
       pageType: "article",
       evidence: "community",
       verification: "source-verified-synthesis",

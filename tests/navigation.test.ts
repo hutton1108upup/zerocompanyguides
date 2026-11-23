@@ -36,7 +36,9 @@ describe("shared navigation and contextual discovery", () => {
         expect(page?.blocks.flatMap((block) => "heading" in block ? [getHeadingId(block.heading)] : [])).toContain(fragment);
       }
     }
-    expect(hrefs).not.toContain("/walkthrough/sloppy-supply-route");
+    expect(hrefs).toContain("/walkthrough/protection-application");
+    expect(hrefs).toContain("/walkthrough/strange-bedfellows");
+    expect(hrefs).toContain("/walkthrough/sloppy-supply-route");
     expect(hrefs).not.toContain("/walkthrough/in-debt-to-the-hutts");
   });
 

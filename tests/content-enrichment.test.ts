@@ -348,7 +348,8 @@ describe("content enrichment routes", () => {
     if (routes?.type === "cards") {
       expect(routes.items.map((item) => item.href)).toEqual([
         "/walkthrough/retake-mordant-citadel",
-        "/walkthrough#protection-application-credits-or-team-bond",
+        "/walkthrough/protection-application",
+        "/walkthrough/strange-bedfellows",
         "/walkthrough/nebulous-pursuit",
         "/walkthrough/ship-adrift",
         "/walkthrough/help-wanted",

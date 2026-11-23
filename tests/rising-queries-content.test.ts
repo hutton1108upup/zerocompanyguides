@@ -101,8 +101,8 @@ describe("rising-query content expansion", () => {
     const page = getPage("/walkthrough/ship-adrift");
 
     expect(page).toMatchObject({
-      title: "Star Wars Zero Company Ship Adrift Choices and Rewards Guide",
-      h1: "Star Wars Zero Company Ship Adrift I-V Operation Guide",
+      title: "Star Wars Zero Company Ship Adrift Choices: Bet, Moogan Tea & Rewards",
+      h1: "Star Wars Zero Company Ship Adrift I-V Choices: Bet, Moogan Tea & Rewards",
       status: "verified",
       verification: "source-verified-synthesis",
       evidence: "community",

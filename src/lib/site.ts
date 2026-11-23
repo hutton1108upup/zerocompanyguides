@@ -48,11 +48,13 @@ export const navigationGroups: readonly NavigationGroup[] = [
   {
     id: "walkthrough", label: "Walkthrough", path: "/walkthrough",
     links: [
-      { href: "/walkthrough#protection-application-credits-or-team-bond", label: "Protection Application" },
-      { href: "/walkthrough/help-wanted", label: "Help Wanted" },
+      { href: "/walkthrough/protection-application", label: "Protection Application" },
       { href: "/walkthrough/back-channels", label: "Back Channels" },
-      { href: "/walkthrough/nebulous-pursuit", label: "Nebulous Pursuit" },
+      { href: "/walkthrough/strange-bedfellows", label: "Strange Bedfellows" },
       { href: "/walkthrough/ship-adrift", label: "Ship Adrift" },
+      { href: "/walkthrough/help-wanted", label: "Help Wanted" },
+      { href: "/walkthrough/sloppy-supply-route", label: "Sloppy Supply Route" },
+      { href: "/walkthrough/nebulous-pursuit", label: "Nebulous Pursuit" },
     ],
   },
   {
