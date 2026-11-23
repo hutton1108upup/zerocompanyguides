@@ -41,7 +41,7 @@ export default async function ContentRoutePage({ params }: RouteProps) {
     <>
       {structuredData.map((graph, index) => (
         <script
-          key={`${page.path}-jsonld-${index}`}
+          key={`jsonld-${index}`}
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
         />

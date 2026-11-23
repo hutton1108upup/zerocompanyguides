@@ -204,7 +204,7 @@ describe("post-launch query expansion", () => {
     const modsText = blockText("/mods");
 
     expect(page("/game-info")?.lastVerified).toBe("2026-09-03");
-    expect(page("/mods")?.lastVerified).toBe("2026-09-03");
+    expect(page("/mods")?.lastVerified).toBe("2026-11-23");
     expect(contentPages.some((entry) => entry.path === "/hu")).toBe(false);
     expect(contentPages.some((entry) => entry.path === "/mods/hungarian-translation")).toBe(false);
 

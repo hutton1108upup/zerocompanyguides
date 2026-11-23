@@ -7,14 +7,14 @@ describe("post-launch class tier-list refresh", () => {
 
   it("answers the tier-list query with fresh, bounded metadata", () => {
     expect(page).toMatchObject({
-      title: "Star Wars Zero Company Class Tier List by Squad Role",
+      title: "Star Wars Zero Company Class Tier List by Squad Role (Patch 1.2)",
       description:
-        "Compare all eight Zero Company Specializations by squad role, difficulty and current post-launch rankings, including why major tier lists disagree.",
-      h1: "Star Wars Zero Company Class Tier List by Squad Role",
+        "Compare all eight Zero Company Specializations by squad role, difficulty and Patch 1.2 balance shifts (Scout, Astromech & Cly), including why major tier lists disagree.",
+      h1: "Star Wars Zero Company Class Tier List by Squad Role (Patch 1.2)",
       evidence: "community",
       verification: "source-verified-synthesis",
       indexable: true,
-      lastVerified: "2026-09-02",
+      lastVerified: "2026-11-23",
     });
   });
 

@@ -7,14 +7,14 @@ describe("post-launch Hawks build refresh", () => {
 
   it("targets the Hawks build query with current metadata", () => {
     expect(page).toMatchObject({
-      title: "Star Wars Zero Company Hawks Build: Best Class Combos",
+      title: "Star Wars Zero Company Hawks Build: Best Patch 1.2 Class Combos",
       description:
-        "Compare Medic/Scoundrel, Scout/Medic and Gunslinger/Medic Hawks builds by difficulty, weapon, squad role and respec timing.",
-      h1: "Star Wars Zero Company Best Hawks Builds for Support, Advantage and Damage",
+        "Compare Medic/Scoundrel, Scout/Medic and Gunslinger/Medic Hawks builds for Patch 1.2 by difficulty, weapon, squad role and Campaign Modifier respec lockouts.",
+      h1: "Star Wars Zero Company Best Hawks Builds (Patch 1.2 Support, Advantage & Damage)",
       evidence: "community",
       verification: "source-verified-synthesis",
       indexable: true,
-      lastVerified: "2026-09-02",
+      lastVerified: "2026-11-23",
     });
   });
 

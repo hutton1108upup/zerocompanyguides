@@ -61,7 +61,7 @@ export const navigationGroups: readonly NavigationGroup[] = [
     id: "builds", label: "Builds & Gear", path: "/builds",
     links: [
       { href: "/builds/hawks", label: "Hawks Build" },
-      { href: "/builds/best-team", label: "Best Team" },
+      { href: "/builds/cly", label: "Cly Build" },
       { href: "/classes/tier-list", label: "Class Tier List" },
       { href: "/classes", label: "Classes" },
       { href: "/weapons", label: "Weapons" },
@@ -74,6 +74,7 @@ export const navigationGroups: readonly NavigationGroup[] = [
     links: [
       { href: "/guides/beginners-guide", label: "Beginner Guide" },
       { href: "/guides/permadeath", label: "Difficulty & Permadeath" },
+      { href: "/guides/campaign-modifiers", label: "Campaign Modifiers" },
       { href: "/guides/respec", label: "Respec" },
       { href: "/guides/reinforcements-and-extraction", label: "Reinforcements & Extraction" },
       { href: "/guides/credits-and-den-upgrades", label: "Credits & Den Upgrades" },
